@@ -81,7 +81,8 @@ GitHub will run each one according to its own triggers.
 
 ### Step 2: Create the Workflow Directory
 
-> [!IMPORTANT] This directory does not exist by default. You'll need to create it. It _must_ be named exactly
+> [!IMPORTANT]
+> This directory does not exist by default. You'll need to create it. It _must_ be named exactly
 > `workflows`, and _must_ live inside the `.github` directory in the **root** of the repository for GitHub to recognize
 > it.
 
@@ -137,7 +138,8 @@ git commit -m "Add hello world workflow"
 git push origin main
 ```
 
-> [!NOTE] If you're working on a different branch, replace `main` with your branch name.
+> [!NOTE]
+> If you're working on a different branch, replace `main` with your branch name.
 
 ### Step 6: View Your Workflow Run
 

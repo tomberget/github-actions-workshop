@@ -2,15 +2,13 @@
   "name": "github-actions-workshop",
   "version": "1.0.0",
   "description": "A hands-on workshop for learning GitHub Actions through practical exercises",
-  "main": "src/index.js",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "test:coverage": "node --test --experimental-test-coverage tests/*.test.js",
     "lint": "echo 'Linting code...' && exit 0",
     "build": "node build.js",
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "format": "prettier --write ."
+    "dev": "node --watch src/index.js"
   },
   "keywords": [
     "github-actions",
@@ -18,12 +16,6 @@
     "workshop",
     "tutorial"
   ],
-  "author": "GitHub Actions Workshop",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "devDependencies": {
-    "prettier": "^3.6.2"
-  }
+  "author": "Vegard Valvik and Sindre Bøyum",
+  "license": "MIT"
 }

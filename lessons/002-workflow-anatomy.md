@@ -17,25 +17,11 @@ together. By the end, you'll be able to read any workflow and understand exactly
 
 ## Concepts Introduction
 
-### The YAML Format
-
-GitHub Actions workflows are written in YAML (YAML Ain't Markup Language), a human-readable data format commonly used
-for configuration files. YAML uses indentation to show structure (similar to Python) and has a few basic rules:
-
-- **Indentation matters**: Use spaces (not tabs), and be consistent
-- **Key-value pairs**: `key: value`
-- **Lists**: Start items with `-`
-- **Multi-line strings**: Use `|` or `>`
-- **Comments**: Start with `#`
-
-YAML's simplicity makes it perfect for defining workflows, but its strictness about indentation means one wrong space
-can break everything.
-
 ### Workflow Structure Hierarchy
 
 Every GitHub Actions workflow follows this hierarchy:
 
-```
+```text
 Workflow (entire file)
 └── Events (triggers)
 └── Jobs (one or more)
@@ -62,8 +48,9 @@ Think of it like a company organization chart:
 **Jobs**: A set of steps that execute on the same runner. Jobs run in parallel by default, but you can configure them to
 run sequentially.
 
-**Runners**: Virtual machines provided by GitHub (or self-hosted) that execute your jobs. GitHub offers Ubuntu Linux,
-Windows, and macOS runners.
+**Runners**: Virtual machines provided by GitHub (or self-hosted) that execute your jobs. GitHub offers Ubuntu Linux
+(`ubuntu-latest`), Windows (`windows-latest`), and macOS (`macos-latest`) runners. See
+<https://github.com/actions/runner-images> for all hosted runners.
 
 **Steps**: Individual tasks within a job. Each step can either run commands (`run:`) or use pre-built actions (`uses:`).
 
@@ -250,6 +237,7 @@ This is incredibly useful for workflows that deploy to production—you want man
 Click into each job and expand the steps. Notice:
 
 - **In "Gather System Information"**:
+
   - The checkout step clones your repository
   - The runner information shows Linux
   - You see your repository files listed

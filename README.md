@@ -41,12 +41,16 @@ the basics.
 
 ## Getting Started
 
-### 1. Fork This Repository
+### 1. Create a new repository from this template
 
-Click the "Fork" button at the top right of this repository. This creates your own copy where you'll complete all
-exercises.
+Click the "Use this template" button at the top of this repository to create a new repository from this template. If you
+need to decide, we suggest using your personal GitHub account.
 
-### 2. Clone Your Fork
+> [!TIP]
+> Public repositories can use GitHub Actions for free with generous limits. Also, having the repo public avoids
+> some issues with Actions in private repos.
+
+### 2. Clone your new repository
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/github-actions-workshop.git
@@ -83,7 +87,7 @@ Open `lessons/001-getting-started.md` and begin your journey!
 | [012](lessons/012-custom-actions.md)                 | Creating Custom Actions                 | 90 min         | Advanced     |
 | [013](lessons/013-reusability-and-best-practices.md) | Workflow Reusability and Best Practices | 75 min         | Advanced     |
 
-**Total estimated time: 13-16 hours**
+Total estimated time: **13-16 hours**
 
 ## Workshop Sample Application
 
