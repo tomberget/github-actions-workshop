@@ -11,10 +11,11 @@ import markedAlert from "marked-alert";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const projectRoot = path.join(__dirname, '..');
 
-const srcDir = path.join(__dirname, "public");
-const distDir = path.join(__dirname, "dist");
-const tasksDir = path.join(__dirname, "tasks");
+const srcDir = path.join(projectRoot, "public");
+const distDir = path.join(projectRoot, "dist");
+const tasksDir = path.join(projectRoot, "tasks");
 
 // Configure marked with GitHub Flavored Markdown extensions
 marked.use(gfmHeadingId());
@@ -91,6 +92,7 @@ function generateMarkdownHTML(title, content) {
                 <li><a href="../about.html">About</a></li>
                 <li><a href="../tasks.html">Tasks</a></li>
                 <li><a href="../demo.html">Demo</a></li>
+                <li><a href="../snake.html">Snake</a></li>
             </ul>
         </nav>
     </header>
@@ -233,6 +235,7 @@ function generateTasksIndex(tasksList) {
                 <li><a href="about.html">About</a></li>
                 <li><a href="tasks.html">Tasks</a></li>
                 <li><a href="demo.html">Demo</a></li>
+                <li><a href="snake.html">Snake</a></li>
             </ul>
         </nav>
     </header>
@@ -266,7 +269,7 @@ function copyGitHubMarkdownCSS() {
   console.log("Copying GitHub markdown CSS...");
 
   const cssSourcePath = path.join(
-    __dirname,
+    projectRoot,
     "node_modules",
     "github-markdown-css",
     "github-markdown-light.css"

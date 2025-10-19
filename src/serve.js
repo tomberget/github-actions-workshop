@@ -9,9 +9,10 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, '..');
+const projectRoot = join(__dirname, '..');
 
 const PORT = 3000;
-const DIST_DIR = join(__dirname, 'dist');
+const DIST_DIR = join(projectRoot, 'dist');
 
 const MIME_TYPES = {
   '.html': 'text/html',
