@@ -1,21 +1,26 @@
 # Lesson 7: Running Tests Automatically
 
-**Estimated Time**: 60 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 60 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-Your team has comprehensive test coverage, but developers sometimes forget to run tests before pushing code. Last week, a broken commit made it to the main branch because someone was in a hurry. The bug wasn't discovered until it reached staging, wasting hours of debugging time and delaying other features.
+Your team has comprehensive test coverage, but developers sometimes forget to run tests before pushing code. Last week,
+a broken commit made it to the main branch because someone was in a hurry. The bug wasn't discovered until it reached
+staging, wasting hours of debugging time and delaying other features.
 
-Manual testing is unreliable. Human memory fails. People get busy. But automated testing never forgets—every push, every pull request gets tested consistently. This is the heart of Continuous Integration: automatically verifying that new code works with existing code.
+Manual testing is unreliable. Human memory fails. People get busy. But automated testing never forgets—every push, every
+pull request gets tested consistently. This is the heart of Continuous Integration: automatically verifying that new
+code works with existing code.
 
-In this lesson, you'll build a complete automated testing pipeline that runs unit tests, generates coverage reports, and prevents broken code from being merged.
+In this lesson, you'll build a complete automated testing pipeline that runs unit tests, generates coverage reports, and
+prevents broken code from being merged.
 
 ## Concepts Introduction
 
 ### Continuous Integration (CI)
 
 CI is the practice of automatically testing code changes. Key principles:
+
 - Run tests on every push and pull request
 - Fail fast—detect problems immediately
 - Test in clean, reproducible environments
@@ -24,16 +29,19 @@ CI is the practice of automatically testing code changes. Key principles:
 ### Types of Tests in CI
 
 **Unit Tests**: Test individual functions and components in isolation
+
 - Fast to run (seconds)
 - High coverage is achievable
 - Foundation of test pyramid
 
 **Integration Tests**: Test how components work together
+
 - Slower than unit tests
 - Test realistic scenarios
 - May require database or external services
 
 **End-to-End (E2E) Tests**: Test complete user workflows
+
 - Slowest to run (minutes)
 - Most brittle
 - Catch issues unit tests miss
@@ -43,6 +51,7 @@ In CI, prioritize fast tests that run on every commit. Save slow E2E tests for l
 ### Test Coverage
 
 Coverage measures which lines of code are executed during tests:
+
 - **Line coverage**: Percentage of code lines executed
 - **Branch coverage**: Percentage of conditional branches taken
 - **Function coverage**: Percentage of functions called
@@ -52,6 +61,7 @@ High coverage doesn't guarantee good tests, but low coverage reveals gaps.
 ### Failing Fast vs Comprehensive Reporting
 
 Two strategies:
+
 1. **Fail fast**: Stop at first test failure (faster feedback)
 2. **Continue**: Run all tests to see all failures (better for debugging)
 
@@ -68,9 +78,9 @@ name: Run Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -84,8 +94,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -101,6 +111,7 @@ jobs:
 ```
 
 This workflow:
+
 - Runs on pushes and PRs to main/develop
 - Installs dependencies with `npm ci` (cleaner than `npm install`)
 - Runs linter, tests, and build
@@ -115,9 +126,9 @@ name: Run Tests with Coverage
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -131,8 +142,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -163,6 +174,7 @@ jobs:
 ```
 
 **Key additions**:
+
 - Uses Node.js built-in coverage (`npm run test:coverage`)
 - Writes summary to `$GITHUB_STEP_SUMMARY` (appears on workflow run page)
 - Uploads coverage artifacts
@@ -177,9 +189,9 @@ name: Test Multiple Node Versions
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -198,7 +210,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -230,7 +242,7 @@ name: PR Checks (Fast)
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   quick-checks:
@@ -243,8 +255,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -270,9 +282,9 @@ name: Full Test Suite (Slow)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   schedule:
-    - cron: '0 2 * * *'  # Nightly at 2 AM
+    - cron: "0 2 * * *" # Nightly at 2 AM
 
 jobs:
   comprehensive-tests:
@@ -285,8 +297,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -305,6 +317,7 @@ jobs:
 ```
 
 **Strategy**:
+
 - **PR checks**: Fast tests (< 5 minutes), required for merging
 - **Full suite**: Comprehensive tests (20-30 minutes), runs on main branch and nightly
 
@@ -317,7 +330,7 @@ name: Tests with Reporting
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -330,8 +343,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -367,6 +380,7 @@ This creates a formatted summary visible on the workflow run page.
 ### Tests Pass Locally But Fail in CI
 
 Common causes:
+
 - **Environment differences**: Missing environment variables or dependencies
 - **File paths**: CI runs in different directory structure
 - **Timing issues**: Tests that depend on timing may be flaky
@@ -377,12 +391,14 @@ Fix: Make tests independent and use consistent environments.
 ### Flaky Tests
 
 Tests that pass sometimes and fail other times:
+
 - Usually caused by timing, randomness, or external dependencies
 - Solution: Increase timeouts, mock external services, use deterministic data
 
 ### Slow Test Execution
 
 If tests take too long:
+
 - Run faster tests more frequently (unit tests on every commit)
 - Run slow tests less frequently (E2E tests nightly)
 - Parallelize tests across multiple runners (Lesson 9)
@@ -391,6 +407,7 @@ If tests take too long:
 ### npm ci vs npm install
 
 Always use `npm ci` in CI environments:
+
 - `npm install`: May update dependencies within semver ranges
 - `npm ci`: Exactly installs versions from package-lock.json
 - CI needs reproducible builds
@@ -409,14 +426,14 @@ Create a workflow that:
 Hint: You may need to modify `package.json` scripts or parse coverage output.
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 ```yaml
 name: PR Tests with Coverage
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -430,8 +447,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -459,6 +476,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Coverage report uploaded as artifact." >> $GITHUB_STEP_SUMMARY
 ```
+
 </details>
 
 ## Key Takeaways
@@ -475,9 +493,11 @@ jobs:
 
 **Previous Lesson**: [Debugging Workflows](007-debugging-workflows.md)
 
-**Next Lesson**: [Building and Deploying Applications](009-building-and-deploying.md) - Deploy your tested code automatically.
+**Next Lesson**: [Building and Deploying Applications](009-building-and-deploying.md) - Deploy your tested code
+automatically.
 
 **Additional Resources**:
+
 - [Running Tests in CI/CD](https://docs.github.com/en/actions/automating-builds-and-tests)
 - [About Status Checks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks)
 - [Node.js Test Runner](https://nodejs.org/api/test.html)

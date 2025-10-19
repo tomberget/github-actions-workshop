@@ -1,13 +1,15 @@
 # Lesson 10: Multi-Job Workflows and Dependencies
 
-**Estimated Time**: 60 minutes
-**Difficulty**: Advanced
+**Estimated Time**: 60 minutes **Difficulty**: Advanced
 
 ## Problem Statement
 
-Your workflow has grown complex: tests, builds, deployments, security scans, and notifications. Running everything sequentially takes 30 minutes. Some steps could run in parallel, but others depend on previous steps completing. You need fine-grained control over job execution order.
+Your workflow has grown complex: tests, builds, deployments, security scans, and notifications. Running everything
+sequentially takes 30 minutes. Some steps could run in parallel, but others depend on previous steps completing. You
+need fine-grained control over job execution order.
 
-Multi-job workflows with dependencies let you parallelize independent work while enforcing necessary sequencing. This optimizes CI/CD pipeline speed without compromising correctness.
+Multi-job workflows with dependencies let you parallelize independent work while enforcing necessary sequencing. This
+optimizes CI/CD pipeline speed without compromising correctness.
 
 ## Concepts Introduction
 
@@ -23,7 +25,7 @@ jobs:
 
   job2:
     runs-on: ubuntu-latest
-    steps: [...]  # Runs at the same time as job1
+    steps: [...] # Runs at the same time as job1
 ```
 
 ### Job Dependencies with `needs:`
@@ -37,12 +39,12 @@ jobs:
     steps: [...]
 
   test:
-    needs: build  # Waits for build to complete
+    needs: build # Waits for build to complete
     runs-on: ubuntu-latest
     steps: [...]
 
   deploy:
-    needs: [build, test]  # Waits for BOTH build and test
+    needs: [build, test] # Waits for BOTH build and test
     runs-on: ubuntu-latest
     steps: [...]
 ```
@@ -50,6 +52,7 @@ jobs:
 ### Sharing Data Between Jobs
 
 Jobs run on separate runners, so files don't persist. Use:
+
 - **Artifacts**: Upload/download files between jobs
 - **Outputs**: Pass small strings between jobs
 - **Cache**: Share dependencies (but not guaranteed to exist)
@@ -73,8 +76,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run lint
 
@@ -85,8 +88,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 
@@ -97,8 +100,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: echo "Running type checks..."
 ```
@@ -122,8 +125,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v4
@@ -139,8 +142,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 
@@ -285,6 +288,7 @@ jobs:
 ```
 
 Dependency graph:
+
 ```
 lint ─────┐
 unit-tests─┤
@@ -337,6 +341,7 @@ jobs:
 ## Exercise
 
 Create a workflow with:
+
 1. Three parallel jobs: lint, test, build
 2. A "package" job that needs all three to complete
 3. Two parallel deployment jobs (staging and production) that need "package"
@@ -354,4 +359,5 @@ Create a workflow with:
 
 ---
 
-**Previous**: [Matrix Builds and Caching](010-matrix-and-caching.md) | **Next**: [Creating Custom Actions](012-custom-actions.md)
+**Previous**: [Matrix Builds and Caching](010-matrix-and-caching.md) | **Next**:
+[Creating Custom Actions](012-custom-actions.md)

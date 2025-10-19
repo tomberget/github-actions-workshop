@@ -1,36 +1,44 @@
 # Lesson 6: Debugging Workflows
 
-**Estimated Time**: 60 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 60 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-It's 3 PM on a Friday. You push code to trigger your deployment workflow, but it fails with a cryptic error message. You try again—same result. Your team is waiting for this deployment, and you have no idea what's wrong. The workflow logs show hundreds of lines of output, and you're not sure where to start looking.
+It's 3 PM on a Friday. You push code to trigger your deployment workflow, but it fails with a cryptic error message. You
+try again—same result. Your team is waiting for this deployment, and you have no idea what's wrong. The workflow logs
+show hundreds of lines of output, and you're not sure where to start looking.
 
-Debugging workflows is fundamentally different from debugging application code. You can't attach a debugger or add breakpoints. The code runs on remote servers you don't control. Logs can be overwhelming. But with the right techniques and tools, you can systematically identify and fix issues.
+Debugging workflows is fundamentally different from debugging application code. You can't attach a debugger or add
+breakpoints. The code runs on remote servers you don't control. Logs can be overwhelming. But with the right techniques
+and tools, you can systematically identify and fix issues.
 
-In this lesson, you'll learn debugging strategies, common failure patterns, and how to use GitHub Actions' debugging features. And yes—you'll intentionally break a workflow and fix it.
+In this lesson, you'll learn debugging strategies, common failure patterns, and how to use GitHub Actions' debugging
+features. And yes—you'll intentionally break a workflow and fix it.
 
 ## Concepts Introduction
 
 ### Types of Workflow Failures
 
 **Syntax Errors**: Invalid YAML or workflow syntax
+
 - Easy to fix but can be hard to spot
 - GitHub won't even start the workflow
 
 **Runtime Errors**: Code executes but fails
+
 - Commands return non-zero exit codes
 - Missing dependencies or environment issues
 - Permission problems
 
 **Logic Errors**: Workflow runs but produces wrong results
+
 - Hardest to debug
 - Requires careful log analysis and testing
 
 ### GitHub Actions Logging
 
 Every workflow step produces logs showing:
+
 - Commands executed
 - Standard output (stdout)
 - Standard error (stderr)
@@ -38,15 +46,18 @@ Every workflow step produces logs showing:
 - Timestamps
 
 Logs are hierarchical:
+
 - Workflow run → Jobs → Steps → Command output
 
 ### Debug Mode
 
 GitHub Actions has a built-in debug mode that provides additional logging:
+
 - **Step debug logging**: More verbose output from actions
 - **Runner diagnostic logging**: Information about the runner itself
 
 Enable by setting repository secrets:
+
 - `ACTIONS_STEP_DEBUG` = `true`
 - `ACTIONS_RUNNER_DEBUG` = `true`
 
@@ -62,6 +73,7 @@ Enable by setting repository secrets:
 ### Exit Codes
 
 Commands return exit codes to indicate success or failure:
+
 - `0` = Success
 - Non-zero = Failure (e.g., `1`, `127`, `255`)
 
@@ -80,7 +92,7 @@ name: Buggy Workflow (Find the Bugs!)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 env:
@@ -99,7 +111,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm install
@@ -144,6 +156,7 @@ Go to the Actions tab and watch it fail. **Don't fix it yet!** First, let's lear
 3. Expand each step and read the error messages
 
 **Questions to ask**:
+
 - Which step failed first?
 - What was the error message?
 - What was the exit code?
@@ -166,7 +179,8 @@ Now expand the steps again—you'll see much more detailed output prefixed with 
 
 ### Step 5: Create a Debugging Workflow
 
-While that runs, create a workflow that demonstrates debugging techniques. Create `.github/workflows/debugging-techniques.yml`:
+While that runs, create a workflow that demonstrates debugging techniques. Create
+`.github/workflows/debugging-techniques.yml`:
 
 ```yaml
 name: Debugging Techniques
@@ -279,7 +293,7 @@ name: Fixed Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 env:
@@ -298,7 +312,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm ci
@@ -405,11 +419,11 @@ Variables defined in one step aren't automatically available in the next:
 ```yaml
 # Wrong - MY_VAR won't persist
 - run: export MY_VAR="value"
-- run: echo $MY_VAR  # Empty!
+- run: echo $MY_VAR # Empty!
 
 # Correct - use GITHUB_ENV
 - run: echo "MY_VAR=value" >> $GITHUB_ENV
-- run: echo $MY_VAR  # Works!
+- run: echo $MY_VAR # Works!
 ```
 
 ### Secrets Not Available in Logs
@@ -417,7 +431,7 @@ Variables defined in one step aren't automatically available in the next:
 You can't debug secrets by echoing them—they're automatically masked:
 
 ```yaml
-run: echo "${{ secrets.API_KEY }}"  # Shows: ***
+run: echo "${{ secrets.API_KEY }}" # Shows: ***
 ```
 
 To debug, check the length or a substring:
@@ -432,6 +446,7 @@ run: |
 ### Workflow Not Triggering
 
 If workflow doesn't run:
+
 - Check YAML syntax (use yamllint.com)
 - Verify file is in `.github/workflows/`
 - Ensure trigger conditions are met (right branch, event, etc.)
@@ -451,17 +466,18 @@ Create a workflow that:
 4. Uploads debug logs regardless of success/failure
 5. Creates annotations (notice, warning, error) in appropriate places
 
-**Bonus**: Add a step that only runs when the workflow is triggered manually (`if: github.event_name == 'workflow_dispatch'`).
+**Bonus**: Add a step that only runs when the workflow is triggered manually
+(`if: github.event_name == 'workflow_dispatch'`).
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 ```yaml
 name: Debugging Exercise Solution
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -512,6 +528,7 @@ jobs:
       - name: Final status
         run: echo "::error::Workflow completed with known failure"
 ```
+
 </details>
 
 ## Key Takeaways
@@ -531,6 +548,7 @@ jobs:
 **Next Lesson**: [Running Tests Automatically](008-automated-testing.md) - Build a complete testing pipeline.
 
 **Additional Resources**:
+
 - [Debugging Workflows](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging)
 - [Workflow Commands](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions)
 - [Workflow Syntax: continue-on-error](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error)

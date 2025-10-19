@@ -1,13 +1,15 @@
 # Lesson 11: Creating Custom Actions
 
-**Estimated Time**: 90 minutes
-**Difficulty**: Advanced
+**Estimated Time**: 90 minutes **Difficulty**: Advanced
 
 ## Problem Statement
 
-You've copy-pasted the same 20 lines of workflow code across multiple workflows. You need to set up a specific environment, run custom deployment logic, or integrate with a proprietary tool. Existing marketplace actions don't meet your needs, and duplicating code makes maintenance a nightmare.
+You've copy-pasted the same 20 lines of workflow code across multiple workflows. You need to set up a specific
+environment, run custom deployment logic, or integrate with a proprietary tool. Existing marketplace actions don't meet
+your needs, and duplicating code makes maintenance a nightmare.
 
-Custom actions let you encapsulate reusable logic, share it across workflows and repositories, and even publish it for others to use. This lesson teaches you to create, test, and use custom actions.
+Custom actions let you encapsulate reusable logic, share it across workflows and repositories, and even publish it for
+others to use. This lesson teaches you to create, test, and use custom actions.
 
 ## Concepts Introduction
 
@@ -22,6 +24,7 @@ For this lesson, we'll focus on **composite actions** (easiest to create) and to
 ### Action Metadata
 
 Every action needs an `action.yml` file defining:
+
 - Name and description
 - Inputs (parameters)
 - Outputs (return values)
@@ -34,22 +37,22 @@ Every action needs an `action.yml` file defining:
 Create `.github/actions/hello-action/action.yml`:
 
 ```yaml
-name: 'Hello Action'
-description: 'A simple custom action that greets someone'
+name: "Hello Action"
+description: "A simple custom action that greets someone"
 
 inputs:
   who:
-    description: 'Who to greet'
+    description: "Who to greet"
     required: true
-    default: 'World'
+    default: "World"
 
 outputs:
   greeting:
-    description: 'The greeting message'
+    description: "The greeting message"
     value: ${{ steps.greet.outputs.greeting }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Greet
       id: greet
@@ -77,7 +80,7 @@ jobs:
         id: hello
         uses: ./.github/actions/hello-action
         with:
-          who: 'GitHub Actions Workshop'
+          who: "GitHub Actions Workshop"
 
       - name: Show output
         run: echo "${{ steps.hello.outputs.greeting }}"
@@ -88,27 +91,27 @@ jobs:
 `.github/actions/setup-app/action.yml`:
 
 ```yaml
-name: 'Setup Application'
-description: 'Sets up Node.js and installs dependencies'
+name: "Setup Application"
+description: "Sets up Node.js and installs dependencies"
 
 inputs:
   node-version:
-    description: 'Node.js version to use'
+    description: "Node.js version to use"
     required: false
-    default: '20'
+    default: "20"
   install-command:
-    description: 'Command to install dependencies'
+    description: "Command to install dependencies"
     required: false
-    default: 'npm ci'
+    default: "npm ci"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'npm'
+        cache: "npm"
 
     - name: Install dependencies
       shell: bash
@@ -138,7 +141,7 @@ jobs:
       - name: Setup application
         uses: ./.github/actions/setup-app
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Build
         run: npm run build
@@ -149,27 +152,27 @@ jobs:
 `.github/actions/deploy/action.yml`:
 
 ```yaml
-name: 'Deploy Application'
-description: 'Deploys the application to specified environment'
+name: "Deploy Application"
+description: "Deploys the application to specified environment"
 
 inputs:
   environment:
-    description: 'Target environment'
+    description: "Target environment"
     required: true
   api-url:
-    description: 'API URL for the environment'
+    description: "API URL for the environment"
     required: true
   deploy-token:
-    description: 'Deployment token'
+    description: "Deployment token"
     required: true
 
 outputs:
   deployment-url:
-    description: 'URL of the deployed application'
+    description: "URL of the deployed application"
     value: ${{ steps.deploy.outputs.url }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Validate inputs
       shell: bash
@@ -214,20 +217,19 @@ Create `.github/actions/js-action/package.json`:
 Create `.github/actions/js-action/index.js`:
 
 ```javascript
-const core = require('@actions/core');
-const github = require('@actions/github');
+const core = require("@actions/core");
+const github = require("@actions/github");
 
 async function run() {
   try {
-    const nameInput = core.getInput('name', { required: true });
+    const nameInput = core.getInput("name", { required: true });
     const time = new Date().toTimeString();
 
     core.info(`Hello ${nameInput}! Current time: ${time}`);
-    core.setOutput('time', time);
+    core.setOutput("time", time);
 
     const context = github.context;
     core.info(`Repository: ${context.repo.owner}/${context.repo.repo}`);
-
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -239,21 +241,21 @@ run();
 Create `.github/actions/js-action/action.yml`:
 
 ```yaml
-name: 'JavaScript Action'
-description: 'A JavaScript-based custom action'
+name: "JavaScript Action"
+description: "A JavaScript-based custom action"
 
 inputs:
   name:
-    description: 'Name to greet'
+    description: "Name to greet"
     required: true
 
 outputs:
   time:
-    description: 'The current time'
+    description: "The current time"
 
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: "node20"
+  main: "index.js"
 ```
 
 To use:
@@ -261,7 +263,7 @@ To use:
 ```yaml
 - uses: ./.github/actions/js-action
   with:
-    name: 'Workshop Participant'
+    name: "Workshop Participant"
 ```
 
 ### Step 5: Test Your Custom Actions
@@ -282,7 +284,7 @@ jobs:
       - name: Test hello action
         uses: ./.github/actions/hello-action
         with:
-          who: 'Tester'
+          who: "Tester"
 
       - name: Test setup action
         uses: ./.github/actions/setup-app
@@ -290,14 +292,15 @@ jobs:
       - name: Test deploy action
         uses: ./.github/actions/deploy
         with:
-          environment: 'staging'
-          api-url: 'https://api.staging.example.com'
-          deploy-token: 'fake-token'
+          environment: "staging"
+          api-url: "https://api.staging.example.com"
+          deploy-token: "fake-token"
 ```
 
 ## Exercise
 
 Create a custom composite action that:
+
 1. Accepts inputs for app name and version
 2. Creates a build info file with timestamp, app name, version, and commit SHA
 3. Outputs the path to the build info file
@@ -315,4 +318,5 @@ Create a custom composite action that:
 
 ---
 
-**Previous**: [Multi-Job Workflows](011-multi-job-workflows.md) | **Next**: [Reusability and Best Practices](013-reusability-and-best-practices.md)
+**Previous**: [Multi-Job Workflows](011-multi-job-workflows.md) | **Next**:
+[Reusability and Best Practices](013-reusability-and-best-practices.md)

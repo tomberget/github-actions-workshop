@@ -1,25 +1,33 @@
 # Lesson 6: Speeding Up Workflows
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 45 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-Your CI/CD pipeline works perfectly—tests pass, builds succeed, deployments complete—but it takes 15 minutes to run. Developers wait around for feedback, context-switching to other tasks and losing focus. Pull requests pile up because nobody wants to wait for the slow pipeline. When someone finds a typo in documentation, they still have to wait through the entire 15-minute build process.
+Your CI/CD pipeline works perfectly—tests pass, builds succeed, deployments complete—but it takes 15 minutes to run.
+Developers wait around for feedback, context-switching to other tasks and losing focus. Pull requests pile up because
+nobody wants to wait for the slow pipeline. When someone finds a typo in documentation, they still have to wait through
+the entire 15-minute build process.
 
-Slow workflows kill productivity and discourage frequent commits. Fast feedback is essential for modern development. A 2-minute pipeline enables rapid iteration, while a 15-minute pipeline creates bottlenecks. The difference between a fast and slow CI/CD pipeline can determine whether your team ships features daily or weekly.
+Slow workflows kill productivity and discourage frequent commits. Fast feedback is essential for modern development. A
+2-minute pipeline enables rapid iteration, while a 15-minute pipeline creates bottlenecks. The difference between a fast
+and slow CI/CD pipeline can determine whether your team ships features daily or weekly.
 
-In this lesson, you'll learn practical techniques to dramatically speed up your GitHub Actions workflows without sacrificing thoroughness or reliability.
+In this lesson, you'll learn practical techniques to dramatically speed up your GitHub Actions workflows without
+sacrificing thoroughness or reliability.
 
 ## Concepts Introduction
 
 ### Why Workflow Speed Matters
 
-**Developer Productivity**: Developers stay in flow when feedback is fast. Waiting 15 minutes breaks concentration and reduces output.
+**Developer Productivity**: Developers stay in flow when feedback is fast. Waiting 15 minutes breaks concentration and
+reduces output.
 
-**Faster Iteration**: Quick feedback enables rapid experimentation. Try an approach, get results in 2 minutes, adjust, repeat.
+**Faster Iteration**: Quick feedback enables rapid experimentation. Try an approach, get results in 2 minutes, adjust,
+repeat.
 
-**Reduced Costs**: GitHub Actions bills by compute minutes. Faster workflows cost less, especially for organizations with hundreds of repositories.
+**Reduced Costs**: GitHub Actions bills by compute minutes. Faster workflows cost less, especially for organizations
+with hundreds of repositories.
 
 **Better Developer Experience**: Fast CI/CD makes developers happy. Slow CI/CD frustrates them and encourages shortcuts.
 
@@ -56,7 +64,7 @@ name: Slow Workflow (Baseline)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -71,7 +79,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
           # NO CACHING - this will be slow
 
       - name: Install dependencies
@@ -103,7 +111,7 @@ name: Cached Workflow (Step 1)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -117,8 +125,8 @@ jobs:
       - name: Setup Node.js with caching
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'  # 🚀 This one line can save 1-2 minutes!
+          node-version: "20"
+          cache: "npm" # 🚀 This one line can save 1-2 minutes!
 
       - name: Install dependencies
         run: |
@@ -135,20 +143,22 @@ jobs:
         run: npm run build
 ```
 
-**What changed**: The `cache: 'npm'` parameter tells `actions/setup-node` to automatically cache `node_modules` between runs.
+**What changed**: The `cache: 'npm'` parameter tells `actions/setup-node` to automatically cache `node_modules` between
+runs.
 
 **Expected speedup**: First run is same speed (cache is empty), but subsequent runs are **1-3 minutes faster**.
 
 ### Step 3: Parallelize Independent Jobs
 
-Why run linting, tests, and builds sequentially when they can run simultaneously? Create `.github/workflows/parallel-workflow.yml`:
+Why run linting, tests, and builds sequentially when they can run simultaneously? Create
+`.github/workflows/parallel-workflow.yml`:
 
 ```yaml
 name: Parallel Workflow (Step 2)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -160,8 +170,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run lint
 
@@ -172,8 +182,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 
@@ -184,15 +194,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
 ```
 
-**Expected speedup**: If each step takes 2 minutes, sequential execution takes 6 minutes. Parallel execution takes 2 minutes (the longest job).
+**Expected speedup**: If each step takes 2 minutes, sequential execution takes 6 minutes. Parallel execution takes 2
+minutes (the longest job).
 
-**Tradeoff**: You're running `npm ci` three times (once per job). But with caching, this is still faster than running sequentially.
+**Tradeoff**: You're running `npm ci` three times (once per job). But with caching, this is still faster than running
+sequentially.
 
 ### Step 4: Cancel Outdated Workflow Runs
 
@@ -206,7 +218,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true  # 🚀 Cancel old runs when new commits arrive
+  cancel-in-progress: true # 🚀 Cancel old runs when new commits arrive
 
 jobs:
   test:
@@ -216,13 +228,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 ```
 
-**What this does**: If you push a new commit while a workflow is running, GitHub cancels the old run and starts the new one.
+**What this does**: If you push a new commit while a workflow is running, GitHub cancels the old run and starts the new
+one.
 
 **Why it helps**: Saves compute minutes and shows results for the latest code faster.
 
@@ -238,10 +251,10 @@ name: Smart Trigger Workflow
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'package.json'
-      - 'package-lock.json'
+      - "src/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
       # NOT docs/** or *.md
 
 jobs:
@@ -252,8 +265,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 ```
@@ -266,8 +279,8 @@ name: Documentation Check
 on:
   pull_request:
     paths:
-      - 'docs/**'
-      - '**.md'
+      - "docs/**"
+      - "**.md"
 
 jobs:
   lint-docs:
@@ -293,7 +306,7 @@ name: Build Once, Deploy Everywhere
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -303,8 +316,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
 
@@ -351,12 +364,12 @@ name: Optimized Workflow (Complete)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
     paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'package*.json'
+      - "src/**"
+      - "tests/**"
+      - "package*.json"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -372,8 +385,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run lint
 
@@ -386,8 +399,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 
@@ -399,8 +412,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v4
@@ -424,6 +437,7 @@ jobs:
 ```
 
 **Optimization techniques used**:
+
 1. ✅ Dependency caching
 2. ✅ Parallel job execution
 3. ✅ Concurrency control (cancel old PR runs)
@@ -435,6 +449,7 @@ jobs:
 ## Performance Comparison
 
 ### Before Optimization
+
 ```
 Sequential workflow:
 - Setup + Dependencies: 2 min
@@ -445,6 +460,7 @@ Total: ~7 minutes
 ```
 
 ### After Optimization
+
 ```
 Parallel workflow with caching:
 - Setup + Dependencies: 30 sec (cached)
@@ -459,6 +475,7 @@ Total: ~2.5 minutes
 ### Cache Not Restoring
 
 If caching doesn't work:
+
 - Verify `cache: 'npm'` is set in `setup-node`
 - Check that `package-lock.json` exists (cache key depends on it)
 - First run after adding caching is always slow (cache is empty)
@@ -466,6 +483,7 @@ If caching doesn't work:
 ### Parallel Jobs Increase Total Time
 
 If parallelization makes things slower:
+
 - You're paying the setup cost multiple times
 - Only parallelize if each job is substantial (> 1 minute)
 - Consider sharing setup between jobs with artifacts
@@ -473,12 +491,14 @@ If parallelization makes things slower:
 ### Cancelled Workflows Cause Confusion
 
 If `cancel-in-progress: true` causes issues:
+
 - Don't use it on main/production branches
 - Only use for PR branches where latest code matters most
 
 ### Path Filters Too Restrictive
 
 If workflows don't trigger when they should:
+
 - Review your path filters carefully
 - Test by making changes to different file types
 - Remember: `paths:` is an AND condition with branch filters
@@ -510,6 +530,7 @@ jobs:
 ### 3. Skip CI for Trivial Changes
 
 Add `[skip ci]` to commit messages for documentation fixes:
+
 ```bash
 git commit -m "Fix typo in README [skip ci]"
 ```
@@ -539,20 +560,20 @@ Optimize your current workflow:
 **Bonus**: Create a comparison table showing execution times before and after each optimization technique.
 
 <details>
-<summary>Click to see example comparison table</summary>
+ <summary>Click to see example comparison table</summary>
 
 ```markdown
-| Optimization | Time Before | Time After | Improvement |
-|--------------|-------------|------------|-------------|
-| Baseline | 7:30 | 7:30 | - |
-| + Caching | 7:30 | 5:45 | 23% |
-| + Parallelization | 5:45 | 3:15 | 43% |
-| + Concurrency | 3:15 | 3:15 | 0%* |
-| + Path filters | 3:15 | 0:30** | 85% |
+| Optimization      | Time Before | Time After | Improvement |
+| ----------------- | ----------- | ---------- | ----------- |
+| Baseline          | 7:30        | 7:30       | -           |
+| + Caching         | 7:30        | 5:45       | 23%         |
+| + Parallelization | 5:45        | 3:15       | 43%         |
+| + Concurrency     | 3:15        | 3:15       | 0%\*        |
+| + Path filters    | 3:15        | 0:30\*\*   | 85%         |
 
-*Saves compute time on cancelled runs, not wall time
-**For documentation-only changes
+\*Saves compute time on cancelled runs, not wall time \*\*For documentation-only changes
 ```
+
 </details>
 
 ## Key Takeaways
@@ -569,9 +590,11 @@ Optimize your current workflow:
 
 **Previous Lesson**: [Secrets and Environment Variables](005-secrets-and-environment.md)
 
-**Next Lesson**: [Debugging Workflows](007-debugging-workflows.md) - Learn to troubleshoot failing workflows effectively.
+**Next Lesson**: [Debugging Workflows](007-debugging-workflows.md) - Learn to troubleshoot failing workflows
+effectively.
 
 **Additional Resources**:
+
 - [Caching Dependencies](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)
 - [Using Concurrency](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency)
 - [Workflow Triggers: paths filter](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore)

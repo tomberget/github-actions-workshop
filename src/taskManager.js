@@ -15,14 +15,14 @@ class TaskManager {
    * @param {string} priority - Task priority: 'low', 'medium', 'high'
    * @returns {Object} The created task
    */
-  addTask(title, priority = 'medium') {
-    if (!title || typeof title !== 'string') {
-      throw new Error('Task title is required and must be a string');
+  addTask(title, priority = "medium") {
+    if (!title || typeof title !== "string") {
+      throw new Error("Task title is required and must be a string");
     }
 
-    const validPriorities = ['low', 'medium', 'high'];
+    const validPriorities = ["low", "medium", "high"];
     if (!validPriorities.includes(priority)) {
-      throw new Error(`Priority must be one of: ${validPriorities.join(', ')}`);
+      throw new Error(`Priority must be one of: ${validPriorities.join(", ")}`);
     }
 
     const task = {
@@ -30,7 +30,7 @@ class TaskManager {
       title: title.trim(),
       priority,
       completed: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     this.tasks.push(task);
@@ -43,7 +43,7 @@ class TaskManager {
    * @returns {Object|null} The task or null if not found
    */
   getTask(id) {
-    return this.tasks.find(task => task.id === id) || null;
+    return this.tasks.find((task) => task.id === id) || null;
   }
 
   /**
@@ -55,11 +55,11 @@ class TaskManager {
     let result = [...this.tasks];
 
     if (filters.completed !== undefined) {
-      result = result.filter(task => task.completed === filters.completed);
+      result = result.filter((task) => task.completed === filters.completed);
     }
 
     if (filters.priority) {
-      result = result.filter(task => task.priority === filters.priority);
+      result = result.filter((task) => task.priority === filters.priority);
     }
 
     return result;
@@ -78,16 +78,18 @@ class TaskManager {
     }
 
     if (updates.title !== undefined) {
-      if (typeof updates.title !== 'string' || !updates.title.trim()) {
-        throw new Error('Title must be a non-empty string');
+      if (typeof updates.title !== "string" || !updates.title.trim()) {
+        throw new Error("Title must be a non-empty string");
       }
       task.title = updates.title.trim();
     }
 
     if (updates.priority !== undefined) {
-      const validPriorities = ['low', 'medium', 'high'];
+      const validPriorities = ["low", "medium", "high"];
       if (!validPriorities.includes(updates.priority)) {
-        throw new Error(`Priority must be one of: ${validPriorities.join(', ')}`);
+        throw new Error(
+          `Priority must be one of: ${validPriorities.join(", ")}`,
+        );
       }
       task.priority = updates.priority;
     }
@@ -114,7 +116,7 @@ class TaskManager {
    * @returns {boolean} True if deleted, false if not found
    */
   deleteTask(id) {
-    const index = this.tasks.findIndex(task => task.id === id);
+    const index = this.tasks.findIndex((task) => task.id === id);
     if (index === -1) {
       return false;
     }
@@ -128,19 +130,19 @@ class TaskManager {
    */
   getStats() {
     const total = this.tasks.length;
-    const completed = this.tasks.filter(t => t.completed).length;
+    const completed = this.tasks.filter((t) => t.completed).length;
     const pending = total - completed;
     const byPriority = {
-      high: this.tasks.filter(t => t.priority === 'high').length,
-      medium: this.tasks.filter(t => t.priority === 'medium').length,
-      low: this.tasks.filter(t => t.priority === 'low').length
+      high: this.tasks.filter((t) => t.priority === "high").length,
+      medium: this.tasks.filter((t) => t.priority === "medium").length,
+      low: this.tasks.filter((t) => t.priority === "low").length,
     };
 
     return {
       total,
       completed,
       pending,
-      byPriority
+      byPriority,
     };
   }
 
@@ -149,12 +151,12 @@ class TaskManager {
    */
   listTasks() {
     if (this.tasks.length === 0) {
-      console.log('  No tasks found');
+      console.log("  No tasks found");
       return;
     }
 
-    this.tasks.forEach(task => {
-      const status = task.completed ? '✅' : '⬜';
+    this.tasks.forEach((task) => {
+      const status = task.completed ? "✅" : "⬜";
       const priority = task.priority.toUpperCase().padEnd(6);
       console.log(`  ${status} [${priority}] ${task.title} (ID: ${task.id})`);
     });

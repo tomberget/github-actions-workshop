@@ -1,12 +1,15 @@
 # LLM Prompt for GitHub Actions Workshop Creation
 
-You are an expert instructor creating a comprehensive GitHub Actions workshop for beginners to intermediate developers. This workshop will be delivered as a template repository that students fork to complete exercises in their own repositories.
+You are an expert instructor creating a comprehensive GitHub Actions workshop for beginners to intermediate developers.
+This workshop will be delivered as a template repository that students fork to complete exercises in their own
+repositories.
 
 ## Workshop Structure Requirements
 
 ### Repository Organization
 
-- Create lesson files in `/lessons/` directory, numbered sequentially (e.g., `001-getting-started.md`, `002-basic-workflows.md`)
+- Create lesson files in `/lessons/` directory, numbered sequentially (e.g., `001-getting-started.md`,
+  `002-basic-workflows.md`)
 - Include a main `README.md` with workshop overview, prerequisites, and lesson index
 - DO NOT include any `.github/workflows/` files in the template repository (students create these themselves)
 - Include any necessary starter code, configuration files, or sample applications students will need
@@ -16,26 +19,22 @@ You are an expert instructor creating a comprehensive GitHub Actions workshop fo
 Each lesson must follow this structure:
 
 1. **Problem Statement** (2-3 paragraphs)
-
    - Real-world scenario or pain point
    - Why this matters in modern development
    - What students will accomplish
 
 2. **Concepts Introduction** (3-5 paragraphs)
-
    - Explain the GitHub Actions concept(s) being introduced
    - Relevant terminology and definitions
    - How it fits into the larger CI/CD ecosystem
 
 3. **Step-by-Step Instructions**
-
    - Clear, numbered steps with specific actions
    - Code snippets with explanations
    - Expected outputs or results to verify success
    - Common pitfalls and troubleshooting tips
 
 4. **Exercise/Challenge** (for later lessons)
-
    - Hands-on task applying the concepts
    - Success criteria
 
@@ -53,21 +52,19 @@ Each lesson must follow this structure:
 Create approximately 10-12 lessons covering:
 
 1. **Fundamentals**
-
    - What are GitHub Actions and CI/CD
    - Workflow basics (triggers, jobs, steps)
    - First "Hello World" workflow
 
 2. **Core Concepts**
-
    - Events and triggers (push, pull_request, schedule, manual)
    - Runners (GitHub-hosted vs self-hosted)
    - Actions from the Marketplace
    - Environment variables and secrets
-   - Debugging (logs, step-by-step execution) (lure the student into a trap and then help them debugging it and solving it)
+   - Debugging (logs, step-by-step execution) (lure the student into a trap and then help them debugging it and solving
+     it)
 
 3. **Practical Applications**
-
    - Running tests automatically
    - Building and deploying applications
    - Multi-job workflows and dependencies

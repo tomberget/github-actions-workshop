@@ -1,6 +1,7 @@
 # GitHub Actions Workshop
 
-Welcome to this hands-on GitHub Actions workshop! This comprehensive guide will take you from complete beginner to confidently building and deploying applications with continuous integration and continuous deployment (CI/CD) pipelines.
+Welcome to this hands-on GitHub Actions workshop! This comprehensive guide will take you from complete beginner to
+confidently building and deploying applications with continuous integration and continuous deployment (CI/CD) pipelines.
 
 ## What You'll Learn
 
@@ -28,9 +29,11 @@ Before starting this workshop, you should have:
 
 ## Workshop Structure
 
-This workshop consists of 13 progressive lessons. Each lesson builds on previous concepts, so we recommend completing them in order.
+This workshop consists of 13 progressive lessons. Each lesson builds on previous concepts, so we recommend completing
+them in order.
 
-**Lessons 1-3** provide heavy scaffolding with detailed, copy-paste-friendly instructions to get you comfortable with the basics.
+**Lessons 1-3** provide heavy scaffolding with detailed, copy-paste-friendly instructions to get you comfortable with
+the basics.
 
 **Lessons 4-7** introduce more independence, with some blanks to fill in and opportunities to reference earlier lessons.
 
@@ -40,7 +43,8 @@ This workshop consists of 13 progressive lessons. Each lesson builds on previous
 
 ### 1. Fork This Repository
 
-Click the "Fork" button at the top right of this repository. This creates your own copy where you'll complete all exercises.
+Click the "Fork" button at the top right of this repository. This creates your own copy where you'll complete all
+exercises.
 
 ### 2. Clone Your Fork
 
@@ -83,26 +87,32 @@ Open `lessons/001-getting-started.md` and begin your journey!
 
 ## Workshop Sample Application
 
-This repository includes a simple Node.js task manager application (`src/` directory) that you'll use throughout the workshop. The app includes:
+This repository includes a simple Node.js task manager application (`src/` directory) that you'll use throughout the
+workshop. The app includes:
 
 - Basic CRUD operations for tasks
 - Unit tests
 - A simple API
 - Build configuration
 
-You don't need to understand the application code in detail—it's just a realistic example for practicing CI/CD workflows.
+You don't need to understand the application code in detail—it's just a realistic example for practicing CI/CD
+workflows.
 
 ## Glossary of Terms
 
-**Action**: A reusable unit of code that can be shared and used in workflows. Can be created by GitHub, the community, or you.
+**Action**: A reusable unit of code that can be shared and used in workflows. Can be created by GitHub, the community,
+or you.
 
-**Artifact**: Files or collections of files produced during a workflow run that can be shared between jobs or downloaded after the workflow completes.
+**Artifact**: Files or collections of files produced during a workflow run that can be shared between jobs or downloaded
+after the workflow completes.
 
-**CI/CD**: Continuous Integration and Continuous Deployment/Delivery. Practices that automate testing and deployment of code changes.
+**CI/CD**: Continuous Integration and Continuous Deployment/Delivery. Practices that automate testing and deployment of
+code changes.
 
 **Event**: A specific activity that triggers a workflow run (e.g., push, pull request, schedule).
 
-**Job**: A set of steps that execute on the same runner. Workflows can have multiple jobs that run in parallel or sequentially.
+**Job**: A set of steps that execute on the same runner. Workflows can have multiple jobs that run in parallel or
+sequentially.
 
 **Runner**: A server that runs your workflows when triggered. Can be GitHub-hosted or self-hosted.
 
@@ -114,7 +124,8 @@ You don't need to understand the application code in detail—it's just a realis
 
 **Workflow Run**: An instance of your workflow that executes when the triggering event occurs.
 
-**YAML**: A human-readable data serialization language commonly used for configuration files (Yet Another Markup Language).
+**YAML**: A human-readable data serialization language commonly used for configuration files (Yet Another Markup
+Language).
 
 ## Tips for Success
 
@@ -122,7 +133,8 @@ You don't need to understand the application code in detail—it's just a realis
 - **Read error messages carefully**: GitHub Actions provides detailed logs that usually point you to the problem.
 - **Use the documentation**: Link to official docs are provided throughout. Don't hesitate to explore them.
 - **Take breaks**: Some lessons are long. Break them into smaller sessions if needed.
-- **Ask for help**: If you get stuck, check the troubleshooting sections in each lesson or search GitHub's community forums.
+- **Ask for help**: If you get stuck, check the troubleshooting sections in each lesson or search GitHub's community
+  forums.
 
 ## Common Issues
 
@@ -150,19 +162,26 @@ GitHub-hosted runners can sometimes be slow during peak times. This is normal an
 After completing this workshop, continue your GitHub Actions journey with:
 
 - **Official Documentation**: [docs.github.com/actions](https://docs.github.com/en/actions)
-- **GitHub Actions Marketplace**: [github.com/marketplace?type=actions](https://github.com/marketplace?type=actions) - Explore thousands of pre-built actions
+- **GitHub Actions Marketplace**: [github.com/marketplace?type=actions](https://github.com/marketplace?type=actions) -
+  Explore thousands of pre-built actions
 - **GitHub Skills**: [skills.github.com](https://skills.github.com/) - Interactive courses
-- **Awesome Actions**: [github.com/sdras/awesome-actions](https://github.com/sdras/awesome-actions) - Curated list of awesome actions
-- **Security Best Practices**: [docs.github.com/en/actions/security-guides](https://docs.github.com/en/actions/security-guides)
+- **Awesome Actions**: [github.com/sdras/awesome-actions](https://github.com/sdras/awesome-actions) - Curated list of
+  awesome actions
+- **Security Best Practices**:
+  [docs.github.com/en/actions/security-guides](https://docs.github.com/en/actions/security-guides)
 
 ## Contributing
 
-Found a typo or have a suggestion? Feel free to open an issue or submit a pull request!
+We welcome contributions to improve this workshop! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Style Requirement**: All markdown files use **one sentence per line** for better git diffs and easier review.
 
 ## License
 
-This workshop is provided as-is for educational purposes. Feel free to use and adapt it for your learning or teaching needs.
+This workshop is provided as-is for educational purposes. Feel free to use and adapt it for your learning or teaching
+needs.
 
 ---
 
-**Ready to begin?** Head to [Lesson 1: Getting Started with GitHub Actions](lessons/001-getting-started.md) and let's automate all the things!
+**Ready to begin?** Head to [Lesson 1: Getting Started with GitHub Actions](lessons/001-getting-started.md) and let's
+automate all the things!

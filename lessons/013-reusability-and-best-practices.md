@@ -1,19 +1,22 @@
 # Lesson 12: Workflow Reusability and Best Practices
 
-**Estimated Time**: 75 minutes
-**Difficulty**: Advanced
+**Estimated Time**: 75 minutes **Difficulty**: Advanced
 
 ## Problem Statement
 
-You've built dozens of workflows across multiple repositories. They all follow similar patterns: checkout code, setup environment, run tests, deploy. But each workflow is slightly different, making maintenance a nightmare. When you need to update Node.js versions or change security policies, you have to update every single workflow file.
+You've built dozens of workflows across multiple repositories. They all follow similar patterns: checkout code, setup
+environment, run tests, deploy. But each workflow is slightly different, making maintenance a nightmare. When you need
+to update Node.js versions or change security policies, you have to update every single workflow file.
 
-Reusable workflows and established best practices solve this problem. In this final lesson, you'll learn to create maintainable, efficient, and secure GitHub Actions workflows that scale across your entire organization.
+Reusable workflows and established best practices solve this problem. In this final lesson, you'll learn to create
+maintainable, efficient, and secure GitHub Actions workflows that scale across your entire organization.
 
 ## Concepts Introduction
 
 ### Reusable Workflows
 
 Unlike custom actions (which encapsulate steps), reusable workflows encapsulate entire jobs. They can:
+
 - Be called from other workflows
 - Accept inputs and secrets
 - Be version-controlled and updated centrally
@@ -40,18 +43,18 @@ on:
   workflow_call:
     inputs:
       node-version:
-        description: 'Node.js version to use'
+        description: "Node.js version to use"
         required: false
         type: string
-        default: '20'
+        default: "20"
       run-coverage:
-        description: 'Generate coverage report'
+        description: "Generate coverage report"
         required: false
         type: boolean
         default: false
     outputs:
       test-result:
-        description: 'Test result summary'
+        description: "Test result summary"
         value: ${{ jobs.test.outputs.result }}
 
 jobs:
@@ -66,7 +69,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - run: npm ci
 
@@ -101,7 +104,7 @@ jobs:
   call-test-workflow:
     uses: ./.github/workflows/reusable-test.yml
     with:
-      node-version: '20'
+      node-version: "20"
       run-coverage: true
 
   deploy:
@@ -134,9 +137,9 @@ jobs:
       - uses: actions/checkout@v4
 
       # GOOD: Pin to specific SHA for critical workflows
-      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '20'
+          node-version: "20"
 
       # GOOD: Limit token permissions
       - name: Use GitHub token
@@ -174,9 +177,9 @@ name: Performance Best Practices
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'package.json'
+      - "src/**"
+      - "tests/**"
+      - "package.json"
   pull_request:
 
 jobs:
@@ -189,8 +192,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'  # GOOD: Use built-in caching
+          node-version: "20"
+          cache: "npm" # GOOD: Use built-in caching
 
       - run: npm ci
       - run: npm run lint
@@ -202,8 +205,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test
 
@@ -213,8 +216,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run test:integration --if-present
 
@@ -240,7 +243,7 @@ on: push
 
 # GOOD: Use env for repeated values
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
   CACHE_VERSION: v1
 
 jobs:
@@ -255,7 +258,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -304,7 +307,7 @@ permissions:
   pull-requests: write
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
 
 jobs:
   validate:
@@ -320,7 +323,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -343,7 +346,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - run: npm ci
 
@@ -378,6 +381,7 @@ jobs:
 ## Best Practices Checklist
 
 ### Security
+
 - [ ] Pin action versions to commit SHAs for production
 - [ ] Use minimal permissions with `permissions:`
 - [ ] Never log secrets
@@ -385,6 +389,7 @@ jobs:
 - [ ] Use environments for deployment protection
 
 ### Performance
+
 - [ ] Use caching (`actions/setup-node` with `cache: 'npm'`)
 - [ ] Run independent jobs in parallel
 - [ ] Use `concurrency:` to cancel outdated runs
@@ -392,6 +397,7 @@ jobs:
 - [ ] Set appropriate `timeout-minutes:`
 
 ### Maintainability
+
 - [ ] Use reusable workflows for common patterns
 - [ ] Define repeated values in `env:`
 - [ ] Use clear, descriptive names
@@ -399,6 +405,7 @@ jobs:
 - [ ] Group related steps
 
 ### Reliability
+
 - [ ] Handle failures with `if: failure()` or `if: always()`
 - [ ] Set timeouts to prevent hung jobs
 - [ ] Use `fail-fast: false` for comprehensive testing
@@ -408,6 +415,7 @@ jobs:
 ## Exercise
 
 Refactor one of your existing workflows to follow all best practices:
+
 1. Add appropriate permissions
 2. Use caching
 3. Extract common logic to a reusable workflow
@@ -429,9 +437,11 @@ Refactor one of your existing workflows to follow all best practices:
 
 **Previous Lesson**: [Creating Custom Actions](012-custom-actions.md)
 
-**Congratulations!** You've completed the GitHub Actions Workshop. You now have the skills to build production-grade CI/CD pipelines.
+**Congratulations!** You've completed the GitHub Actions Workshop. You now have the skills to build production-grade
+CI/CD pipelines.
 
 **Additional Resources**:
+
 - [GitHub Actions Best Practices](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 - [Reusing Workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)

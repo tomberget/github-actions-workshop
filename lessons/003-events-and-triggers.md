@@ -1,47 +1,58 @@
 # Lesson 3: Events and Triggers
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Beginner
+**Estimated Time**: 45 minutes **Difficulty**: Beginner
 
 ## Problem Statement
 
-So far, your workflows have triggered on every push to the repository. But what if you only want to run tests when a pull request is opened? Or deploy to production only when you create a release? Or run maintenance tasks every night at 2 AM?
+So far, your workflows have triggered on every push to the repository. But what if you only want to run tests when a
+pull request is opened? Or deploy to production only when you create a release? Or run maintenance tasks every night at
+2 AM?
 
-Without fine-grained control over when workflows run, you'll waste computing resources, slow down feedback, and potentially deploy code at the wrong time. Imagine accidentally deploying to production every time someone pushes to their feature branch—that would be a disaster!
+Without fine-grained control over when workflows run, you'll waste computing resources, slow down feedback, and
+potentially deploy code at the wrong time. Imagine accidentally deploying to production every time someone pushes to
+their feature branch—that would be a disaster!
 
-In this lesson, you'll master GitHub Actions events and learn how to trigger workflows at exactly the right moment for exactly the right reason. This precision is what separates amateur automation from production-grade CI/CD pipelines.
+In this lesson, you'll master GitHub Actions events and learn how to trigger workflows at exactly the right moment for
+exactly the right reason. This precision is what separates amateur automation from production-grade CI/CD pipelines.
 
 ## Concepts Introduction
 
 ### What Are Workflow Events?
 
-Events are specific activities that trigger a workflow run. Think of them as "webhooks" or "signals" that tell GitHub Actions, "Hey, something happened—you should probably run this workflow now."
+Events are specific activities that trigger a workflow run. Think of them as "webhooks" or "signals" that tell GitHub
+Actions, "Hey, something happened—you should probably run this workflow now."
 
-GitHub provides dozens of event types, from code-related events (push, pull requests) to project management events (issues, project cards) to scheduled events (cron jobs).
+GitHub provides dozens of event types, from code-related events (push, pull requests) to project management events
+(issues, project cards) to scheduled events (cron jobs).
 
 ### Event Categories
 
 Events generally fall into these categories:
 
 **Code Events**: Triggered by code changes
+
 - `push` - Code pushed to the repository
 - `pull_request` - PR opened, updated, or closed
 - `pull_request_review` - PR reviewed
 - `release` - Release created, published, or deleted
 
 **Issue/Project Events**: Triggered by project management activities
+
 - `issues` - Issue opened, closed, labeled, etc.
 - `issue_comment` - Comment on issue or PR
 - `project_card` - Project board card moved
 
 **Scheduled Events**: Triggered by time
+
 - `schedule` - Runs on a cron schedule (like "every Monday at 9 AM")
 
 **Manual Events**: Triggered by you
+
 - `workflow_dispatch` - Manual trigger from GitHub UI or API
 - `repository_dispatch` - Trigger via external API call
 
 **Workflow Events**: Triggered by other workflows
+
 - `workflow_call` - Called by another workflow (reusable workflows)
 - `workflow_run` - When another workflow completes
 
@@ -59,6 +70,7 @@ This precision prevents unnecessary workflow runs and saves resources.
 ### Activity Types
 
 Many events have activity types that specify exactly what happened. For example, `pull_request` has activity types like:
+
 - `opened` - PR was just created
 - `synchronize` - New commits pushed to PR
 - `closed` - PR was closed
@@ -80,8 +92,8 @@ name: Pull Request Checks
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
-    branches: [ main, develop ]
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
 
 jobs:
   validate:
@@ -103,7 +115,8 @@ jobs:
       - name: Check PR title format
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
-          if [[ $PR_TITLE =~ ^(feat|fix|docs|chore|refactor):\ .+ ]]; then
+          # Use grep for POSIX-compatible regex matching
+          if echo "$PR_TITLE" | grep -qE '^(feat|fix|docs|chore|refactor): .+'; then
             echo "✅ PR title follows convention"
           else
             echo "❌ PR title must start with feat:, fix:, docs:, chore:, or refactor:"
@@ -112,6 +125,7 @@ jobs:
 ```
 
 **What this does**:
+
 - Triggers on PRs that are opened, updated (synchronize), or reopened
 - Only for PRs targeting `main` or `develop` branches
 - Validates that PR titles follow a convention (e.g., "feat: add new feature")
@@ -125,7 +139,7 @@ name: Release Workflow
 
 on:
   release:
-    types: [ published ]
+    types: [published]
 
 jobs:
   celebrate:
@@ -149,6 +163,7 @@ jobs:
 ```
 
 **What this does**:
+
 - Triggers when a release is published (not drafted or created, only published)
 - Accesses release-specific data via `github.event.release`
 - Simulates a deployment (in real life, this would deploy to production)
@@ -163,8 +178,8 @@ name: Nightly Maintenance
 on:
   schedule:
     # Runs at 2:00 AM UTC every day
-    - cron: '0 2 * * *'
-  workflow_dispatch:  # Also allow manual triggering
+    - cron: "0 2 * * *"
+  workflow_dispatch: # Also allow manual triggering
 
 jobs:
   maintenance:
@@ -194,6 +209,7 @@ jobs:
 ```
 
 **Cron syntax quick reference**:
+
 ```
 * * * * *
 │ │ │ │ │
@@ -205,6 +221,7 @@ jobs:
 ```
 
 Examples:
+
 - `0 2 * * *` - Every day at 2:00 AM
 - `30 5 * * 1` - Every Monday at 5:30 AM
 - `0 0 1 * *` - First day of every month at midnight
@@ -221,11 +238,11 @@ name: Documentation Update
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'docs/**'
-      - '**.md'
-      - 'README.md'
+      - "docs/**"
+      - "**.md"
+      - "README.md"
 
 jobs:
   docs-changed:
@@ -249,6 +266,7 @@ jobs:
 ```
 
 **Path filters**:
+
 - `docs/**` - Any file in the `docs` directory or subdirectories
 - `**.md` - Any markdown file anywhere in the repository
 - `src/*.js` - JavaScript files directly in `src` (not subdirectories)
@@ -265,18 +283,18 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to deploy to'
+        description: "Environment to deploy to"
         required: true
         type: choice
         options:
           - staging
           - production
       version:
-        description: 'Version to deploy'
+        description: "Version to deploy"
         required: true
         type: string
       dry-run:
-        description: 'Perform a dry run?'
+        description: "Perform a dry run?"
         required: false
         type: boolean
         default: true
@@ -308,6 +326,7 @@ jobs:
 ```
 
 **What this does**:
+
 - Only triggers manually from the GitHub UI
 - Presents a form with three inputs:
   - `environment`: Dropdown with staging/production options
@@ -326,6 +345,7 @@ git push origin main
 ### Step 7: Test the Workflows
 
 **Test PR workflow**:
+
 1. Create a new branch: `git checkout -b test-pr-workflow`
 2. Make any small change to a file
 3. Commit and push: `git push origin test-pr-workflow`
@@ -333,10 +353,12 @@ git push origin main
 5. Try different PR titles (with and without prefix) to see the validation
 
 **Test scheduled workflow**:
+
 - You can't easily test scheduled workflows without waiting, so use the `workflow_dispatch` trigger you added
 - Go to Actions → "Nightly Maintenance" → "Run workflow"
 
 **Test manual deployment**:
+
 1. Go to Actions → "Manual Deployment"
 2. Click "Run workflow"
 3. Fill in the form:
@@ -347,6 +369,7 @@ git push origin main
 5. Run again with dry-run unchecked to see the difference
 
 **Test path-filtered workflow**:
+
 1. Edit a markdown file (like `README.md`)
 2. Commit and push to main
 3. Check that "Documentation Update" workflow runs
@@ -365,20 +388,22 @@ git push origin main
 ### Event Payload Access
 
 Different events provide different data. Always check the documentation for what's available:
+
 - `github.event.pull_request.*` for PR events
 - `github.event.issue.*` for issue events
 - `github.event.release.*` for release events
 
 ### Path Filters and Ignoring Files
 
-Path filters are evaluated when the workflow file is pushed. If you add a filter later, it only applies to future commits:
+Path filters are evaluated when the workflow file is pushed. If you add a filter later, it only applies to future
+commits:
 
 ```yaml
 # This will run for any changes EXCEPT in docs/
 on:
   push:
     paths-ignore:
-      - 'docs/**'
+      - "docs/**"
 ```
 
 ### Multiple Event Types
@@ -388,9 +413,9 @@ You can trigger on multiple events:
 ```yaml
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 ```
 
@@ -406,17 +431,18 @@ Create a new workflow that:
 
 **Hint**: You'll need the `issues` event and `github.event.issue.*` context.
 
-**Bonus**: Use the GitHub CLI (`gh`) or an action to actually post a comment (search GitHub Actions Marketplace for "issue comment").
+**Bonus**: Use the GitHub CLI (`gh`) or an action to actually post a comment (search GitHub Actions Marketplace for
+"issue comment").
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 ```yaml
 name: Issue Welcome
 
 on:
   issues:
-    types: [ opened, reopened ]
+    types: [opened, reopened]
 
 jobs:
   welcome:
@@ -445,6 +471,7 @@ jobs:
             --repo ${{ github.repository }} \
             --body "Thank you for opening this issue! Our team will review it soon."
 ```
+
 </details>
 
 ## Key Takeaways
@@ -460,9 +487,11 @@ jobs:
 
 **Previous Lesson**: [Understanding Workflow Anatomy](002-workflow-anatomy.md)
 
-**Next Lesson**: [Working with Actions from Marketplace](004-marketplace-actions.md) - Use pre-built actions to supercharge your workflows.
+**Next Lesson**: [Working with Actions from Marketplace](004-marketplace-actions.md) - Use pre-built actions to
+supercharge your workflows.
 
 **Additional Resources**:
+
 - [Events that Trigger Workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
 - [Workflow Syntax: `on`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on)
 - [Crontab Guru](https://crontab.guru/) - Cron expression helper

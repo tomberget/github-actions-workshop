@@ -1,21 +1,26 @@
 # Lesson 2: Understanding Workflow Anatomy
 
-**Estimated Time**: 30 minutes
-**Difficulty**: Beginner
+**Estimated Time**: 30 minutes **Difficulty**: Beginner
 
 ## Problem Statement
 
-In Lesson 1, you created a simple workflow that prints messages when you push code. But that workflow was a black box—you copied and pasted YAML code without fully understanding what each piece does. If you want to customize workflows for real projects, you need to understand the building blocks.
+In Lesson 1, you created a simple workflow that prints messages when you push code. But that workflow was a black
+box—you copied and pasted YAML code without fully understanding what each piece does. If you want to customize workflows
+for real projects, you need to understand the building blocks.
 
-Imagine you're trying to fix a car without knowing what the engine, transmission, or brakes do. You might get lucky once, but you'll eventually get stuck. The same applies to GitHub Actions: understanding workflow anatomy is essential for diagnosing issues, optimizing performance, and building complex automation pipelines.
+Imagine you're trying to fix a car without knowing what the engine, transmission, or brakes do. You might get lucky
+once, but you'll eventually get stuck. The same applies to GitHub Actions: understanding workflow anatomy is essential
+for diagnosing issues, optimizing performance, and building complex automation pipelines.
 
-In this lesson, you'll dissect a workflow file piece by piece, learning what each component does and how they work together. By the end, you'll be able to read any workflow and understand exactly what it does.
+In this lesson, you'll dissect a workflow file piece by piece, learning what each component does and how they work
+together. By the end, you'll be able to read any workflow and understand exactly what it does.
 
 ## Concepts Introduction
 
 ### The YAML Format
 
-GitHub Actions workflows are written in YAML (YAML Ain't Markup Language), a human-readable data format commonly used for configuration files. YAML uses indentation to show structure (similar to Python) and has a few basic rules:
+GitHub Actions workflows are written in YAML (YAML Ain't Markup Language), a human-readable data format commonly used
+for configuration files. YAML uses indentation to show structure (similar to Python) and has a few basic rules:
 
 - **Indentation matters**: Use spaces (not tabs), and be consistent
 - **Key-value pairs**: `key: value`
@@ -23,7 +28,8 @@ GitHub Actions workflows are written in YAML (YAML Ain't Markup Language), a hum
 - **Multi-line strings**: Use `|` or `>`
 - **Comments**: Start with `#`
 
-YAML's simplicity makes it perfect for defining workflows, but its strictness about indentation means one wrong space can break everything.
+YAML's simplicity makes it perfect for defining workflows, but its strictness about indentation means one wrong space
+can break everything.
 
 ### Workflow Structure Hierarchy
 
@@ -39,6 +45,7 @@ Workflow (entire file)
 ```
 
 Think of it like a company organization chart:
+
 - **Workflow**: The entire company
 - **Events**: What causes the company to start working (a customer order)
 - **Jobs**: Different departments (shipping, billing, customer service)
@@ -47,17 +54,21 @@ Think of it like a company organization chart:
 
 ### Core Components
 
-**Workflow**: The entire automation process, defined in a single YAML file. You can have multiple workflow files in `.github/workflows/`.
+**Workflow**: The entire automation process, defined in a single YAML file. You can have multiple workflow files in
+`.github/workflows/`.
 
 **Events**: Triggers that start a workflow run. Examples: `push`, `pull_request`, `schedule`, `workflow_dispatch`.
 
-**Jobs**: A set of steps that execute on the same runner. Jobs run in parallel by default, but you can configure them to run sequentially.
+**Jobs**: A set of steps that execute on the same runner. Jobs run in parallel by default, but you can configure them to
+run sequentially.
 
-**Runners**: Virtual machines provided by GitHub (or self-hosted) that execute your jobs. GitHub offers Ubuntu Linux, Windows, and macOS runners.
+**Runners**: Virtual machines provided by GitHub (or self-hosted) that execute your jobs. GitHub offers Ubuntu Linux,
+Windows, and macOS runners.
 
 **Steps**: Individual tasks within a job. Each step can either run commands (`run:`) or use pre-built actions (`uses:`).
 
-**Actions**: Reusable units of code that perform specific tasks. You can use actions created by GitHub, the community, or write your own.
+**Actions**: Reusable units of code that perform specific tasks. You can use actions created by GitHub, the community,
+or write your own.
 
 ## Step-by-Step Instructions
 
@@ -75,9 +86,9 @@ name: Workflow Anatomy Demo
 # Events - Define when this workflow runs
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 # Jobs - Define what work to do
@@ -125,9 +136,9 @@ Let's break down the `on:` section:
 ```yaml
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 ```
 
@@ -137,7 +148,8 @@ on:
   - `branches: [ main ]` - Only for PRs targeting the main branch
 - **`workflow_dispatch:`** - Allows manual triggering from the GitHub UI (you'll see a "Run workflow" button)
 
-**Why filter by branches?** Imagine you have 20 feature branches. Without filtering, every push to any branch would trigger the workflow, wasting resources.
+**Why filter by branches?** Imagine you have 20 feature branches. Without filtering, every push to any branch would
+trigger the workflow, wasting resources.
 
 ### Step 3: Understand the Jobs Section
 
@@ -157,13 +169,15 @@ jobs:
   - `windows-latest` - Latest Windows Server
   - `macos-latest` - Latest macOS
 
-**Important**: Each job starts fresh with a clean virtual machine. Files created in one job don't exist in another unless you explicitly share them (you'll learn this in later lessons).
+**Important**: Each job starts fresh with a clean virtual machine. Files created in one job don't exist in another
+unless you explicitly share them (you'll learn this in later lessons).
 
 ### Step 4: Understand the Steps Section
 
 Steps run sequentially within a job. There are two types:
 
 **Type 1: Using Actions**
+
 ```yaml
 - name: Checkout code
   uses: actions/checkout@v4
@@ -174,6 +188,7 @@ Steps run sequentially within a job. There are two types:
 - The `@v4` specifies the version
 
 **Type 2: Running Commands**
+
 ```yaml
 - name: Display runner information
   run: |
@@ -213,6 +228,7 @@ git push origin main
 3. Click on the latest run
 
 **Key observations**:
+
 - You'll see two jobs: "Gather System Information" and "Test on Windows"
 - They run in parallel (simultaneously)
 - Each job has its own logs
@@ -247,17 +263,19 @@ Click into each job and expand the steps. Notice:
 
 ### Jobs Run in Parallel
 
-By default, all jobs run simultaneously. If you need jobs to run in order, you'll learn about `needs:` in Lesson 10. For now, remember: jobs are independent.
+By default, all jobs run simultaneously. If you need jobs to run in order, you'll learn about `needs:` in Lesson 10. For
+now, remember: jobs are independent.
 
 ### Missing Checkout Step
 
-If you try to access your repository files without the `actions/checkout` action, you'll get errors. The runner starts with an empty directory—checkout clones your code into it.
+If you try to access your repository files without the `actions/checkout` action, you'll get errors. The runner starts
+with an empty directory—checkout clones your code into it.
 
 ```yaml
 # Wrong - no checkout, can't access files
 steps:
   - name: Run tests
-    run: npm test  # Error: package.json not found
+    run: npm test # Error: package.json not found
 ```
 
 ```yaml
@@ -265,7 +283,7 @@ steps:
 steps:
   - uses: actions/checkout@v4
   - name: Run tests
-    run: npm test  # Works!
+    run: npm test # Works!
 ```
 
 ### Context Expression Syntax
@@ -297,7 +315,8 @@ run: |
 
 ### Job IDs vs Job Names
 
-Job IDs (like `gather-info`) are used internally and in YAML references. Job names (like `Gather System Information`) are displayed in the UI. Both should be descriptive.
+Job IDs (like `gather-info`) are used internally and in YAML references. Job names (like `Gather System Information`)
+are displayed in the UI. Both should be descriptive.
 
 ## Exercise
 
@@ -311,23 +330,24 @@ Now it's your turn! Modify the `anatomy-demo.yml` workflow to add a third job th
 **Success criteria**: After pushing, you should see three jobs running in parallel in the Actions tab.
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 ```yaml
-  test-on-macos:
-    name: Test on macOS
-    runs-on: macos-latest
+test-on-macos:
+  name: Test on macOS
+  runs-on: macos-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Print macOS info
-        run: |
-          echo "Running on macOS!"
-          sw_vers
-          sysctl -n machdep.cpu.brand_string
+    - name: Print macOS info
+      run: |
+        echo "Running on macOS!"
+        sw_vers
+        sysctl -n machdep.cpu.brand_string
 ```
+
 </details>
 
 ## Key Takeaways
@@ -346,6 +366,7 @@ Now it's your turn! Modify the `anatomy-demo.yml` workflow to add a third job th
 **Next Lesson**: [Events and Triggers](003-events-and-triggers.md) - Master all the ways to trigger workflows.
 
 **Additional Resources**:
+
 - [Workflow Syntax Documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Context Expressions Reference](https://docs.github.com/en/actions/learn-github-actions/contexts)
 - [Available Runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)

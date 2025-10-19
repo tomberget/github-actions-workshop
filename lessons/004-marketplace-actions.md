@@ -1,23 +1,29 @@
 # Lesson 4: Working with Actions from Marketplace
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Beginner
+**Estimated Time**: 45 minutes **Difficulty**: Beginner
 
 ## Problem Statement
 
-You've learned how to write workflow steps with `run:` commands, but writing everything from scratch is time-consuming and error-prone. Need to set up Node.js? You could manually download and install it with a series of commands. Want to deploy to AWS? You'd need to write dozens of lines of configuration code.
+You've learned how to write workflow steps with `run:` commands, but writing everything from scratch is time-consuming
+and error-prone. Need to set up Node.js? You could manually download and install it with a series of commands. Want to
+deploy to AWS? You'd need to write dozens of lines of configuration code.
 
-This is like building furniture without power tools—technically possible, but unnecessarily difficult. The GitHub Actions Marketplace contains thousands of pre-built, tested, and maintained actions that solve common problems. Using these actions saves time, reduces errors, and lets you focus on what makes your project unique.
+This is like building furniture without power tools—technically possible, but unnecessarily difficult. The GitHub
+Actions Marketplace contains thousands of pre-built, tested, and maintained actions that solve common problems. Using
+these actions saves time, reduces errors, and lets you focus on what makes your project unique.
 
-In this lesson, you'll learn how to find, evaluate, and use actions from the Marketplace to supercharge your workflows without reinventing the wheel.
+In this lesson, you'll learn how to find, evaluate, and use actions from the Marketplace to supercharge your workflows
+without reinventing the wheel.
 
 ## Concepts Introduction
 
 ### What is the GitHub Actions Marketplace?
 
-The GitHub Actions Marketplace is a catalog of reusable actions created by GitHub, verified partners, and the community. Think of it like a package manager (npm, pip, Maven) but specifically for CI/CD tasks.
+The GitHub Actions Marketplace is a catalog of reusable actions created by GitHub, verified partners, and the community.
+Think of it like a package manager (npm, pip, Maven) but specifically for CI/CD tasks.
 
 Actions in the Marketplace can:
+
 - Set up programming language environments (Node.js, Python, Go, etc.)
 - Deploy to cloud platforms (AWS, Azure, Google Cloud, Vercel, etc.)
 - Send notifications (Slack, Discord, email)
@@ -34,6 +40,7 @@ uses: owner/repository@version
 ```
 
 For example:
+
 ```yaml
 uses: actions/checkout@v4
 ```
@@ -47,38 +54,47 @@ uses: actions/checkout@v4
 You can reference actions using three different version formats:
 
 **1. Tags (Recommended)**
+
 ```yaml
 uses: actions/setup-node@v4
 ```
+
 Most stable; action maintainers tag releases with semantic versions.
 
 **2. Branches**
+
 ```yaml
 uses: actions/setup-node@main
 ```
+
 Gets the latest code from a branch; less stable but useful for bleeding-edge features.
 
 **3. Commit SHAs**
+
 ```yaml
 uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
 ```
+
 Most secure; locks to a specific commit so the code can never change. Used in security-critical environments.
 
-**Best Practice**: Use major version tags like `@v4`. Action maintainers can push bug fixes to `v4` without breaking your workflow, but won't introduce breaking changes (those come in `v5`).
+**Best Practice**: Use major version tags like `@v4`. Action maintainers can push bug fixes to `v4` without breaking
+your workflow, but won't introduce breaking changes (those come in `v5`).
 
 ### Action Inputs and Outputs
 
 Many actions accept inputs (configuration parameters) and produce outputs (data for later steps).
 
 **Inputs**:
+
 ```yaml
 - uses: actions/setup-node@v4
   with:
-    node-version: '20'
-    cache: 'npm'
+    node-version: "20"
+    cache: "npm"
 ```
 
 **Outputs**:
+
 ```yaml
 - uses: actions/checkout@v4
   id: checkout
@@ -86,21 +102,25 @@ Many actions accept inputs (configuration parameters) and produce outputs (data 
   run: echo "Checked out ref: ${{ steps.checkout.outputs.ref }}"
 ```
 
-The `id:` field gives a step a unique identifier so later steps can reference its outputs with `steps.<id>.outputs.<output-name>`.
+The `id:` field gives a step a unique identifier so later steps can reference its outputs with
+`steps.<id>.outputs.<output-name>`.
 
 ### Official vs Community Actions
 
 **Official Actions** (by GitHub):
+
 - Start with `actions/` (like `actions/checkout`)
 - Heavily tested and maintained
 - Generally safe to use
 
 **Verified Creator Actions**:
+
 - Created by GitHub partners
 - Display a verified badge
 - Usually high quality
 
 **Community Actions**:
+
 - Created by anyone
 - Quality varies
 - Check stars, recent updates, and code before using in production
@@ -108,6 +128,7 @@ The `id:` field gives a step a unique identifier so later steps can reference it
 ### How to Evaluate an Action
 
 Before using an action, check:
+
 1. **Stars and usage**: Popular actions are usually reliable
 2. **Last update**: Actively maintained? Or abandoned?
 3. **README documentation**: Clear instructions?
@@ -138,9 +159,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -156,8 +177,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       # Action 3: Cache dependencies (implicit in setup-node with cache: 'npm')
       # This action automatically caches node_modules to speed up future runs
@@ -199,7 +220,7 @@ The `actions/setup-node` action accepts several inputs:
 uses: actions/setup-node@v4
 with:
   # Which Node.js version to install
-  node-version: '20'
+  node-version: "20"
 
   # Or use a version range
   # node-version: '>=18'
@@ -208,13 +229,15 @@ with:
   # node-version-file: '.nvmrc'
 
   # Cache dependencies for faster builds
-  cache: 'npm'  # or 'yarn' or 'pnpm'
+  cache: "npm" # or 'yarn' or 'pnpm'
+
 
   # Registry for publishing (optional)
   # registry-url: 'https://registry.npmjs.org'
 ```
 
 To find what inputs an action supports:
+
 - Check the action's README on GitHub
 - Look at the `action.yml` file in the action's repository
 
@@ -254,7 +277,7 @@ jobs:
         id: node-setup
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       # Reference node-setup outputs
       - name: Display Node version
@@ -263,6 +286,7 @@ jobs:
 ```
 
 **Key points**:
+
 - Give steps an `id:` to reference them later
 - Access outputs with `steps.<id>.outputs.<output-name>`
 - Check the action's documentation to see what outputs are available
@@ -276,9 +300,9 @@ name: Conditional Actions
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   conditional-demo:
@@ -292,7 +316,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm ci
@@ -321,6 +345,7 @@ jobs:
 ```
 
 **Common conditions**:
+
 - `if: success()` - Only if previous steps succeeded (default)
 - `if: failure()` - Only if a previous step failed
 - `if: always()` - Run regardless of previous step results
@@ -340,12 +365,14 @@ Watch the workflow run in the Actions tab. Notice how fast it is thanks to cachi
 ### Step 7: Download Artifacts
 
 After the workflow completes:
+
 1. Go to the Actions tab
 2. Click on the workflow run
 3. Scroll down to "Artifacts"
 4. Click "build-output" to download the built files
 
 Artifacts are useful for:
+
 - Downloading build results for manual testing
 - Sharing files between jobs
 - Debugging by downloading logs
@@ -355,18 +382,21 @@ Artifacts are useful for:
 ### Action Version Conflicts
 
 If you see errors like "Action version not found":
+
 - Check that the version exists (visit the action's releases page)
 - Try using a major version tag like `@v4` instead of `@v4.1.2`
 
 ### Missing Inputs
 
 If an action fails with "required input not provided":
+
 - Check the action's README for required inputs
 - Add the missing input in the `with:` section
 
 ### Cache Not Working
 
 If caching doesn't speed up your builds:
+
 - Ensure you're using the same `node-version` across runs
 - Check that the `cache:` input matches your package manager (`npm`, `yarn`, or `pnpm`)
 - Cache takes effect on the second run, not the first
@@ -374,6 +404,7 @@ If caching doesn't speed up your builds:
 ### Referencing Outputs
 
 If `steps.<id>.outputs.<name>` returns empty:
+
 - Verify the step has an `id:`
 - Check the action's documentation for correct output name
 - Ensure the step actually ran (not skipped due to condition)
@@ -403,17 +434,18 @@ Create a workflow that:
 5. Uses `actions/upload-artifact` to save test results
 6. Only uploads artifacts if tests pass
 
-**Bonus**: Add another job that downloads the artifacts from the first job and does something with them (Hint: look up `actions/download-artifact`).
+**Bonus**: Add another job that downloads the artifacts from the first job and does something with them (Hint: look up
+`actions/download-artifact`).
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 ```yaml
 name: Test and Upload Results
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -427,8 +459,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -447,7 +479,7 @@ jobs:
   report:
     name: Process Test Report
     runs-on: ubuntu-latest
-    needs: test  # This job runs after 'test' completes
+    needs: test # This job runs after 'test' completes
 
     steps:
       - name: Download test results
@@ -461,6 +493,7 @@ jobs:
           echo "Test results downloaded to ./results"
           ls -la ./results
 ```
+
 </details>
 
 ## Key Takeaways
@@ -476,9 +509,11 @@ jobs:
 
 **Previous Lesson**: [Events and Triggers](003-events-and-triggers.md)
 
-**Next Lesson**: [Secrets and Environment Variables](005-secrets-and-environment.md) - Learn to handle sensitive data securely.
+**Next Lesson**: [Secrets and Environment Variables](005-secrets-and-environment.md) - Learn to handle sensitive data
+securely.
 
 **Additional Resources**:
+
 - [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
 - [Finding and Customizing Actions](https://docs.github.com/en/actions/learn-github-actions/finding-and-customizing-actions)
 - [actions/checkout](https://github.com/actions/checkout)

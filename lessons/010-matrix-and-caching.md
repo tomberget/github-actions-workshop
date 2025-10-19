@@ -1,23 +1,28 @@
 # Lesson 9: Matrix Builds and Caching
 
-**Estimated Time**: 60 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 60 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-Your application needs to support multiple Node.js versions, multiple operating systems, and multiple configurations. Running separate workflows for each combination would be tedious and hard to maintain. Meanwhile, every workflow run downloads the same dependencies, wasting 2-3 minutes every single time.
+Your application needs to support multiple Node.js versions, multiple operating systems, and multiple configurations.
+Running separate workflows for each combination would be tedious and hard to maintain. Meanwhile, every workflow run
+downloads the same dependencies, wasting 2-3 minutes every single time.
 
-Matrix builds let you test multiple configurations in parallel with minimal code duplication. Caching stores dependencies between runs, dramatically speeding up workflows. Together, these features make your CI/CD pipeline faster and more comprehensive.
+Matrix builds let you test multiple configurations in parallel with minimal code duplication. Caching stores
+dependencies between runs, dramatically speeding up workflows. Together, these features make your CI/CD pipeline faster
+and more comprehensive.
 
 ## Concepts Introduction
 
 ### Matrix Strategy
 
-A matrix creates multiple job variations from a single configuration. Instead of writing 9 separate jobs for 3 Node versions × 3 operating systems, you write one job with a matrix.
+A matrix creates multiple job variations from a single configuration. Instead of writing 9 separate jobs for 3 Node
+versions × 3 operating systems, you write one job with a matrix.
 
 ### Caching in CI/CD
 
 Caching stores files between workflow runs:
+
 - Dependencies (node_modules, pip packages, etc.)
 - Build outputs
 - Tools and binaries
@@ -48,7 +53,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - run: npm ci
       - run: npm test
@@ -195,7 +200,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -214,6 +219,7 @@ jobs:
 ## Exercise
 
 Create a matrix workflow that:
+
 1. Tests on Ubuntu, Windows, and macOS
 2. Tests Node 18 and 20
 3. Only uploads artifacts from Ubuntu + Node 20 job
@@ -230,4 +236,5 @@ Create a matrix workflow that:
 
 ---
 
-**Previous**: [Building and Deploying](009-building-and-deploying.md) | **Next**: [Multi-Job Workflows](011-multi-job-workflows.md)
+**Previous**: [Building and Deploying](009-building-and-deploying.md) | **Next**:
+[Multi-Job Workflows](011-multi-job-workflows.md)

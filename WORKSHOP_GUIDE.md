@@ -2,7 +2,9 @@
 
 ## Workshop Overview
 
-This comprehensive GitHub Actions workshop takes students from complete beginners to confidently building production-grade CI/CD pipelines. The workshop is structured as a hands-on, self-paced learning experience where students fork this repository and complete exercises directly in their own GitHub accounts.
+This comprehensive GitHub Actions workshop takes students from complete beginners to confidently building
+production-grade CI/CD pipelines. The workshop is structured as a hands-on, self-paced learning experience where
+students fork this repository and complete exercises directly in their own GitHub accounts.
 
 ## Workshop Structure
 
@@ -11,6 +13,16 @@ This comprehensive GitHub Actions workshop takes students from complete beginner
 - **Total Time**: 12-15 hours
 - **Format**: Self-paced with 12 progressive lessons
 - **Prerequisites**: Basic Git, command line, and programming knowledge
+
+### Cross-Platform Considerations
+
+This workshop is designed to work on macOS, Linux, and Windows.
+
+- **Windows users** should use Git Bash (recommended) or refer to PowerShell/Command Prompt alternatives provided in the
+  lessons
+- All workflow YAML files use commands that run on GitHub's runners (Ubuntu by default), so they work consistently
+  regardless of the student's local platform
+- Local terminal commands in Lesson 1 provide platform-specific alternatives
 
 ### Pedagogical Approach
 
@@ -171,23 +183,23 @@ package.json          # Dependencies and scripts
 
 3. **Link to Real World**: Ask students to think about their own projects and how they'd apply concepts.
 
-4. **Progressive Disclosure**: Don't overwhelm beginners with advanced topics. The lesson structure naturally builds complexity.
+4. **Progressive Disclosure**: Don't overwhelm beginners with advanced topics. The lesson structure naturally builds
+   complexity.
 
 5. **Practical Over Theoretical**: Every lesson includes hands-on exercises. Ensure students complete them.
 
 ### Common Student Challenges
 
-**Challenge**: YAML syntax errors
-**Solution**: Recommend yamllint.com for validation
+**Challenge**: YAML syntax errors **Solution**: Recommend yamllint.com for validation
 
-**Challenge**: Workflows not triggering
-**Solution**: Check file location (`.github/workflows/`), YAML syntax, and trigger conditions
+**Challenge**: Workflows not triggering **Solution**: Check file location (`.github/workflows/`), YAML syntax, and
+trigger conditions
 
-**Challenge**: Secrets not working in forked repos
-**Solution**: Explain GitHub's security model—secrets aren't available to forked PR workflows
+**Challenge**: Secrets not working in forked repos **Solution**: Explain GitHub's security model—secrets aren't
+available to forked PR workflows
 
-**Challenge**: Tests pass locally but fail in CI
-**Solution**: Discuss environment differences, missing dependencies, and reproducibility
+**Challenge**: Tests pass locally but fail in CI **Solution**: Discuss environment differences, missing dependencies,
+and reproducibility
 
 ## Workshop Customization
 

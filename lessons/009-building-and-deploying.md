@@ -1,15 +1,19 @@
 # Lesson 8: Building and Deploying Applications
 
-**Estimated Time**: 75 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 75 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-Your tests pass. Your code is reviewed and merged. But it's still not in production. Someone needs to manually build the application, upload it to servers, and restart services. This process is error-prone, time-consuming, and blocks deployments until someone with the right permissions is available.
+Your tests pass. Your code is reviewed and merged. But it's still not in production. Someone needs to manually build the
+application, upload it to servers, and restart services. This process is error-prone, time-consuming, and blocks
+deployments until someone with the right permissions is available.
 
-Modern software teams deploy multiple times per day. Manual deployment doesn't scale. You need Continuous Deployment: automatically building and deploying code that passes all checks. This reduces time to market, eliminates human error, and frees developers to focus on writing code instead of managing deployments.
+Modern software teams deploy multiple times per day. Manual deployment doesn't scale. You need Continuous Deployment:
+automatically building and deploying code that passes all checks. This reduces time to market, eliminates human error,
+and frees developers to focus on writing code instead of managing deployments.
 
-In this lesson, you'll create workflows that automatically build your application and deploy it to different environments (staging and production) with appropriate safeguards.
+In this lesson, you'll create workflows that automatically build your application and deploy it to different
+environments (staging and production) with appropriate safeguards.
 
 ## Concepts Introduction
 
@@ -19,11 +23,13 @@ In this lesson, you'll create workflows that automatically build your applicatio
 
 **Continuous Deployment**: Code automatically deploys to production after passing all automated checks (no manual gate).
 
-Most teams start with Continuous Delivery for production while using Continuous Deployment for staging/development environments.
+Most teams start with Continuous Delivery for production while using Continuous Deployment for staging/development
+environments.
 
 ### Deployment Environments
 
 Typical progression:
+
 1. **Development**: Deploys on every commit, no manual approval
 2. **Staging**: Deploys automatically or on demand, mirrors production
 3. **Production**: Requires approval, deployed from stable branches
@@ -31,6 +37,7 @@ Typical progression:
 ### Build Artifacts
 
 The build process produces artifacts—compiled code, bundled assets, container images—that get deployed. Key principles:
+
 - Build once, deploy many times
 - Store artifacts in a registry (npm, Docker Hub, GitHub Packages, etc.)
 - Version artifacts with semantic versioning or commit SHAs
@@ -43,7 +50,8 @@ The build process produces artifacts—compiled code, bundled assets, container 
 
 **Canary Deployment**: Deploy to small subset of users first, then gradually increase
 
-For this lesson, we'll simulate deployments. Real deployments would use platform-specific tools (AWS, Azure, Vercel, etc.).
+For this lesson, we'll simulate deployments. Real deployments would use platform-specific tools (AWS, Azure, Vercel,
+etc.).
 
 ## Step-by-Step Instructions
 
@@ -56,12 +64,12 @@ name: Build Application
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
 
 jobs:
   build:
@@ -76,7 +84,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -120,7 +128,7 @@ name: Deploy to Staging
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   workflow_dispatch:
 
 jobs:
@@ -138,7 +146,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm ci
@@ -191,7 +199,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to deploy (e.g., v1.2.3 or commit SHA)'
+        description: "Version to deploy (e.g., v1.2.3 or commit SHA)"
         required: true
         type: string
 
@@ -212,8 +220,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -268,7 +276,8 @@ jobs:
           # Post to Slack, send email, etc.
 ```
 
-**Note**: Configure the `production` environment in GitHub Settings → Environments to require manual approval from specific reviewers before deploying.
+**Note**: Configure the `production` environment in GitHub Settings → Environments to require manual approval from
+specific reviewers before deploying.
 
 ### Step 4: Create a Complete CI/CD Pipeline
 
@@ -279,7 +288,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -290,8 +299,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -311,8 +320,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -370,6 +379,7 @@ jobs:
 ```
 
 This pipeline:
+
 1. Runs tests
 2. Builds the application (only if tests pass)
 3. Deploys to staging (only if build succeeds)
@@ -386,14 +396,14 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to rollback'
+        description: "Environment to rollback"
         required: true
         type: choice
         options:
           - staging
           - production
       version:
-        description: 'Version to rollback to'
+        description: "Version to rollback to"
         required: true
         type: string
 
@@ -430,6 +440,7 @@ jobs:
 ### Build Works Locally But Fails in CI
 
 Check for:
+
 - Hardcoded paths that differ between local and CI
 - Missing environment variables
 - Different Node.js versions
@@ -438,6 +449,7 @@ Check for:
 ### Secrets Not Working
 
 Remember:
+
 - Secrets are not available in workflows triggered by forks
 - Secrets are environment-specific if using GitHub Environments
 - Secret names are case-sensitive
@@ -460,9 +472,10 @@ Create a complete CI/CD workflow that:
 5. Creates a GitHub release when deploying to production
 
 <details>
-<summary>Click to see solution outline</summary>
+ <summary>Click to see solution outline</summary>
 
 You'll need:
+
 - One workflow for PR checks (tests only)
 - One workflow for main branch (test → build → deploy staging)
 - One workflow for production (manual trigger with environment protection)
@@ -483,9 +496,11 @@ You'll need:
 
 **Previous Lesson**: [Running Tests Automatically](008-automated-testing.md)
 
-**Next Lesson**: [Matrix Builds and Caching](010-matrix-and-caching.md) - Optimize workflows with parallel execution and caching.
+**Next Lesson**: [Matrix Builds and Caching](010-matrix-and-caching.md) - Optimize workflows with parallel execution and
+caching.
 
 **Additional Resources**:
+
 - [Deploying with GitHub Actions](https://docs.github.com/en/actions/deployment)
 - [Using Environments for Deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
 - [Deployment Best Practices](https://docs.github.com/en/actions/deployment/about-deployments/deploying-with-github-actions)

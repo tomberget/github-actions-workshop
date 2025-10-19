@@ -1,28 +1,36 @@
 # Lesson 5: Secrets and Environment Variables
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Intermediate
+**Estimated Time**: 45 minutes **Difficulty**: Intermediate
 
 ## Problem Statement
 
-Your workflow needs to deploy code to AWS, but that requires authentication credentials. You could hardcode the access key directly in your workflow file... but then anyone with access to your repository (including every contributor in a public repo) would see your credentials. Within minutes, bad actors could use them to rack up thousands of dollars in cloud bills or steal sensitive data.
+Your workflow needs to deploy code to AWS, but that requires authentication credentials. You could hardcode the access
+key directly in your workflow file... but then anyone with access to your repository (including every contributor in a
+public repo) would see your credentials. Within minutes, bad actors could use them to rack up thousands of dollars in
+cloud bills or steal sensitive data.
 
-The same problem applies to API keys, database passwords, and any other sensitive information your workflows need. You need a way to use these secrets without exposing them. Additionally, you need to configure environment-specific settings (like different URLs for staging vs production) without duplicating workflows.
+The same problem applies to API keys, database passwords, and any other sensitive information your workflows need. You
+need a way to use these secrets without exposing them. Additionally, you need to configure environment-specific settings
+(like different URLs for staging vs production) without duplicating workflows.
 
-In this lesson, you'll learn to securely manage secrets and use environment variables to make your workflows flexible and secure.
+In this lesson, you'll learn to securely manage secrets and use environment variables to make your workflows flexible
+and secure.
 
 ## Concepts Introduction
 
 ### What Are Secrets?
 
 Secrets are encrypted environment variables that store sensitive information like:
+
 - API keys and tokens
 - Cloud provider credentials
 - Database passwords
 - SSH keys
 - Webhook URLs with authentication
 
-GitHub encrypts secrets using [libsodium sealed boxes](https://libsodium.gitbook.io/doc/public-key_cryptography/sealed_boxes). Once stored, secrets cannot be viewed again—only used in workflows.
+GitHub encrypts secrets using
+[libsodium sealed boxes](https://libsodium.gitbook.io/doc/public-key_cryptography/sealed_boxes). Once stored, secrets
+cannot be viewed again—only used in workflows.
 
 ### Secret Scopes
 
@@ -37,6 +45,7 @@ Secrets can be defined at three levels:
 ### Environment Variables
 
 Environment variables are non-sensitive configuration values accessible in your workflow. They can be defined:
+
 - At the workflow level (available to all jobs)
 - At the job level (available to all steps in that job)
 - At the step level (available only to that step)
@@ -47,12 +56,14 @@ Unlike secrets, environment variables are visible in workflow files and logs.
 ### When to Use Secrets vs Environment Variables
 
 **Use Secrets for:**
+
 - Passwords and API keys
 - Authentication tokens
 - Private keys
 - Anything that would compromise security if exposed
 
 **Use Environment Variables for:**
+
 - Configuration settings (URLs, file paths)
 - Feature flags
 - Non-sensitive identifiers
@@ -61,6 +72,7 @@ Unlike secrets, environment variables are visible in workflow files and logs.
 ### Default Environment Variables
 
 GitHub provides many built-in environment variables:
+
 - `GITHUB_TOKEN` - Authentication token (automatically available)
 - `GITHUB_REPOSITORY` - Repository name (owner/repo)
 - `GITHUB_SHA` - Commit SHA that triggered the workflow
@@ -91,8 +103,7 @@ Let's add some secrets to your repository:
 
    **Secret 3:**
    - Name: `SLACK_WEBHOOK_URL`
-   - Value: `https://hooks.slack.com/services/YOUR/WEBHOOK/URL`
-   (Use a fake URL for this workshop)
+   - Value: `https://hooks.slack.com/services/YOUR/WEBHOOK/URL` (Use a fake URL for this workshop)
 
 ### Step 2: Create a Workflow Using Secrets
 
@@ -149,7 +160,8 @@ jobs:
           echo "Notification sent!"
 ```
 
-**Important**: Notice how secrets are accessed with `${{ secrets.SECRET_NAME }}`. GitHub automatically masks these values in logs—they'll appear as `***`.
+**Important**: Notice how secrets are accessed with `${{ secrets.SECRET_NAME }}`. GitHub automatically masks these
+values in logs—they'll appear as `***`.
 
 ### Step 3: Define Environment Variables
 
@@ -166,7 +178,7 @@ env:
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -211,7 +223,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       # Environment variables in actual commands
       - name: Install dependencies
@@ -232,15 +244,18 @@ jobs:
 Environments allow you to have different secrets and variables for staging vs production.
 
 First, create environments in GitHub:
+
 1. Go to repository Settings → Environments
 2. Click "New environment"
 3. Create two environments: `staging` and `production`
 
 For the `production` environment:
+
 - Add required reviewers (optional but recommended)
 - Add secret: `DEPLOY_URL` = `https://prod.example.com`
 
 For the `staging` environment:
+
 - Add secret: `DEPLOY_URL` = `https://staging.example.com`
 
 Now create `.github/workflows/deploy-environments.yml`:
@@ -252,7 +267,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to deploy to'
+        description: "Environment to deploy to"
         required: true
         type: choice
         options:
@@ -263,7 +278,7 @@ jobs:
   deploy:
     name: Deploy to ${{ inputs.environment }}
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}  # Use the environment
+    environment: ${{ inputs.environment }} # Use the environment
 
     steps:
       - name: Checkout code
@@ -284,7 +299,8 @@ jobs:
 
 ### Step 5: The GITHUB_TOKEN Secret
 
-GitHub automatically provides a `GITHUB_TOKEN` secret for authenticating with the GitHub API. Create `.github/workflows/github-token-demo.yml`:
+GitHub automatically provides a `GITHUB_TOKEN` secret for authenticating with the GitHub API. Create
+`.github/workflows/github-token-demo.yml`:
 
 ```yaml
 name: GitHub Token Demo
@@ -303,7 +319,7 @@ jobs:
       # Use GITHUB_TOKEN to interact with GitHub API
       - name: Create issue comment
         env:
-          GH_TOKEN: ${{ github.token }}  # or ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }} # or ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "GITHUB_TOKEN is automatically available"
           echo "Can be used to interact with GitHub API"
@@ -318,7 +334,8 @@ jobs:
           gh run list --limit 5 --repo ${{ github.repository }}
 ```
 
-**Note**: `github.token` and `secrets.GITHUB_TOKEN` are equivalent. The token is automatically scoped to your repository and expires after the workflow completes.
+**Note**: `github.token` and `secrets.GITHUB_TOKEN` are equivalent. The token is automatically scoped to your repository
+and expires after the workflow completes.
 
 ### Step 6: Test Your Workflows
 
@@ -334,6 +351,7 @@ git push origin main
 ```
 
 Manually trigger each workflow from the Actions tab and observe:
+
 - Secrets are masked as `***` in logs
 - Environment variables are visible
 - Different environments use different secret values
@@ -343,6 +361,7 @@ Manually trigger each workflow from the Actions tab and observe:
 ### Secret Not Found
 
 If you see "secret not found" errors:
+
 - Check the secret name spelling (case-sensitive)
 - Verify you created the secret in the correct location (repository vs environment)
 - For environment secrets, ensure the job specifies `environment:`
@@ -363,13 +382,15 @@ run: |
 
 ### Secrets in Pull Requests from Forks
 
-**Security Warning**: Secrets are NOT available to workflows triggered by pull requests from forked repositories. This prevents malicious PRs from stealing your secrets.
+**Security Warning**: Secrets are NOT available to workflows triggered by pull requests from forked repositories. This
+prevents malicious PRs from stealing your secrets.
 
 If you need secrets in PR workflows, only use them on PRs from branches in your own repository, not forks.
 
 ### Environment Variable Precedence
 
 When the same variable is defined at multiple levels, the most specific wins:
+
 1. Step-level (highest precedence)
 2. Job-level
 3. Workflow-level
@@ -383,6 +404,7 @@ When the same variable is defined at multiple levels, the most specific wins:
 ### Updating Secrets
 
 To update a secret:
+
 1. Go to Settings → Secrets and variables → Actions
 2. Click on the secret name
 3. Click "Update secret"
@@ -403,7 +425,7 @@ Create a workflow that:
 **Success criteria**: The workflow runs successfully, secrets are masked, and environment variables are visible in logs.
 
 <details>
-<summary>Click to see solution</summary>
+ <summary>Click to see solution</summary>
 
 First, create the secret `DEPLOY_TOKEN` in Settings → Secrets with value `token-12345`.
 
@@ -418,7 +440,7 @@ env:
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -459,6 +481,7 @@ jobs:
       - name: Deploy
         run: echo "Deploying to production..."
 ```
+
 </details>
 
 ## Key Takeaways
@@ -474,9 +497,11 @@ jobs:
 
 **Previous Lesson**: [Working with Actions from Marketplace](004-marketplace-actions.md)
 
-**Next Lesson**: [Debugging Workflows](006-debugging-workflows.md) - Learn to troubleshoot failing workflows effectively.
+**Next Lesson**: [Debugging Workflows](006-debugging-workflows.md) - Learn to troubleshoot failing workflows
+effectively.
 
 **Additional Resources**:
+
 - [Encrypted Secrets Documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 - [Environment Variables](https://docs.github.com/en/actions/learn-github-actions/environment-variables)
 - [Using Environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)

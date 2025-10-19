@@ -1,17 +1,16 @@
 # Lesson 1: Getting Started with GitHub Actions
 
-**Estimated Time**: 30 minutes
-**Difficulty**: Beginner
+**Estimated Time**: 30 minutes **Difficulty**: Beginner
 
 ## Problem Statement
 
-You've just joined a development team, and every time someone pushes code to the repository, another developer has to manually verify that the code runs without errors.
-This is time-consuming, prone to human error, and delays feedback.
+You've just joined a development team, and every time someone pushes code to the repository, another developer has to
+manually verify that the code runs without errors. This is time-consuming, prone to human error, and delays feedback.
 Sometimes bugs slip through because someone forgot to run the checks before merging.
 
-In modern software development, teams push code dozens or even hundreds of times per day.
-Manual verification simply doesn't scale.
-This is where automation becomes essential—not just a nice-to-have, but a fundamental requirement for productive, high-quality software development.
+In modern software development, teams push code dozens or even hundreds of times per day. Manual verification simply
+doesn't scale. This is where automation becomes essential—not just a nice-to-have, but a fundamental requirement for
+productive, high-quality software development.
 
 In this lesson, you'll create your first GitHub Actions workflow that automatically runs every time you push code.
 You'll see firsthand how automation can save time and catch issues immediately.
@@ -20,23 +19,29 @@ You'll see firsthand how automation can save time and catch issues immediately.
 
 ### What are GitHub Actions?
 
-GitHub Actions is a continuous integration and continuous deployment (CI/CD) platform built directly into GitHub.
-It allows you to automate tasks in your software development lifecycle right where your code lives—no need for external services or complex configurations.
+GitHub Actions is a continuous integration and continuous deployment (CI/CD) platform built directly into GitHub. It
+allows you to automate tasks in your software development lifecycle right where your code lives—no need for external
+services or complex configurations.
 
-Think of GitHub Actions as a robot assistant that watches your repository and performs tasks automatically based on events you define.
-When you push code, open a pull request, create an issue, or even on a schedule, GitHub Actions can spring into action.
+Think of GitHub Actions as a robot assistant that watches your repository and performs tasks automatically based on
+events you define. When you push code, open a pull request, create an issue, or even on a schedule, GitHub Actions can
+spring into action.
 
 ### What is CI/CD?
 
-**Continuous Integration (CI)** is the practice of automatically testing and building your code every time changes are made.
-Instead of waiting until the end of the week to discover that your code doesn't work with your teammate's changes, you find out within minutes.
+**Continuous Integration (CI)** is the practice of automatically testing and building your code every time changes are
+made. Instead of waiting until the end of the week to discover that your code doesn't work with your teammate's changes,
+you find out within minutes.
 
-**Continuous Deployment/Delivery (CD)** takes this further by automatically deploying your tested and built code to production or staging environments.
-This means your users get features and fixes faster, with less manual work and fewer mistakes.
+**Continuous Deployment/Delivery (CD)** takes this further by automatically deploying your tested and built code to
+production or staging environments. This means your users get features and fixes faster, with less manual work and fewer
+mistakes.
 
 ### Why GitHub Actions?
 
-Before GitHub Actions, developers often used external CI/CD tools (like Jenkins, Travis CI, or CircleCI) that required separate accounts, configuration, and management. GitHub Actions simplifies this by integrating everything directly into GitHub:
+Before GitHub Actions, developers often used external CI/CD tools (like Jenkins, Travis CI, or CircleCI) that required
+separate accounts, configuration, and management. GitHub Actions simplifies this by integrating everything directly into
+GitHub:
 
 - No separate service to manage or pay for (free tier is generous)
 - Configuration lives in your repository alongside your code
@@ -52,55 +57,50 @@ At its core, GitHub Actions uses **workflows**—automated processes defined in 
 - **Jobs** that run on virtual machines called runners
 - **Steps** that execute commands or use pre-built actions
 
-When an event occurs in your repository, GitHub spins up a fresh virtual machine, runs your workflow, and provides detailed logs of everything that happened.
+When an event occurs in your repository, GitHub spins up a fresh virtual machine, runs your workflow, and provides
+detailed logs of everything that happened.
 
 ## Step-by-Step Instructions
 
-Let's create your first GitHub Actions workflow! We'll make a simple workflow that runs every time you push code and prints a welcome message.
+Let's create your first GitHub Actions workflow! We'll make a simple workflow that runs every time you push code and
+prints a welcome message.
 
 ### Step 1: Understand the Repository Structure
 
 GitHub Actions workflows must be stored in a specific location in your repository:
 
-```
+```text
 your-repository/
 └── .github/
     └── workflows/
         └── your-workflow.yml
 ```
 
-The `.github/workflows/` directory is where all your workflow files live. You can have multiple workflow files, and GitHub will run each one according to its own triggers.
+The `.github/workflows/` directory is where all your workflow files live. You can have multiple workflow files, and
+GitHub will run each one according to its own triggers.
 
 ### Step 2: Create the Workflow Directory
 
-In your terminal, make sure you're in the root of your cloned workshop repository, then create the necessary directories:
-
-```bash
-mkdir -p .github/workflows
-```
-
-The `-p` flag creates parent directories if they don't exist, so this command creates both `.github` and `.github/workflows`.
+> [!IMPORTANT] This directory does not exist by default. You'll need to create it. It _must_ be named exactly
+> `workflows`, and _must_ live inside the `.github` directory in the **root** of the repository for GitHub to recognize
+> it.
 
 ### Step 3: Create Your First Workflow File
 
-Create a new file called `hello-world.yml` in the `.github/workflows/` directory. You can use your favorite text editor or run:
-
-```bash
-touch .github/workflows/hello-world.yml
-```
+Create a new file called `hello-world.yml` in the `.github/workflows/` directory.
 
 ### Step 4: Write the Workflow
 
 Open `.github/workflows/hello-world.yml` and copy the following content:
 
 ```yaml
-name: Hello World Workflow
+name: Hello World Workflow # Human-readable name for the workflow
 
-on: [push]
+on: [push] # Trigger the workflow on every push to any branch
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Which type of machine to run the job on
 
     steps:
       - name: Print greeting
@@ -119,11 +119,13 @@ Let's break down what each part means:
 
 - `name: Hello World Workflow` - This is the human-readable name that appears in the GitHub Actions UI
 - `on: [push]` - This defines the trigger. The workflow runs on every push to any branch
-- `jobs:` - A workflow can have multiple jobs. We have one called `say-hello`
-- `runs-on: ubuntu-latest` - Specifies the type of runner (virtual machine) to use. GitHub provides Ubuntu, Windows, and macOS runners
-- `steps:` - The list of tasks to execute in this job
+- `jobs:` - A workflow can have multiple jobs. We have one called `say-hello`. Each job will run in parallel unless
+  specified otherwise
+- `runs-on: ubuntu-latest` - Specifies the type of runner (virtual machine) to use. GitHub provides Ubuntu, Windows, and
+  macOS runners
+- `steps:` - The list of tasks to execute in this job. Each step will run sequentially
 - `name:` (in steps) - Descriptive name for each step
-- `run:` - The command to execute. The `|` symbol allows multi-line commands
+- `run:` - The command to execute. The `|` symbol allows multi-line strings
 
 ### Step 5: Commit and Push Your Workflow
 
@@ -135,7 +137,7 @@ git commit -m "Add hello world workflow"
 git push origin main
 ```
 
-**Note**: If you're working on a different branch, replace `main` with your branch name.
+> [!NOTE] If you're working on a different branch, replace `main` with your branch name.
 
 ### Step 6: View Your Workflow Run
 
@@ -146,7 +148,8 @@ This is where the magic happens! Navigate to your repository on GitHub in your w
 3. Click on the most recent workflow run (it should be running or completed)
 4. Click on the `say-hello` job to see the details
 
-**Expected Output**: You should see each step executed with green checkmarks, and the output from your echo and date commands.
+**Expected Output**: You should see each step executed with green checkmarks, and the output from your echo and date
+commands.
 
 ### Step 7: Verify the Output
 
@@ -163,8 +166,8 @@ Let's verify that the workflow triggers on every push. Modify the workflow to ad
 Open `.github/workflows/hello-world.yml` and add this step at the end of the steps list:
 
 ```yaml
-      - name: Show working directory
-        run: pwd
+- name: Show working directory
+  run: pwd
 ```
 
 Then commit and push:
@@ -182,21 +185,25 @@ Go back to the Actions tab and watch a new workflow run start automatically!
 ### Workflow Doesn't Appear
 
 If you don't see your workflow in the Actions tab:
+
 - **Check the file location**: Must be in `.github/workflows/`
-- **Check YAML syntax**: One misplaced space can break YAML. Use a YAML validator like [yamllint.com](http://www.yamllint.com/)
+- **Check YAML syntax**: One misplaced space can break YAML. Use a YAML validator like
+  [yamllint.com](http://www.yamllint.com/), or install a YAML extension in your code editor (for VSCode, we recommend
+  `me-dutour-mathieu.vscode-github-actions`)
 - **Verify the file extension**: Must be `.yml` or `.yaml`
 - **Ensure you pushed**: Run `git push` to upload your changes
 
 ### Workflow Fails
 
 If your workflow shows a red X:
+
 - Click on the failed workflow run to see error details
 - Expand the failing step to see the exact error message
 - Common issues include typos in commands or incorrect YAML indentation
 
 ### YAML Indentation
 
-YAML is sensitive to indentation (like Python). Use spaces, not tabs, and be consistent:
+YAML is sensitive to indentation (like Python). Therefore, it's important to stay consistent:
 
 ```yaml
 # Correct
@@ -226,9 +233,11 @@ jobs:
 
 ---
 
-**Next Lesson**: [Understanding Workflow Anatomy](002-workflow-anatomy.md) - Dive deeper into the structure and components of workflows.
+**Next Lesson**: [Understanding Workflow Anatomy](002-workflow-anatomy.md) - Dive deeper into the structure and
+components of workflows.
 
 **Additional Resources**:
+
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Workflow Syntax Reference](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [YAML Tutorial](https://learnxinyminutes.com/docs/yaml/)
