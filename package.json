@@ -17,5 +17,9 @@
     "tutorial"
   ],
   "author": "Vegard Valvik and Sindre Bøyum",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
 }

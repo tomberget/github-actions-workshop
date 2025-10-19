@@ -1,3 +1,5 @@
+🧨 Remove this line!!! I'm making everything crash! 🧨
+
 /**
  * Simple build script for the workshop
  * Simulates a build process

@@ -33,3 +33,7 @@ You can also use [GitHub.dev](https://github.dev) to edit files directly in your
 
 This opens a lightweight version of VSCode in your browser.
 Apart from some quality-of-life features missing (like terminal access), it works similarly to VSCode on your computer.
+
+## 3. Let's Start the Workshop!
+
+Open [the first lesson](./001-getting-started.md) and begin your journey!
