@@ -4,7 +4,9 @@
   "description": "A hands-on workshop for learning GitHub Actions through practical exercises",
   "scripts": {
     "test": "node --test src/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage src/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage src/*.test.js && node scripts/coverage-report.js",
+    "test:quick": "node --test src/*.test.js",
+    "coverage:report": "node scripts/coverage-report.js",
     "lint": "echo 'Linting code...' && exit 0",
     "build": "node src/build.js",
     "serve": "node src/serve.js",
