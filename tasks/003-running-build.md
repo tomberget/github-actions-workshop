@@ -59,4 +59,4 @@ You can do this by navigating to the "Pull requests" tab in your repository and 
 
 4. Observe the workflow run in the "Actions" tab of your repository or in the "Checks" tab of your pull request.
 
-5. You should see that the build step fails due to an error in the code. However, you might also notice that you are still able to merge the pull request despite the failed build. That can't be good? 😅 We'll fix that in the next task! Let's move on to [Task 3: Branch Rulesets](../004-branch-rulesets.md) to set up branch protection rules that will prevent merging if the build fails.
+5. You should see that the build step fails due to an error in the code. However, you might also notice that you are still able to merge the pull request despite the failed build. That can't be good? 😅 We'll fix that in the next task! Let's move on to [Task 3: Branch Rulesets](./004-branch-rulesets.md) to set up branch protection rules that will prevent merging if the build fails.
