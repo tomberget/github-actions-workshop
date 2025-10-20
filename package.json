@@ -4,8 +4,8 @@
   "description": "A hands-on workshop for learning GitHub Actions through practical exercises",
   "scripts": {
     "test": "node --test src/*.test.js",
-    "test:full-report": "npm run test -- --experimental-test-coverage",
-    "test:short-report": "npm run test:full-report | sed -e '1,/start of coverage report/d' -e '/end of coverage report/d'",
+    "test:full-report": "c8 node src/*.test.js",
+    "test:short-report": "c8 node src/*.test.js 2>&1 | sed -n '/^--------------/,$p'",
     "compare-coverage-reports": "node scripts/compare-coverage-reports.js",
     "build": "node scripts/build.js"
   },

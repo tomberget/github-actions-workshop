@@ -120,6 +120,9 @@ Now let's make the workflow a bit fancier.
 We want to compare the test coverage in the current branch with the test coverage in the `main` branch.
 This way, we can see if the coverage has increased or decreased.
 
+> [!IMPORTANT]
+> To compare coverage reports, we must use `npm run test:full-report` instead of `npm run test:short-report`!
+
 To do this, in our workflow, we need to:
 
 1. In one job, checkout the `main` branch and run the tests to get the coverage report for `main`.
@@ -138,4 +141,3 @@ To compare the coverage reports, we can run `npm run compare-coverage-reports pa
 >   with:
 >     ref: main
 > ```
-

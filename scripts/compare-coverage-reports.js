@@ -35,29 +35,36 @@ function parseTestReport(reportContent) {
     coverage: {},
   };
 
+  // Function to strip ANSI color codes
+  const stripAnsi = (str) => str.replace(/\u001b\[\d+m/g, '');
+
   lines.forEach((line) => {
-    // Parse test statistics
-    const testStatMatch = line.match(/^\s*ℹ\s+(tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)\s+(\d+(?:\.\d+)?)/);
+    const cleanLine = stripAnsi(line);
+
+    // Parse test statistics (with ANSI color codes removed)
+    const testStatMatch = cleanLine.match(/^\s*ℹ\s+(tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)\s+(\d+(?:\.\d+)?)/);
     if (testStatMatch) {
       const key = testStatMatch[1];
       const value = key === 'duration_ms' ? parseFloat(testStatMatch[2]) : parseInt(testStatMatch[2], 10);
       report.testStats[key] = value;
     }
 
-    // Parse coverage data
-    const coverageMatch = line.match(
-      /^\s*ℹ\s+([\w/.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|/
-    );
+    // Parse c8 coverage table format
+    // Format: "File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s"
+    // Example: " mathUtils.js |   95.29 |     93.1 |     100 |   95.29 | 12-13,16-17"
+    const coverageMatch = cleanLine.match(/^\s*([a-zA-Z0-9_./]+\.js)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|/);
     if (coverageMatch) {
       const filePath = coverageMatch[1].trim();
-      const lineCoverage = parseFloat(coverageMatch[2]);
+      const stmtsCoverage = parseFloat(coverageMatch[2]);
       const branchCoverage = parseFloat(coverageMatch[3]);
       const funcCoverage = parseFloat(coverageMatch[4]);
+      const lineCoverage = parseFloat(coverageMatch[5]);
 
       report.coverage[filePath] = {
         line: lineCoverage,
         branch: branchCoverage,
         funcs: funcCoverage,
+        stmts: stmtsCoverage,
       };
     }
   });
@@ -77,17 +84,18 @@ function compareTestReports(report1Content, report2Content) {
   const coverageComparison = [];
 
   allFiles.forEach((file) => {
-    const cov1 = report1.coverage[file] || { line: 0, branch: 0, funcs: 0 };
-    const cov2 = report2.coverage[file] || { line: 0, branch: 0, funcs: 0 };
+    const cov1 = report1.coverage[file] || { line: 0, branch: 0, funcs: 0, stmts: 0 };
+    const cov2 = report2.coverage[file] || { line: 0, branch: 0, funcs: 0, stmts: 0 };
 
     coverageComparison.push({
       file,
       report1: cov1,
       report2: cov2,
       difference: {
-        line: cov2.line - cov1.line,
+        stmts: cov2.stmts - cov1.stmts,
         branch: cov2.branch - cov1.branch,
         funcs: cov2.funcs - cov1.funcs,
+        line: cov2.line - cov1.line,
       },
     });
   });
@@ -144,13 +152,13 @@ function printComparison(comparison) {
   // Print coverage comparison
   console.log("\n📈 COVERAGE COMPARISON:\n");
   console.log(
-    `${"File".padEnd(25)} | ${"Metric".padEnd(10)} | ${"Report 1".padEnd(10)} | ${"Report 2".padEnd(10)} | ${"Diff".padEnd(10)}`
+    `${"File".padEnd(25)} | ${"Metric".padEnd(12)} | ${"Report 1".padEnd(10)} | ${"Report 2".padEnd(10)} | ${"Diff".padEnd(10)}`
   );
   console.log("-".repeat(80));
 
   comparison.coverageComparison.forEach(({ file, report1, report2, difference }) => {
-    const metrics = ['line', 'branch', 'funcs'];
-    const metricLabels = { line: 'Line', branch: 'Branch', funcs: 'Functions' };
+    const metrics = ['stmts', 'branch', 'funcs', 'line'];
+    const metricLabels = { stmts: 'Statements', branch: 'Branch', funcs: 'Functions', line: 'Lines' };
 
     metrics.forEach((metric, index) => {
       const fileDisplay = index === 0 ? file : "";
@@ -161,7 +169,7 @@ function printComparison(comparison) {
       const diffDisplay = diff === 0 ? "=" : diffStr;
 
       console.log(
-        `${fileDisplay.padEnd(25)} | ${metricLabels[metric].padEnd(10)} | ${val1.padEnd(10)} | ${val2.padEnd(10)} | ${diffDisplay.padEnd(10)}`
+        `${fileDisplay.padEnd(25)} | ${metricLabels[metric].padEnd(12)} | ${val1.padEnd(10)} | ${val2.padEnd(10)} | ${diffDisplay.padEnd(10)}`
       );
     });
 
