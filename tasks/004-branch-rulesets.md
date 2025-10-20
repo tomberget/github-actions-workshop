@@ -12,14 +12,14 @@ In real life projects, branch protection rules are commonly used to enforce best
 ## Step-by-Step Instructions
 
 1. You can find the branch protection rulesets under the "Settings" tab of your repository. You can use this link to go directly there, replacing `YOUR-USERNAME` with your GitHub username:
-- https://github.com/YOUR-USERNAME/github-actions-workshop/settings/rules/new?target=branch&enforcement=disabled
+- https://github.com/YOUR-USERNAME/github-actions-workshop/settings/rules/new?target=branch
 
 2. You'll notice there are several options available to configure branch protection rules. For this lesson, we'll focus on a few key settings:
 - **Enforcement status**: Set this to "Enabled" to enforce the rules on the selected branch.
 - **Target branches**: Here we select the branch we want to protect. In this case, `default` (which is usually `main`).
 - **Require a pull request before merging**: This ensures that all changes to the branch go through a pull request, allowing for code review and discussion (and workflows triggered on pull requests!)
 - **Require status checks to pass before merging**: This setting ensures that all required checks (like your build workflow) must pass before a pull request can be merged.
-  - Here you will notice our previous, failed `build` workflow. Select it as a required check.
+  - Here you will notice our previous, failed, `build` workflow. Select it as a required check.
 
 3. Once you've configured the settings, click the "Create" button at the bottom of the page to save your branch protection ruleset.
 
