@@ -24,6 +24,6 @@ In real life projects, branch protection rules are commonly used to enforce best
 3. Once you've configured the settings, click the "Create" button at the bottom of the page to save your branch protection ruleset.
 
 4. Now, let's take a look at our previously created pull request that tried to build the project.
-- You should see that the pull request is now blocked from being merged because the required status check! 🙅
+- You should see that the pull request is now blocked from being merged because of the required status check! 🙅
 
-5. To fix the build, we need to update the `build.js` file to resolve the error.
+5. To fix the build, we need to update the `build.js` file to resolve the error. Can you find and fix the issue in the code? 🔎
