@@ -1,4 +1,4 @@
-# Lesson 3: Steps vs Jobs
+# Lesson 5: Steps vs Jobs
 
 By now, we've seen a few workflows with jobs and steps.
 But what exactly is the difference between a job and a step?

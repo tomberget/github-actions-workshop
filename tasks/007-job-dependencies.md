@@ -1,4 +1,4 @@
-# Lesson 4: Job Dependencies
+# Lesson 7: Job Dependencies
 
 Each job in a GitHub Actions workflow runs independently by default.
 However, in many cases, you want to have jobs that depend on other jobs.
@@ -127,9 +127,10 @@ To do this, in our workflow, we need to:
 
 1. In one job, checkout the `main` branch and run the tests to get the coverage report for `main`.
 2. In another job, checkout the current branch and run the tests to get the coverage report for the current branch.
-3. Compare the coverage report from `main` with the coverage report from the current branch.
-4. Post a comment with the comparison.
-5. Update the comment if it already exists.
+3. Wait for the two jobs to complete before running the comment job.
+4. Compare the coverage report from `main` with the coverage report from the current branch.
+5. Post a comment with the comparison.
+6. Update the comment if it already exists.
 
 To compare the coverage reports, we can run `npm run compare-coverage-reports path/to/report1.txt path/to/report2.txt`, which is already set up in this project.
 
@@ -141,3 +142,106 @@ To compare the coverage reports, we can run `npm run compare-coverage-reports pa
 >   with:
 >     ref: main
 > ```
+
+Are you able to figure this one out yourself?
+
+<details>
+  <summary>Possible solution</summary>
+
+  ```yaml
+  name: Comment test coverage comparison
+  on: 
+    - pull_request
+
+  jobs:
+    test-main:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check out the main branch
+          uses: actions/checkout@v5
+          with:
+            ref: main
+
+        - name: Install dependencies
+          run: npm install
+
+        - name: Run tests with full coverage on main
+          run: |
+            npm run test:full-report > coverage-main.txt 2>&1
+
+        - name: Upload main coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: coverage-main
+
+    test-current:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check out the current branch
+          uses: actions/checkout@v5
+
+        - name: Install dependencies
+          run: npm install
+
+        - name: Run tests with full coverage on current branch
+          run: |
+            npm run test:full-report > coverage-current.txt 2>&1
+
+        - name: Upload current coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: coverage-current
+
+    comment:
+      needs:
+        - test-main
+        - test-current
+      runs-on: ubuntu-latest
+      steps:
+        - name: Download main coverage report
+          uses: actions/download-artifact@v4
+          with:
+            name: coverage-main
+
+        - name: Download current coverage report
+          uses: actions/download-artifact@v4
+          with:
+            name: coverage-current
+
+        - name: Compare coverage reports
+          id: compare
+          run: |
+            npm run compare-coverage-reports coverage-main/coverage-main.txt coverage-current/coverage-current.txt > coverage-comparison.txt 2>&1
+            echo "COMPARISON<<EOF" >> $GITHUB_OUTPUT
+            cat coverage-comparison.txt >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
+        - name: Find existing coverage comparison comment
+          id: find-comment
+          uses: peter-evans/find-comment@v4
+          with:
+            issue-number: ${{ github.event.pull_request.number }}
+            body-includes: '<!-- coverage-comparison -->'
+
+        - name: Post or update coverage comparison comment
+          uses: peter-evans/create-or-update-comment@v5
+          with:
+            comment-id: ${{ steps.find-comment.outputs.comment-id }}
+            issue-number: ${{ github.event.pull_request.number }}
+            body: |
+              ## Test Coverage Comparison
+              
+              ```
+              ${{ steps.compare.outputs.COMPARISON }}
+              ```
+
+              <!-- coverage-comparison -->
+  ```
+
+</details>
+
+Now you have a workflow that compares test coverage between the `main` branch and the current branch, posting the results as a comment on the pull request!
+
+In the next lesson, we'll explore how we use matrix builds to test our code on multiple operating systems and Node.js versions.
+
+[Next Lesson: Lesson 7 - Matrix Builds](008-matrix-builds.md)
