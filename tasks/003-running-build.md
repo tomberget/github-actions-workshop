@@ -17,7 +17,7 @@ Let's make a simple workflow that uses `npm run build` to run our project.
 > [!TIP]
 > In this task, as well as in some of the following tasks, you will see a `uses: actions/checkout@v5` action.
 > What this does is simply to checkout a repository (by default it will checkout the repo we are working in).
-> The runners (we will get back to the various types of runners later!) will have various tools pre-installed, like `Git`, `Bash`, `Python` etc., but it will not know the context of the repo we are working in.
+> The runners (we will get back to the various types of runners later!) will have various tools pre-installed, like `Git`, `Bash`, `Python` etc., but it will not know the context of the repo we are working in 🤖
 # TODO: fjerne om forskjellige type runners?
 
 It's worth noting that you can find all sorts of pre-made actions in the [GitHub Marketplace](https://github.com/marketplace?type=actions).
@@ -55,7 +55,8 @@ jobs:
 ```
 
 3. Commit and push your changes to a new branch, then open a pull request to `main` to trigger the workflow.
+You can do this by navigating to the "Pull requests" tab in your repository and clicking the "New pull request" button.
 
 4. Observe the workflow run in the "Actions" tab of your repository or in the "Checks" tab of your pull request.
 
-5. You should see that the build step fails due to an error in the code. However, you might also notice that you are still able to merge the pull request despite the failed build. That can't be good? 😅 We'll fix that in the next task! Let's move on to [task 3](../003/README.md) to run our tests.
+5. You should see that the build step fails due to an error in the code. However, you might also notice that you are still able to merge the pull request despite the failed build. That can't be good? 😅 We'll fix that in the next task! Let's move on to [Task 3: Branch Rulesets](../004-branch-rulesets.md) to set up branch protection rules that will prevent merging if the build fails.
