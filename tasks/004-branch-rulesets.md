@@ -26,4 +26,10 @@ In real life projects, branch protection rules are commonly used to enforce best
 4. Now, let's take a look at our previously created pull request that tried to build the project.
 - You should see that the pull request is now blocked from being merged because of the required status check! 🙅
 
-5. To fix the build, we need to update the `build.js` file to resolve the error. Can you find and fix the issue in the code? 🔎
+5. To fix the build, we need to update the `scripts/build.js` file to resolve the error. Can you spot anything out of place in the file? 🕵
+
+6. Once you have fixed the error, commit the changes to your branch and push them to GitHub.
+
+7. Now, go back to the pull request page. You should see that the build workflow has run again and passed successfully! ✅
+
+Let's merge our pull request, and move on to the next task where we will explore steps vs. jobs: [005-steps-vs-jobs.md](./005-steps-vs-jobs.md)
