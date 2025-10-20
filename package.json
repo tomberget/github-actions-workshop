@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "A hands-on workshop for learning GitHub Actions through practical exercises",
   "scripts": {
-    "test": "node --test --experimental-test-coverage src/*.test.js && node scripts/coverage-report.js",
-    "build": "node src/build.js"
+    "test": "node --test src/*.test.js",
+    "test:full-report": "npm run test -- --experimental-test-coverage",
+    "test:short-report": "npm run test:full-report | sed -e '1,/start of coverage report/d' -e '/end of coverage report/d'",
+    "compare-coverage-reports": "node scripts/compare-coverage-reports.js",
+    "build": "node scripts/build.js"
   },
   "keywords": [
     "github-actions",
