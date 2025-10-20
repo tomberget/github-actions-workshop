@@ -1,17 +1,23 @@
-/**
- * Simple static HTML build script
- */
+
+
+
+🧨 I'm a bug!!! Please remove me!!! 🧨
+
+
+
+
+
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
-import { gfmHeadingId } from "marked-gfm-heading-id";
 import markedAlert from "marked-alert";
+import { gfmHeadingId } from "marked-gfm-heading-id";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const projectRoot = path.join(__dirname, '..');
+const projectRoot = path.join(__dirname, "..");
 
 const srcDir = path.join(projectRoot, "public");
 const distDir = path.join(projectRoot, "dist");
