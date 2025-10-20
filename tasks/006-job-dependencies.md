@@ -106,7 +106,6 @@ This workflow will run the `test` job first.
 Then it will upload the test coverage report as an artifact.
 If the tests pass, it will then run the `comment` job to post a comment on the pull request with the test coverage information.
 
-
 ## Task 1: Make the Comment Job More Robust
 
 The above would work fine!
