@@ -8,7 +8,7 @@ Within this project, there is a `build.js` file that simulates a typical build p
 Running build steps like this is common in workflows in real projects.
 
 Just a heads up before you run your workflow - I think there might be an error in the code 🧨
-Let's run the workflow to see what the output looks like before we start debugging.
+Let's create and run the workflow to see what the output looks like before we start debugging.
 
 ## Step-by-Step Instructions
 
@@ -19,18 +19,49 @@ Let's make a simple workflow that uses `npm run build` to run our project.
 > What this does is simply to checkout a repository (by default it will checkout the repo we are working in).
 > The runners (we will get back to the various types of runners later!) will have various tools pre-installed, like `Git`, `Bash`, `Python` etc., but it will not know the context of the repo we are working in.
 
+It's worth noting that you can find all sorts of pre-made actions in the [GitHub Marketplace](https://github.com/marketplace?type=actions).
+
+## 3.1 Creating a workflow that tries to build the project
+1: In a **new** workflow file (e.g. `.github/workflows/build.yml`), create a workflow that runs on `pull_request` events.
+
+```yaml
+name: Build on PR
+on:
+  # This workflow will only run for pull requests targeting the main branch
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      # Remember we have to check out the repository first!
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # This step installs the dependencies
+      - name: Install dependencies
+        run: npm ci
+```
+
+2: Add a **step** that runs the build command:
+
+```yaml
+      - name: Build
+        run: npm run build
+```
+
+4: Commit and push your changes to a new branch, then open a pull request to `main` to trigger the workflow.
+
+5: Observe the workflow run in the "Actions" tab of your repository or in the "Checks" tab of your pull request.
+
+6: You should see that the build step fails due to an error in the code. However, you might also notice that you are still able to merge the pull request despite the failed build. That can't be good? 😅
 
 
 
-
-
-
-
-
-
-
-
-################################ vvv old 
+################################ vvv old
 
 # 2 Creating the first workflow that actually does something
 
