@@ -6,6 +6,8 @@
     "test": "node --test src/*.test.js",
     "test:full-report": "c8 node src/*.test.js",
     "test:short-report": "c8 node src/*.test.js 2>&1 | sed -n '/^--------------/,$p'",
+    "test:browser": "node --test src/browser.test.js",
+    "browser:example": "node src/browser.example.js",
     "compare-coverage-reports": "node scripts/compare-coverage-reports.js",
     "build": "node scripts/build.js"
   },
@@ -22,6 +24,7 @@
     "github-markdown-css": "^5.8.1",
     "marked": "^16.4.1",
     "marked-alert": "^2.1.2",
-    "marked-gfm-heading-id": "^4.1.2"
+    "marked-gfm-heading-id": "^4.1.2",
+    "puppeteer": "^24.26.0"
   }
 }
