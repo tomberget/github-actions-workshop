@@ -6,10 +6,8 @@
     "test": "node --test src/*.test.js",
     "test:full-report": "c8 node src/*.test.js",
     "test:short-report": "c8 node src/*.test.js 2>&1 | sed -n '/^--------------/,$p'",
-    "test:browser": "node --test src/browser.test.js",
-    "browser:example": "node src/browser.example.js",
-    "compare-coverage-reports": "node scripts/compare-coverage-reports.js",
-    "build": "node scripts/build.js"
+    "compare-coverage-reports": "node src/scripts/compare-coverage-reports.js",
+    "build": "node src/scripts/build.js"
   },
   "keywords": [
     "github-actions",
