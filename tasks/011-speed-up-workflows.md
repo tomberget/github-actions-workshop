@@ -1,4 +1,4 @@
-# Lesson 10: Speeding Up Workflows
+# Lesson 11: Speeding Up Workflows
 
 ## The Story: The 15-Minute Wait
 

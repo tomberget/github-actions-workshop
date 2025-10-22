@@ -1,4 +1,4 @@
-# Lesson 8: Matrices
+# Lesson 10: Matrices
 
 ## The Story: The Copy-Paste Nightmare
 

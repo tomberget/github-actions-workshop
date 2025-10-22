@@ -1,4 +1,4 @@
-# Lesson 7: Job Dependencies
+# Lesson 8: Job Dependencies
 
 Each job in a GitHub Actions workflow runs independently by default. However, in
 many cases, you want to have jobs that depend on other jobs. For example, you
