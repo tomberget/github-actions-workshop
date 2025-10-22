@@ -59,7 +59,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm" # =� Cache npm dependencies
+          cache: "npm" # -> Cache npm dependencies
 
       - run: npm install # Uses cache if available
       - run: npm test
@@ -102,9 +102,9 @@ When you push multiple commits to a PR, old workflow runs become irrelevant. Can
 ### The Problem
 
 ```yaml
-# User pushes commit A � Workflow starts (8 min)
-# User pushes commit B � Another workflow starts (8 min)
-# User pushes commit C � Another workflow starts (8 min)
+# User pushes commit A -> Workflow starts (8 min)
+# User pushes commit B -> Another workflow starts (8 min)
+# User pushes commit C -> Another workflow starts (8 min)
 # Total: 24 minutes of compute time, but only the last run matters!
 ```
 
@@ -294,7 +294,7 @@ Prevent runaway jobs from consuming resources:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 # =� Kill job if it runs too long
+    timeout-minutes: 10 # Kill job if it runs too long
     steps:
       - uses: actions/checkout@v5
       - run: npm test
@@ -425,7 +425,7 @@ Parallel workflow with caching:
 Total: ~2.5 minutes per run
 ```
 
-**Result: 64% faster!** (7 min � 2.5 min)
+**Result: 64% faster!** (7 min -> 2.5 min)
 
 Plus:
 
@@ -550,7 +550,7 @@ jobs:
 
 \*For documentation-only changes
 
-**Total improvement: 55% faster** (5:30 � 2:30) for code changes, and documentation changes complete in seconds instead of minutes!
+**Total improvement: 55% faster** (5:30 -> 2:30) for code changes, and documentation changes complete in seconds instead of minutes!
 
 </details>
 
