@@ -3,6 +3,7 @@
 ## The Story: Passing the Baton
 
 Alex is building a CI/CD pipeline. The build job generates important information:
+
 - A version number for the release
 - The git commit SHA
 - Whether the build passed security checks
@@ -68,7 +69,7 @@ Give your step an `id` and write to `$GITHUB_OUTPUT`:
 ```yaml
 steps:
   - name: Generate version
-    id: version  # Important: give the step an ID
+    id: version # Important: give the step an ID
     run: |
       VERSION="1.2.3"
       echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -127,6 +128,7 @@ steps:
 ```
 
 Notice the difference:
+
 - **Same job**: `steps.{step-id}.outputs.{output-name}`
 - **Different job**: `needs.{job-id}.outputs.{output-name}`
 

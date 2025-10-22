@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: npm install
-      - run: npm run build  # Build again?!
+      - run: npm run build # Build again?!
       - run: npm test
 
   deploy:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: npm install
-      - run: npm run build  # Build AGAIN?!?!
+      - run: npm run build # Build AGAIN?!?!
       - run: ./deploy.sh
 ```
 
@@ -74,7 +74,7 @@ Use the `actions/upload-artifact` action to save files:
   with:
     name: build-output
     path: dist/
-    retention-days: 7  # Optional: how long to keep (default: 90 days)
+    retention-days: 7 # Optional: how long to keep (default: 90 days)
 ```
 
 ### Upload Options
@@ -118,7 +118,7 @@ Use the `actions/download-artifact` action to retrieve files in another job:
   uses: actions/download-artifact@v4
   with:
     name: build-output
-    path: dist/  # Optional: where to extract
+    path: dist/ # Optional: where to extract
 ```
 
 If you don't specify a path, artifacts are extracted to the current directory.
@@ -182,7 +182,7 @@ jobs:
 
       # Upload test coverage as an artifact
       - name: Upload coverage report
-        if: always()  # Upload even if tests fail
+        if: always() # Upload even if tests fail
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report

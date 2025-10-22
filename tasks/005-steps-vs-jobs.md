@@ -22,7 +22,7 @@ Here's a quick example to illustrate the difference:
 ```yaml
 jobs:
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
