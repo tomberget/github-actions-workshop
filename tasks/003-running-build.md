@@ -12,17 +12,21 @@ workflow to see what the output looks like before we start debugging.
 
 ## Step-by-Step Instructions
 
-Let's make a simple workflow that uses `npm run build` to run our project.
+Let's make a simple workflow that runs `npm run build` to build our project.
 
-> [!TIP] In this task, as well as in some of the following tasks, you will see a `uses: actions/checkout@v5` action.
+> [!TIP]
+> In this task, as well as in some of the following tasks, you will see a `uses: actions/checkout@v5` action.
 > What this does is simply to checkout a repository (by default it will checkout the repo we are working in). The
 > runners (we will get back to the various types of runners later!) will have various tools pre-installed, like `Git`,
 > `Bash`, `Python` etc., but it will not know the context of the repo we are working in 🤖
 
-<!-- TODO: fjerne om forskjellige type runners? -->
-
 It's worth noting that you can find all sorts of pre-made actions in the
 [GitHub Marketplace](https://github.com/marketplace?type=actions).
+
+> [!INFO]
+> In these lessons, we will be running Node commands like `npm install` and `npm run build`. If you're not
+> familiar with Node.js and npm, don't worry! The focus here is on learning GitHub Actions. You can think of these
+> commands as placeholders for whatever build commands are relevant to your own projects.
 
 ## 3.1 Creating a workflow that tries to build the project
 
