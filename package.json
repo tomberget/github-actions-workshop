@@ -27,5 +27,8 @@
     "marked-gfm-heading-id": "^4.1.2",
     "puppeteer": "^24.26.0",
     "react": "18.0.0"
+  },
+  "devDependencies": {
+    "c8": "^10.1.3"
   }
 }
