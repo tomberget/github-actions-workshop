@@ -16,8 +16,6 @@ can't it deploy it too?"
 
 She's about to discover the power of automated deployments!
 
-**Enter GitHub Pages deployment!** 🚀
-
 ## What is GitHub Pages?
 
 GitHub Pages is a free static site hosting service that lets you publish
