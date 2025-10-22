@@ -36,7 +36,9 @@ jobs:
       - run: ./deploy.sh
 ```
 
-Sarah watches in horror as her workflow runs. The build takes 5 minutes. The workflow rebuilds the project THREE TIMES, wasting 15 minutes total and tripling her GitHub Actions usage!
+Sarah watches in horror as her workflow runs. The build takes 5 minutes. The
+workflow rebuilds the project THREE TIMES, wasting 15 minutes total and tripling
+her GitHub Actions usage!
 
 "There must be a way to share the built files between jobs!" she realizes.
 
@@ -45,14 +47,17 @@ Sarah watches in horror as her workflow runs. The build takes 5 minutes. The wor
 ## What Are Artifacts?
 
 > [!TIP]
-> An artifact is a file or set of files that are produced by a workflow and can be used by other jobs or downloaded later.
+> An artifact is a file or set of files that are produced by a workflow
+> and can be used by other jobs or downloaded later.
 
 Artifacts allow you to:
 
 - **Share files between jobs** - Build once, use in multiple jobs
-- **Persist files after a workflow completes** - Download logs, test results, or build outputs
+- **Persist files after a workflow completes** - Download logs, test results, or
+  build outputs
 - **Avoid rebuilding** - Save time and money by building once
-- **Store test results** - Keep screenshots, coverage reports, or logs for debugging
+- **Store test results** - Keep screenshots, coverage reports, or logs for
+  debugging
 
 Common use cases include:
 
@@ -62,7 +67,8 @@ Common use cases include:
 - Creating downloadable releases or debug bundles
 
 > [!NOTE]
-> Each job runs in a fresh virtual environment. Without artifacts, files created in one job don't exist in other jobs!
+> Each job runs in a fresh virtual environment. Without artifacts, files
+> created in one job don't exist in other jobs!
 
 ## Uploading Artifacts
 
@@ -143,7 +149,8 @@ Artifacts are automatically deleted after their retention period:
 - **Storage limits**: Public repos have storage limits on paid plans
 
 > [!TIP]
-> Use shorter retention periods for temporary files like test logs. Use longer periods for releases or important build artifacts.
+> Use shorter retention periods for temporary files like test logs. Use
+> longer periods for releases or important build artifacts.
 
 ## Sarah's Improved Workflow
 
@@ -263,7 +270,8 @@ jobs:
 
 ## Task: Create a Workflow with Artifacts
 
-Your task is to create a workflow that builds the project and shares the build output between jobs.
+Your task is to create a workflow that builds the project and shares the build
+output between jobs.
 
 **Requirements:**
 
@@ -273,6 +281,7 @@ Your task is to create a workflow that builds the project and shares the build o
 3. Create three jobs:
 
    **Job 1: Build**
+
    - Checkout the code
    - Install dependencies with `npm install`
    - Run the build with `npm run build`
@@ -280,16 +289,19 @@ Your task is to create a workflow that builds the project and shares the build o
    - Set artifact retention to 5 days
 
    **Job 2: Test**
+
    - Depend on the `build` job
    - Checkout the code (needed for package.json and test files)
    - Install dependencies
    - Download the `build-files` artifact
    - Run tests with `npm test`
-   - Upload the coverage report from `coverage/` as an artifact named `coverage-report`
+   - Upload the coverage report from `coverage/` as an artifact named
+     `coverage-report`
    - Use `if: always()` so coverage is uploaded even if tests fail
    - Set coverage retention to 30 days
 
    **Job 3: Report**
+
    - Depend on both `build` and `test` jobs
    - Download the `build-files` artifact
    - Download the `coverage-report` artifact
@@ -414,8 +426,10 @@ This workflow demonstrates:
 
 - **Artifact uploads**: Build outputs and coverage reports are saved
 - **Artifact downloads**: Multiple jobs reuse the same build artifacts
-- **Retention policies**: Different retention periods for different artifact types
-- **Conditional uploads**: Coverage is uploaded even if tests fail using `if: always()`
+- **Retention policies**: Different retention periods for different artifact
+  types
+- **Conditional uploads**: Coverage is uploaded even if tests fail using
+  `if: always()`
 - **Job dependencies**: Jobs wait for their dependencies using `needs`
 - **Efficiency**: The project is built only once, saving time and resources!
 
