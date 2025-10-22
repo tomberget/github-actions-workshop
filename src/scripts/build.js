@@ -14,7 +14,7 @@ import { gfmHeadingId } from "marked-gfm-heading-id";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const projectRoot = path.join(__dirname, "..");
+const projectRoot = path.join(__dirname, "..", "..");
 
 const srcDir = path.join(projectRoot, "public");
 const distDir = path.join(projectRoot, "dist");
@@ -128,7 +128,7 @@ async function processMarkdownFiles() {
 
   // Sleep 10 seconds to simulate slow builds
   await new Promise((resolve) => setTimeout(resolve, 10_000));
-  
+
   const files = fs
     .readdirSync(tasksDir)
     .filter((file) => file.endsWith(".md"))
@@ -291,7 +291,7 @@ function copyGitHubMarkdownCSS() {
 /**
  * Build the project
  */
-function build() {
+async function build() {
   console.log("Building project...");
 
   // Clean dist directory
@@ -312,7 +312,7 @@ function build() {
   copyGitHubMarkdownCSS();
 
   // Process markdown files from tasks directory
-  const tasksList = processMarkdownFiles();
+  const tasksList = await processMarkdownFiles();
 
   // Generate tasks index page
   if (tasksList.length > 0) {
@@ -325,4 +325,4 @@ function build() {
 }
 
 // Run the build
-build();
+await build();

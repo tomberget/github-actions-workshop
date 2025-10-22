@@ -43,7 +43,7 @@ function parseTestReport(reportContent) {
 
     // Parse test statistics (with ANSI color codes removed)
     const testStatMatch = cleanLine.match(
-      /^\s*ℹ\s+(tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)\s+(\d+(?:\.\d+)?)/,
+      /^\s*ℹ\s+(tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)\s+(\d+(?:\.\d+)?)/
     );
     if (testStatMatch) {
       const key = testStatMatch[1];
@@ -58,7 +58,7 @@ function parseTestReport(reportContent) {
     // Format: "File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s"
     // Example: " mathUtils.js |   95.29 |     93.1 |     100 |   95.29 | 12-13,16-17"
     const coverageMatch = cleanLine.match(
-      /^\s*([a-zA-Z0-9_./]+\.js)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|/,
+      /^\s*([a-zA-Z0-9_./]+\.js)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|\s+([\d.]+)\s+\|/
     );
     if (coverageMatch) {
       const filePath = coverageMatch[1].trim();
@@ -149,7 +149,9 @@ function printComparison(comparison) {
   };
 
   console.log(
-    `${"Metric".padEnd(20)} | ${"Report 1".padEnd(12)} | ${"Report 2".padEnd(12)} | ${"Difference".padEnd(12)}`,
+    `${"Metric".padEnd(20)} | ${"Report 1".padEnd(12)} | ${"Report 2".padEnd(
+      12
+    )} | ${"Difference".padEnd(12)}`
   );
   console.log("-".repeat(65));
 
@@ -164,14 +166,18 @@ function printComparison(comparison) {
     const val2Str = key === "duration_ms" ? val2.toFixed(2) : val2.toString();
 
     console.log(
-      `${statLabels[key].padEnd(20)} | ${val1Str.padEnd(12)} | ${val2Str.padEnd(12)} | ${diffDisplay.padEnd(12)}`,
+      `${statLabels[key].padEnd(20)} | ${val1Str.padEnd(12)} | ${val2Str.padEnd(
+        12
+      )} | ${diffDisplay.padEnd(12)}`
     );
   });
 
   // Print coverage comparison
   console.log("\n📈 COVERAGE COMPARISON:\n");
   console.log(
-    `${"File".padEnd(25)} | ${"Metric".padEnd(12)} | ${"Report 1".padEnd(10)} | ${"Report 2".padEnd(10)} | ${"Diff".padEnd(10)}`,
+    `${"File".padEnd(25)} | ${"Metric".padEnd(12)} | ${"Report 1".padEnd(
+      10
+    )} | ${"Report 2".padEnd(10)} | ${"Diff".padEnd(10)}`
   );
   console.log("-".repeat(80));
 
@@ -194,12 +200,16 @@ function printComparison(comparison) {
         const diffDisplay = diff === 0 ? "=" : diffStr;
 
         console.log(
-          `${fileDisplay.padEnd(25)} | ${metricLabels[metric].padEnd(12)} | ${val1.padEnd(10)} | ${val2.padEnd(10)} | ${diffDisplay.padEnd(10)}`,
+          `${fileDisplay.padEnd(25)} | ${metricLabels[metric].padEnd(
+            12
+          )} | ${val1.padEnd(10)} | ${val2.padEnd(10)} | ${diffDisplay.padEnd(
+            10
+          )}`
         );
       });
 
       console.log("-".repeat(80));
-    },
+    }
   );
 
   console.log("\n✅ Comparison complete!\n");
@@ -208,7 +218,7 @@ function printComparison(comparison) {
 const args = process.argv.slice(2);
 if (args.length !== 2) {
   console.error(
-    "Usage: node scripts/compare-coverage-reports.js <report1.txt> <report2.txt>",
+    "Usage: node scripts/compare-coverage-reports.js <report1.txt> <report2.txt>"
   );
   process.exit(1);
 }
