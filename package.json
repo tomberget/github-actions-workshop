@@ -25,6 +25,7 @@
     "marked": "^16.4.1",
     "marked-alert": "^2.1.2",
     "marked-gfm-heading-id": "^4.1.2",
-    "puppeteer": "^24.26.0"
+    "puppeteer": "^24.26.0",
+    "react": "18.0.0"
   }
 }
