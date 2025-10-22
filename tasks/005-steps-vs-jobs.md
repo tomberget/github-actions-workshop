@@ -66,3 +66,5 @@ In summary, use jobs to group related steps that can run in parallel, and use st
 Using the workflow from [Task 2: Running a Build](./002-running-build.md) as a starting point, create a new workflow that has two jobs: one for building the project and another for running tests.
 
 Hint: `npm run build` builds the project, and `npm test` runs the tests.
+
+[Next Lesson: Lesson 6 - Job Outputs](006-outputs.md)

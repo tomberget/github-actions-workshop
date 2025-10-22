@@ -244,4 +244,4 @@ Now you have a workflow that compares test coverage between the `main` branch an
 
 In the next lesson, we'll explore how we use matrix builds to test our code on multiple operating systems and Node.js versions.
 
-[Next Lesson: Lesson 7 - Matrix Builds](008-matrix-builds.md)
+[Next Lesson: Lesson 9 - Matrices](009-matrices.md)

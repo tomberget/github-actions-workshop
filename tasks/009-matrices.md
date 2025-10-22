@@ -214,4 +214,4 @@ They save time, reduce errors, and make your workflows much easier to maintain.
 
 In the next lesson, we'll explore strategies to speed up your workflows even further!
 
-[Next Lesson: Lesson 9 - Speed Up Workflows](009-speed-up-workflows.md)
+[Next Lesson: Lesson 10 - Speed Up Workflows](010-speed-up-workflows.md)
