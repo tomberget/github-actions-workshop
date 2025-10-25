@@ -100,14 +100,44 @@ updates:
 
 ### Step 3: Commit and Push the Configuration
 
+First, let's create a new branch for this change and commit our Dependabot configuration:
+
 ```bash
-git checkout -b "add-dependabot-config"
+# Create and switch to a new branch
+git checkout -b add-dependabot-config
+
+# Add the configuration file
 git add .github/dependabot.yml
+
+# Commit the changes
 git commit -m "Add Dependabot configuration for npm dependencies"
-git push
+
+# Push the branch to GitHub
+git push -u origin add-dependabot-config
 ```
 
-### Step 4: Enable Dependabot Security Updates
+After pushing, create a pull request:
+
+1. Go to your repository on GitHub
+2. You should see a banner suggesting to "Compare & pull request" for your new branch
+3. Click "Create pull request"
+4. Add a title like "Add Dependabot configuration" 
+5. Click "Create pull request"
+
+### Step 4: Merge the Configuration PR
+
+Once you've created the pull request:
+
+1. Review the changes in the PR
+2. Click "Merge pull request"
+3. Delete the branch when prompted
+4. Switch back to main branch locally:
+   ```bash
+   git checkout main
+   git pull
+   ```
+
+### Step 5: Enable Dependabot Security Updates
 
 1. Go to your repository on GitHub
 2. Click on the "Settings" tab
@@ -116,7 +146,7 @@ git push
    - **Dependabot alerts**: Get notified about vulnerabilities (Free for all repos)
    - **Dependabot security updates**: Automatic PRs for security issues (Free for all repos)
 
-### Step 5: Wait for Dependabot to Detect Issues
+### Step 6: Wait for Dependabot to Detect Issues
 
 After pushing the Dependabot configuration, GitHub will automatically scan your dependencies. Since our project uses `marked@14.2.1` (which has known vulnerabilities), you should see:
 
@@ -131,7 +161,7 @@ After pushing the Dependabot configuration, GitHub will automatically scan your 
 > 3. Look for the `marked` vulnerability alert
 > 4. Click "Create Dependabot security update" if available
 
-### Step 6: Monitor the Security Tab
+### Step 7: Monitor the Security Tab
 
 Navigate to your repository's "Security" tab to see:
 - **Dependabot alerts**: Shows the `marked` vulnerability details
@@ -145,7 +175,7 @@ When Dependabot creates a pull request, it will:
 - **Display compatibility score**: Based on how many other projects successfully use this version
 - **Security information**: If the update fixes security vulnerabilities
 
-### Step 7: Review the Dependabot Pull Request
+### Step 8: Review the Dependabot Pull Request
 
 When Dependabot creates the security update PR (usually within 30 minutes), you'll see:
 
@@ -165,7 +195,7 @@ When Dependabot creates the security update PR (usually within 30 minutes), you'
 > - Test results from your CI workflows
 > - Any deprecation warnings in the update
 
-### Step 8: Merge the Security Update
+### Step 9: Merge the Security Update
 
 When the Dependabot PR is ready:
 
@@ -198,31 +228,6 @@ When the Dependabot PR is ready:
 > [!SUCCESS]
 > **Congratulations!** You've just used Dependabot to automatically detect and fix a real security vulnerability. This same process will continue to protect your project from future vulnerabilities.
 
-## Advanced Configuration Options
-
-Here are some additional Dependabot configuration options you might find useful:
-
-```yaml
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Ignore specific packages
-    ignore:
-      - dependency-name: "express"
-        versions: ["5.x"]
-    # Custom commit messages
-    commit-message:
-      prefix: "npm"
-      include: "scope"
-    # Rebase strategy
-    rebase-strategy: "auto"
-    # Target specific branches
-    target-branch: "develop"
-```
-
 ## Benefits of Using Dependabot
 
 By setting up Dependabot, you've gained several important benefits:
@@ -237,7 +242,6 @@ By setting up Dependabot, you've gained several important benefits:
 
 In this lesson, you learned how to set up Dependabot to automatically manage your project's dependencies. You now have:
 
-- A Dependabot configuration that checks for updates weekly
 - Automatic pull requests for security vulnerabilities
 - Integration with your existing GitHub Actions workflows
 - A systematic approach to keeping dependencies current
