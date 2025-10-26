@@ -39,7 +39,7 @@ practices and prevent accidental changes to critical branches 💥
    build the project.
    - You should see that the pull request is now blocked from being merged
      because of the required status check! 🙅
-5. To fix the build, we need to update the `scripts/build.js` file to resolve
+5. To fix the build, we need to update the `src/scripts/build.js` file to resolve
    the error. Can you spot anything out of place in the top of the file? 🕵
 6. Once you have fixed the error, commit the changes to your branch and push
    them to GitHub.
