@@ -360,7 +360,7 @@ jobs:
           name: build-files
           path: dist/
 
-      - name: Run tests
+      - name: Run tests and generate coverage report
         run: npm run test:full-report
 
       - name: Upload coverage report
