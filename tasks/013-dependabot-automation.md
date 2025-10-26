@@ -215,3 +215,5 @@ Good luck! This challenge will test everything you've learned about GitHub Actio
 ## Next Steps
 
 Once you complete this challenge, you'll have built a production-ready automation that you can use in your own projects. Consider sharing your solution with the team or open-source community!
+
+For further on more advanced topics, check out [Lesson 14: Advanced Topics](./014-advanced-topics.md).
