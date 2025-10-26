@@ -71,7 +71,7 @@ steps to define individual tasks within those jobs.
 > As with the previous task, we recommend checking out `main` and creating a new
 > branch for this task to keep your work organized!
 
-Using the workflow from [Task 2: Running a Build](./002-running-build.md) as a
+Using the workflow from [Task 3: Running a Build](./003-running-build.md) as a
 starting point, create a new workflow that has two jobs: one for building the
 project and another for running tests.
 
