@@ -30,7 +30,9 @@ practices and prevent accidental changes to critical branches 💥
      all required checks (like your build workflow) must pass before a pull
      request can be merged.
    - Here you will notice our previous, failed, `build` workflow. Select it as a
-     required check.
+     required check. (If the "Add checks" dropdown is empty, you can try searching
+     for "build" to find it, it should with the name "Build Project" unless you renamed
+     it to something else.)
 3. Once you've configured the settings, click the "Create" button at the bottom
    of the page to save your branch protection ruleset.
 4. Now, let's take a look at our previously created pull request that tried to
