@@ -2,15 +2,13 @@
 
 ## The Story: Passing the Baton
 
-Alex is building a CI/CD pipeline. The build job generates important
-information:
+Alex is building a CI/CD pipeline. The build job generates important information:
 
 - A version number for the release
 - The git commit SHA
 - Whether the build passed security checks
 
-The deployment job needs all this information. Alex's first attempt is...
-creative:
+The deployment job needs all this information. Alex's first attempt is... creative:
 
 ```yaml
 jobs:
@@ -39,8 +37,7 @@ jobs:
         run: cat version.txt
 ```
 
-"This works," Alex thinks, "but I'm creating artifacts just to pass a single
-string? That seems excessive."
+"This works," Alex thinks, "but I'm creating artifacts just to pass a single string? That seems excessive."
 
 Sounds like a job for **job outputs**!
 
@@ -55,9 +52,8 @@ Job outputs allow you to pass string data between jobs. They're perfect for:
 - Even formatted text like test results or logs
 
 > [!TIP]
-> Use outputs for small pieces of data (strings, numbers, booleans). For
-> large data or files, use artifacts instead (we'll cover those in the next
-> lesson)!
+> Use outputs for small pieces of data (strings, numbers, booleans). For large data or files, use artifacts
+> instead (we'll cover those in the next lesson)!
 
 ## Setting Outputs
 
@@ -80,8 +76,7 @@ steps:
       echo "version=$VERSION" >> $GITHUB_OUTPUT
 ```
 
-The format is `name=value`. Think of it like setting an environment variable
-that persists across jobs.
+The format is `name=value`. Think of it like setting an environment variable that persists across jobs.
 
 ### Step 2: Expose the Output at Job Level
 
@@ -117,8 +112,8 @@ deploy:
 ```
 
 > [!NOTE]
-> The `needs` keyword serves two purposes: it creates a dependency
-> (deploy waits for build) AND gives you access to the build job's outputs.
+> The `needs` keyword serves two purposes: it creates a dependency (deploy waits for build) AND gives you access
+> to the build job's outputs.
 
 ## Using Outputs Within the Same Job
 
@@ -173,8 +168,7 @@ jobs:
 
 ## Multiline Outputs
 
-What if you need to pass multiple lines, like test results or a formatted
-report? Use a heredoc with a delimiter:
+What if you need to pass multiple lines, like test results or a formatted report? Use a heredoc with a delimiter:
 
 ```yaml
 - name: Generate test report
@@ -210,9 +204,8 @@ Then use it in another job:
 ```
 
 > [!TIP]
-> The delimiter (EOF in this case) can be any string. Just make sure it
-> doesn't appear in your output! Common choices are EOF, DELIMITER, or
-> END_OF_OUTPUT.
+> The delimiter (EOF in this case) can be any string. Just make sure it doesn't appear in your output! Common
+> choices are EOF, DELIMITER, or END_OF_OUTPUT.
 
 ## Alex's Improved Workflow
 
@@ -268,8 +261,7 @@ No artifacts needed for simple data - just clean, efficient outputs!
 
 ## Task: Create a Workflow with Outputs
 
-Your task is to create a workflow that generates build information and passes it
-between jobs.
+Your task is to create a workflow that generates build information and passes it between jobs.
 
 **Requirements:**
 
@@ -279,23 +271,19 @@ between jobs.
 3. Create three jobs:
 
    **Job 1: Info**
-
    - Checkout the code
-   - Get the current git commit SHA (short version:
-     `git rev-parse --short HEAD`)
+   - Get the current git commit SHA (short version: `git rev-parse --short HEAD`)
    - Get the current branch name (use: `git rev-parse --abbrev-ref HEAD`)
    - Get the commit message (use: `git log -1 --pretty=%B`)
    - Set all three values as job outputs
 
    **Job 2: Build**
-
    - Depend on the `info` job
    - Install dependencies with `npm install`
    - Run the build with `npm run build`
    - Print a message: "Building commit [SHA] on branch [BRANCH]"
 
    **Job 3: Summary**
-
    - Depend on both `info` and `build` jobs
    - Print a formatted summary showing:
      - The commit SHA
@@ -400,8 +388,7 @@ This workflow demonstrates:
 
 - **Multiple outputs**: The info job exposes three different outputs
 - **Cross-job access**: Both build and summary jobs use outputs from info
-- **Multiline outputs**: The build report uses heredoc syntax to capture
-  multiple lines
+- **Multiline outputs**: The build report uses heredoc syntax to capture multiple lines
 - **Job dependencies**: Jobs wait for their dependencies using `needs`
 
 </details>
@@ -416,7 +403,6 @@ Job outputs are a powerful way to pass data between jobs:
 - Use heredoc syntax for multiline outputs
 - Outputs are perfect for strings, numbers, and small pieces of data
 
-In the next lesson, we'll learn about artifacts for sharing actual files between
-jobs!
+In the next lesson, we'll learn about artifacts for sharing actual files between jobs!
 
 [Next Lesson: Lesson 7 - Artifacts](007-artifacts.md)

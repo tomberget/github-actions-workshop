@@ -7,7 +7,8 @@
     "test:full-report": "c8 node src/*.test.js",
     "test:short-report": "c8 node src/*.test.js 2>&1 | sed -n '/^--------------/,$p'",
     "compare-coverage-reports": "node src/scripts/compare-coverage-reports.js",
-    "build": "node src/scripts/build.js"
+    "build": "node src/scripts/build.js",
+    "format": "npx prettier --write ."
   },
   "keywords": [
     "github-actions",

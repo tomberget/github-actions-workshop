@@ -3,6 +3,7 @@
 ## Congratulations! 🎉
 
 You've completed the core GitHub Actions workshop! You now know how to:
+
 - Create workflows that build, test, and deploy code
 - Use artifacts and outputs to share data between jobs
 - Set up branch protection and automated dependency management
@@ -17,6 +18,7 @@ Here are advanced topics to explore as you continue your GitHub Actions journey:
 ## 🏠 **Local Development**
 
 ### **Act - Run GitHub Actions Locally**
+
 Test workflows on your machine without pushing to GitHub.
 
 - **Documentation**: [nektos/act](https://github.com/nektos/act)
@@ -30,17 +32,24 @@ Test workflows on your machine without pushing to GitHub.
 ## 🔧 **Advanced Workflow Patterns**
 
 ### **Reusable Workflows**
+
 Share common workflows across repositories.
+
 - **Docs**: [Reusing workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 - **Use case**: Organization-wide CI/CD templates
 
 ### **Composite Actions**
+
 Create custom actions combining multiple steps.
-- **Docs**: [Creating a composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action)
+
+- **Docs**:
+  [Creating a composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action)
 - **Use case**: Package common setup steps (Node.js + dependencies + caching)
 
 ### **Dynamic Matrix Generation**
+
 Build matrices from API calls or file changes.
+
 - **Example**: Generate test matrix from changed files
 - **Docs**: [Using a matrix for your jobs](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs)
 
@@ -49,32 +58,49 @@ Build matrices from API calls or file changes.
 ## 🛡️ **Security & Enterprise**
 
 ### **OpenID Connect (OIDC)**
+
 Keyless authentication to cloud providers.
-- **AWS**: [Configuring OpenID Connect in Amazon Web Services](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
-- **Azure**: [Use GitHub Actions to connect to Azure](https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure)
-- **GCP**: [Enabling keyless authentication from GitHub Actions](https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions)
+
+- **AWS**:
+  [Configuring OpenID Connect in Amazon Web Services](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
+- **Azure**:
+  [Use GitHub Actions to connect to Azure](https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure)
+- **GCP**:
+  [Enabling keyless authentication from GitHub Actions](https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions)
 
 ### **Self-Hosted Runners**
+
 Run workflows on your own infrastructure.
-- **Docs**: [About self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners)
+
+- **Docs**:
+  [About self-hosted runners](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners)
 - **Use cases**: Private networks, special hardware, cost optimization
 
 ### **Environment Protection Rules**
+
 Manual approvals and deployment gates.
-- **Docs**: [Using environments for deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+
+- **Docs**:
+  [Using environments for deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
 
 ---
 
 ## 🚀 **Custom Actions Development**
 
 ### **JavaScript Actions**
+
 Build actions with Node.js.
-- **Tutorial**: [Creating a JavaScript action](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action)
+
+- **Tutorial**:
+  [Creating a JavaScript action](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action)
 - **Toolkit**: [@actions/toolkit](https://github.com/actions/toolkit)
 
 ### **Docker Actions**
+
 Containerized custom actions.
-- **Tutorial**: [Creating a Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)
+
+- **Tutorial**:
+  [Creating a Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)
 - **Use case**: Actions requiring specific runtime environments
 
 ---
@@ -82,16 +108,19 @@ Containerized custom actions.
 ## 📚 **Learning Resources**
 
 ### **Official Documentation**
+
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
 - [GitHub Actions Toolkit](https://github.com/actions/toolkit)
 
 ### **Community Resources**
+
 - [Awesome Actions](https://github.com/sdras/awesome-actions) - Curated list of actions
 - [GitHub Actions Community Forum](https://github.community/c/code-to-cloud/github-actions/41)
 - [GitHub Blog - Actions Category](https://github.blog/category/product-releases/github-actions/)
 
 ### **Advanced Tutorials**
+
 - [GitHub Actions by Example](https://www.actionsbyexample.com/)
 - [GitHub Actions Best Practices](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 
@@ -100,11 +129,14 @@ Containerized custom actions.
 ## 🛠️ **Tools & Integrations**
 
 ### **Development Tools**
-- **VS Code Extension**: [GitHub Actions](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions)
+
+- **VS Code Extension**:
+  [GitHub Actions](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions)
 - **CLI**: [GitHub CLI](https://cli.github.com/) for managing workflows
 - **Linting**: [actionlint](https://github.com/rhymond/actionlint) for workflow validation
 
 ### **Monitoring & Observability**
+
 - **Workflow Insights**: Built-in analytics in repository settings
 - **Third-party monitoring**: Datadog, New Relic integrations
 - **Custom notifications**: Slack, Teams, Discord webhooks
@@ -128,4 +160,5 @@ Containerized custom actions.
 
 **Happy automating!** 🤖✨
 
-Remember: The best way to learn GitHub Actions is to build real workflows for real projects. Start small, iterate, and gradually add complexity as you become more comfortable with the platform.
+Remember: The best way to learn GitHub Actions is to build real workflows for real projects. Start small, iterate, and
+gradually add complexity as you become more comfortable with the platform.

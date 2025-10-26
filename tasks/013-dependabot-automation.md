@@ -2,16 +2,22 @@
 
 ## The Story: The Overwhelmed Maintainer
 
-Alex is the lead maintainer of a popular open-source library with over 50 dependencies. After setting up Dependabot, they're thrilled to see security vulnerabilities getting fixed automatically. However, there's a new problem: they're getting 3-5 Dependabot PRs every week for minor and patch updates to development dependencies.
+Alex is the lead maintainer of a popular open-source library with over 50 dependencies. After setting up Dependabot,
+they're thrilled to see security vulnerabilities getting fixed automatically. However, there's a new problem: they're
+getting 3-5 Dependabot PRs every week for minor and patch updates to development dependencies.
 
-Each PR requires manual review, waiting for CI to pass, and clicking merge. What should be a 2-minute task often stretches to 10-15 minutes when Alex gets distracted or forgets to check back after CI completes.
+Each PR requires manual review, waiting for CI to pass, and clicking merge. What should be a 2-minute task often
+stretches to 10-15 minutes when Alex gets distracted or forgets to check back after CI completes.
 
-"I love that Dependabot keeps us updated," Alex thinks, "but I'm spending too much time managing dependency PRs. There has to be a way to safely auto-merge the low-risk updates."
+"I love that Dependabot keeps us updated," Alex thinks, "but I'm spending too much time managing dependency PRs. There
+has to be a way to safely auto-merge the low-risk updates."
 
 Alex wants to automatically merge Dependabot PRs that meet these criteria:
+
 - Only patch and minor version updates (no major versions)
-- Only for development dependencies (not production dependencies)  
-- Only if the new package version has been available for at least 24 hours (giving time for the community to report issues with the new version)
+- Only for development dependencies (not production dependencies)
+- Only if the new package version has been available for at least 24 hours (giving time for the community to report
+  issues with the new version)
 - Only if all CI checks pass
 
 **The Challenge: Build a custom GitHub Actions workflow to automate this!**
@@ -33,16 +39,19 @@ This is a **challenge task** that combines multiple GitHub Actions concepts you'
 Your workflow must:
 
 ✅ **Trigger Conditions**:
+
 - Run only on Dependabot PRs
 - Target patch and minor version updates only
 - Apply only to `devDependencies` (not regular dependencies)
 
 ✅ **Safety Checks**:
+
 - Ensure the new package version has been available for at least 24 hours
 - Ensure all CI checks are passing
 - Verify the PR is still mergeable
 
 ✅ **Smart Behavior**:
+
 - Add a comment explaining why it's auto-merging
 - Use appropriate GitHub API permissions
 - Handle edge cases gracefully
@@ -67,7 +76,7 @@ jobs:
   auto-merge:
     # TODO: Define job conditions and permissions
     runs-on: ubuntu-latest
-    
+
     steps:
       # TODO: Add steps to:
       # 1. Check if this is a Dependabot PR
@@ -100,7 +109,7 @@ jobs:
   - Pull request details: `/repos/{owner}/{repo}/pulls/{pull_number}`
   - Check runs: `/repos/{owner}/{repo}/commits/{ref}/check-runs`
   - Merge PR: `PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`
-- **NPM Registry API**: 
+- **NPM Registry API**:
   - Package info: `https://registry.npmjs.org/{package-name}`
   - Version publish dates: Check the `time` field for specific versions
 - Merge PR: `PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`
@@ -109,7 +118,7 @@ jobs:
 
 ```text
 1. Is PR author 'dependabot[bot]'? → If no, exit
-2. Parse PR title for version change → Extract old/new versions  
+2. Parse PR title for version change → Extract old/new versions
 3. Is it patch/minor update? → If major, exit
 4. Check package.json changes → Is it devDependencies only?
 5. Check package version age → Query NPM registry for publish date
@@ -123,8 +132,8 @@ jobs:
 
 ```javascript
 // In your GitHub Actions workflow using actions/github-script
-const packageName = 'example-package';
-const newVersion = '1.2.3';
+const packageName = "example-package";
+const newVersion = "1.2.3";
 
 // Query NPM registry
 const response = await fetch(`https://registry.npmjs.org/${packageName}`);
@@ -146,19 +155,25 @@ if (hoursOld >= 24) {
 Once you have the basic workflow working, try these advanced features:
 
 ### 🌟 **Bonus 1: Configurable Settings**
+
 Make the workflow configurable via repository variables:
+
 - Minimum age before auto-merge (default: 24 hours)
 - Which dependency types to include (dev, peer, optional)
 - Maximum version jump allowed (patch vs minor)
 
 ### 🌟 **Bonus 2: Slack Notifications**
+
 Send a Slack message when PRs are auto-merged with:
+
 - Package name and version change
 - Link to the merged PR
 - Summary of checks that passed
 
 ### 🌟 **Bonus 3: Safety Override**
+
 Add a mechanism to prevent auto-merge:
+
 - Check for a `no-auto-merge` label
 - Skip auto-merge if PR has comments from humans
 - Skip if PR has merge conflicts
@@ -166,19 +181,22 @@ Add a mechanism to prevent auto-merge:
 ## Testing Your Solution
 
 ### Test Case 1: Should Auto-Merge
+
 1. Wait for Dependabot to create a devDependency patch/minor update PR
 2. Ensure the new package version is 24+ hours old (check NPM registry)
 3. Ensure CI passes
 4. Verify your workflow auto-merges it
 
 ### Test Case 2: Should NOT Auto-Merge
+
 - Major version updates
-- Production dependency updates  
+- Production dependency updates
 - Package versions less than 24 hours old
 - PRs with failing CI
 
 > [!TIP]
-> **Testing Package Age**: You can test with older packages by temporarily downgrading a devDependency to a much older version, then letting Dependabot update it to a version that's definitely 24+ hours old.
+> **Testing Package Age**: You can test with older packages by temporarily downgrading a devDependency to a much
+> older version, then letting Dependabot update it to a version that's definitely 24+ hours old.
 
 ## Solution Validation
 
@@ -204,16 +222,19 @@ By completing this challenge, you'll master:
 ## Getting Stuck?
 
 Remember:
+
 - Start small and build incrementally
 - Use `echo` commands to debug your logic
 - Test with simple conditions before adding complexity
 - The GitHub Actions marketplace has helpful actions for common tasks
 - Check the GitHub API documentation for available endpoints
 
-Good luck! This challenge will test everything you've learned about GitHub Actions while solving a real problem that many development teams face.
+Good luck! This challenge will test everything you've learned about GitHub Actions while solving a real problem that
+many development teams face.
 
 ## Next Steps
 
-Once you complete this challenge, you'll have built a production-ready automation that you can use in your own projects. Consider sharing your solution with the team or open-source community!
+Once you complete this challenge, you'll have built a production-ready automation that you can use in your own projects.
+Consider sharing your solution with the team or open-source community!
 
 For further on more advanced topics, check out [Lesson 14: Advanced Topics](./014-advanced-topics.md).

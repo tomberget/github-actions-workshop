@@ -2,24 +2,21 @@
 
 ## The Story: From Build to World
 
-Elena has been working through the GitHub Actions workshop. She's built the
-project, run tests, and created artifacts. But her project is still just sitting
-in her repository. "How do I actually share this with the world?" she wonders.
+Elena has been working through the GitHub Actions workshop. She's built the project, run tests, and created artifacts.
+But her project is still just sitting in her repository. "How do I actually share this with the world?" she wonders.
 
-She wants to deploy the workshop website to a real URL where anyone can access
-it. She's heard of GitHub Pages - a free hosting service for static websites.
-Perfect!
+She wants to deploy the workshop website to a real URL where anyone can access it. She's heard of GitHub Pages - a free
+hosting service for static websites. Perfect!
 
-But when she tries to manually upload files to GitHub Pages, she realizes
-there's a better way. "If GitHub Actions can build my site automatically, why
-can't it deploy it too?"
+But when she tries to manually upload files to GitHub Pages, she realizes there's a better way. "If GitHub Actions can
+build my site automatically, why can't it deploy it too?"
 
 She's about to discover the power of automated deployments!
 
 ## What is GitHub Pages?
 
-GitHub Pages is a free static site hosting service that lets you publish
-websites directly from a GitHub repository. It's perfect for:
+GitHub Pages is a free static site hosting service that lets you publish websites directly from a GitHub repository.
+It's perfect for:
 
 - Documentation sites
 - Project portfolios
@@ -30,19 +27,18 @@ websites directly from a GitHub repository. It's perfect for:
 Your site will be available at: `https://<username>.github.io/<repository-name>`
 
 > [!NOTE]
-> GitHub Pages only hosts **static** sites (HTML, CSS, JavaScript). It
-> doesn't run server-side code like Node.js, Python, or databases.
+> GitHub Pages only hosts **static** sites (HTML, CSS, JavaScript). It doesn't run server-side code like
+> Node.js, Python, or databases.
 
 ## Introduction to Workflow Permissions
 
-Before we deploy, we need to understand **permissions**. This is the first time
-we're encountering them, so let's break it down.
+Before we deploy, we need to understand **permissions**. This is the first time we're encountering them, so let's break
+it down.
 
 ### What Are Permissions?
 
-Permissions control what actions a workflow can perform in your repository and
-with GitHub services. By default, workflows have limited access for security
-reasons.
+Permissions control what actions a workflow can perform in your repository and with GitHub services. By default,
+workflows have limited access for security reasons.
 
 Think of permissions like keys to different rooms:
 
@@ -59,8 +55,7 @@ Imagine if any workflow could do anything without restrictions:
 - Compromised actions could steal secrets or modify code
 - Unauthorized deployments could happen
 
-Permissions follow the **principle of least privilege**: only grant the minimum
-permissions needed for the job.
+Permissions follow the **principle of least privilege**: only grant the minimum permissions needed for the job.
 
 ### Setting Permissions in Workflows
 
@@ -93,13 +88,12 @@ jobs:
 ```
 
 > [!TIP]
-> Always set permissions at the most specific level needed. Job-level
-> permissions are more secure than workflow-level permissions.
+> Always set permissions at the most specific level needed. Job-level permissions are more secure than
+> workflow-level permissions.
 
 ## Configuring GitHub Pages
 
-Before creating a deployment workflow, you need to configure GitHub Pages in
-your repository.
+Before creating a deployment workflow, you need to configure GitHub Pages in your repository.
 
 ### Step 1: Enable GitHub Pages
 
@@ -108,15 +102,13 @@ your repository.
 3. Click **Pages** in the left sidebar
 4. Under "Build and deployment":
    - **Source**: Select "GitHub Actions"
-   - (The old method used "Deploy from a branch", but GitHub Actions is now the
-     recommended approach)
+   - (The old method used "Deploy from a branch", but GitHub Actions is now the recommended approach)
 
-That's it! Your repository is now ready to accept deployments from GitHub
-Actions.
+That's it! Your repository is now ready to accept deployments from GitHub Actions.
 
 > [!NOTE]
-> You might see a message about branch protection. This is normal -
-> GitHub Actions deployments work differently than branch deployments.
+> You might see a message about branch protection. This is normal - GitHub Actions deployments work differently
+> than branch deployments.
 
 ### Step 2: Understanding the Deployment Process
 
@@ -126,8 +118,7 @@ When deploying to GitHub Pages with GitHub Actions:
 2. **Upload**: The build output is uploaded as a special "pages" artifact
 3. **Deploy**: GitHub Pages takes the artifact and publishes it
 
-This is different from regular artifacts - GitHub Pages artifacts have special
-handling.
+This is different from regular artifacts - GitHub Pages artifacts have special handling.
 
 ## The Deployment Workflow
 
@@ -138,8 +129,7 @@ Let's create a workflow that deploys this workshop to GitHub Pages!
 GitHub provides three official actions for Pages deployment:
 
 1. **`actions/configure-pages@v5`** - Sets up GitHub Pages configuration
-2. **`actions/upload-pages-artifact@v3`** - Uploads your build as a Pages
-   artifact
+2. **`actions/upload-pages-artifact@v3`** - Uploads your build as a Pages artifact
 3. **`actions/deploy-pages@v4`** - Deploys the artifact to GitHub Pages
 
 ### Required Permissions
@@ -155,9 +145,8 @@ permissions:
 
 **Why `id-token: write`?**
 
-This permission allows GitHub to verify that the deployment request genuinely
-came from your workflow. It's a security measure that prevents unauthorized
-deployments.
+This permission allows GitHub to verify that the deployment request genuinely came from your workflow. It's a security
+measure that prevents unauthorized deployments.
 
 ## Basic Deployment Workflow
 
@@ -223,8 +212,7 @@ jobs:
 
 ## Better Pattern: Separate Build and Deploy
 
-For better organization and reusability, separate building and deploying into
-different jobs:
+For better organization and reusability, separate building and deploying into different jobs:
 
 ```yaml
 name: Deploy to GitHub Pages
@@ -308,8 +296,8 @@ environment:
 
 ## Deployment on Pull Requests
 
-You might want to preview changes before deploying to production. Here's a
-workflow that builds on PRs but only deploys on main:
+You might want to preview changes before deploying to production. Here's a workflow that builds on PRs but only deploys
+on main:
 
 ```yaml
 name: Build and Deploy
@@ -374,7 +362,6 @@ Your task is to create a deployment workflow for this workshop!
 
 1. Create a new workflow file `.github/workflows/deploy.yml`
 2. The workflow should:
-
    - Trigger on pushes to the `main` branch
    - Build the site using `npm run build`
    - Deploy the `dist/` directory to GitHub Pages
@@ -383,13 +370,10 @@ Your task is to create a deployment workflow for this workshop!
    - Use the `github-pages` environment for the deploy job
 
 3. Before running the workflow:
-
-   - Configure GitHub Pages in repository settings (Settings → Pages → Source:
-     "GitHub Actions")
+   - Configure GitHub Pages in repository settings (Settings → Pages → Source: "GitHub Actions")
 
 4. After the workflow runs:
-   - Visit your deployed site at
-     `https://<username>.github.io/<repository-name>`
+   - Visit your deployed site at `https://<username>.github.io/<repository-name>`
    - Verify the workshop tasks are visible
 
 **Bonus Challenge:**

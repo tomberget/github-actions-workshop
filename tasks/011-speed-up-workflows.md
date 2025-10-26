@@ -2,18 +2,15 @@
 
 ## The Story: The 15-Minute Wait
 
-Marcus is a developer on a fast-moving team. Every time he pushes a commit to a
-pull request, he has to wait 8 minutes for the CI pipeline to complete. He
-starts the run, checks Slack, reads emails, and by the time he comes back, he's
-lost his train of thought.
+Marcus is a developer on a fast-moving team. Every time he pushes a commit to a pull request, he has to wait 8 minutes
+for the CI pipeline to complete. He starts the run, checks Slack, reads emails, and by the time he comes back, he's lost
+his train of thought.
 
-Worse, when he realizes he made a typo and pushes a quick fix, the first run is
-still going. Now two workflows are running in parallel, both testing outdated
-code, wasting compute time and money.
+Worse, when he realizes he made a typo and pushes a quick fix, the first run is still going. Now two workflows are
+running in parallel, both testing outdated code, wasting compute time and money.
 
-The team lead points out that 40% of their workflow time is spent just
-downloading and installing npm packages. The tests themselves only take 90
-seconds, but with setup time, the whole process drags on.
+The team lead points out that 40% of their workflow time is spent just downloading and installing npm packages. The
+tests themselves only take 90 seconds, but with setup time, the whole process drags on.
 
 "There has to be a way to make this faster," Marcus thinks.
 
@@ -28,13 +25,12 @@ Slow workflows have real costs:
 - **Slower Iteration**: Long feedback loops discourage frequent commits
 - **Bottlenecks**: Pull requests pile up waiting for CI to complete
 
-The good news? Most workflows can be 50-70% faster with a few simple
-optimizations!
+The good news? Most workflows can be 50-70% faster with a few simple optimizations!
 
 ## Optimization 1: Dependency Caching
 
-The single biggest speedup comes from caching dependencies. Instead of
-downloading packages every time, GitHub Actions can cache and reuse them.
+The single biggest speedup comes from caching dependencies. Instead of downloading packages every time, GitHub Actions
+can cache and reuse them.
 
 ### Before Caching
 
@@ -54,8 +50,7 @@ jobs:
       - run: npm test
 ```
 
-Every run downloads all packages from npm. For a typical project, this takes 1-3
-minutes.
+Every run downloads all packages from npm. For a typical project, this takes 1-3 minutes.
 
 ### With Caching
 
@@ -83,8 +78,8 @@ jobs:
 4. Only re-downloads if `package-lock.json` changes
 
 > [!TIP]
-> The cache key is based on your lockfile hash. When dependencies change,
-> the cache automatically invalidates and rebuilds!
+> The cache key is based on your lockfile hash. When dependencies change, the cache automatically invalidates and
+> rebuilds!
 
 ### Manual Caching for More Control
 
@@ -108,8 +103,7 @@ For more complex caching needs, use the `actions/cache` action directly:
 
 ## Optimization 2: Concurrency Control
 
-When you push multiple commits to a PR, old workflow runs become irrelevant.
-Cancel them automatically!
+When you push multiple commits to a PR, old workflow runs become irrelevant. Cancel them automatically!
 
 ### The Problem
 
@@ -153,8 +147,7 @@ jobs:
 - Release workflows - every release should finish
 
 > [!NOTE]
-> For main branch, use `cancel-in-progress: false` or conditionally
-> enable it:
+> For main branch, use `cancel-in-progress: false` or conditionally enable it:
 >
 > ```yaml
 > cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
@@ -219,8 +212,7 @@ jobs:
 
 ## Optimization 4: Build Once, Use Everywhere
 
-We already covered this in Lesson 7 (Artifacts), but it's worth emphasizing:
-build artifacts once and reuse them!
+We already covered this in Lesson 7 (Artifacts), but it's worth emphasizing: build artifacts once and reuse them!
 
 ```yaml
 jobs:
@@ -564,8 +556,8 @@ jobs:
 
 \*For documentation-only changes
 
-**Total improvement: 55% faster** (5:30 -> 2:30) for code changes, and
-documentation changes complete in seconds instead of minutes!
+**Total improvement: 55% faster** (5:30 -> 2:30) for code changes, and documentation changes complete in seconds instead
+of minutes!
 
 </details>
 
@@ -589,7 +581,8 @@ Fast workflows mean:
 
 Target: Keep workflows under 3 minutes for the best developer experience!
 
-Now, let's move on to the next lesson, where we'll explore how to keep our dependencies up to date: [Lesson 12: Dependabot](./012-dependabot.md)
+Now, let's move on to the next lesson, where we'll explore how to keep our dependencies up to date:
+[Lesson 12: Dependabot](./012-dependabot.md)
 
 ## Additional Resources
 

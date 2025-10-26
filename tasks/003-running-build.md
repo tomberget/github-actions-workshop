@@ -2,40 +2,36 @@
 
 ## Problem Statement
 
-In this lesson, you'll create your first GitHub Actions workflow that actually
-builds something! Within this project, there is a `build.js` file that simulates
-a typical build process.
+In this lesson, you'll create your first GitHub Actions workflow that actually builds something! Within this project,
+there is a `build.js` file that simulates a typical build process.
 
 Running build steps like this is common in workflows in real projects.
 
-Just a heads up before you run your workflow - I think there might be an error
-in the code 🧨 Let's create and run the workflow to see what the output looks
-like before we start debugging.
+Just a heads up before you run your workflow - I think there might be an error in the code 🧨 Let's create and run the
+workflow to see what the output looks like before we start debugging.
 
 ## Step-by-Step Instructions
 
 Let's make a simple workflow that runs `npm run build` to build our project.
 
 > [!TIP]
-> In this task, as well as in some of the following tasks, you will see a
-> `uses: actions/checkout@v5` action. What this does is simply to checkout a
-> repository (by default it will checkout the repo we are working in). The
-> runners will have various tools pre-installed, 
-> like `Git`, `Bash`, `Python` etc., but it will
-> not know the context of the repo we are working in 🤖
+> In this task, as well as in some of the following tasks, you will see a `uses: actions/checkout@v5` action.
+> What this does is simply to checkout a repository (by default it will checkout the repo we are working in). The
+> runners will have various tools pre-installed, like `Git`, `Bash`, `Python` etc., but it will not know the context of
+> the repo we are working in 🤖
 
 It's worth noting that you can find all sorts of pre-made actions in the
 [GitHub Marketplace](https://github.com/marketplace?type=actions).
 
 > [!NOTE]
-> In these lessons, we will be running Node commands like `npm install`
-> and `npm run build`. If you're not familiar with Node.js and npm, don't worry!
-> The focus here is on learning GitHub Actions. You can think of these commands
-> as placeholders for whatever build commands are relevant to your own projects.
+> In these lessons, we will be running Node commands like `npm install` and `npm run build`. If you're not
+> familiar with Node.js and npm, don't worry! The focus here is on learning GitHub Actions. You can think of these
+> commands as placeholders for whatever build commands are relevant to your own projects.
 
 ## 3.1 Creating a workflow that tries to build the project
 
-1. Since we have merged our previous feature branch into `main`, let's now create a new feature branch from `main` to work in:
+1. Since we have merged our previous feature branch into `main`, let's now create a new feature branch from `main` to
+   work in:
 
    ```bash
    git checkout main
@@ -43,8 +39,8 @@ It's worth noting that you can find all sorts of pre-made actions in the
    git checkout -b feature/build-workflow
    ```
 
-2. In a **new** workflow file (e.g. `.github/workflows/build.yml`), create a
-   workflow that runs on `pull_request` events.
+2. In a **new** workflow file (e.g. `.github/workflows/build.yml`), create a workflow that runs on `pull_request`
+   events.
 
    ```yaml
    name: Build on PR
@@ -83,16 +79,12 @@ It's worth noting that you can find all sorts of pre-made actions in the
    git push -u origin feature/build-workflow
    ```
 
-5. Open a pull request from your new branch to `main` on GitHub.
-   As we did in the previous lesson, you can open a pull request by navigating to the
-   "Pull Requests" tab in your repository and clicking the "New pull request" button.
+5. Open a pull request from your new branch to `main` on GitHub. As we did in the previous lesson, you can open a pull
+   request by navigating to the "Pull Requests" tab in your repository and clicking the "New pull request" button.
 
-6. Observe the workflow run in the "Actions" tab of your repository or in the
-   "Checks" tab of your pull request.
+6. Observe the workflow run in the "Actions" tab of your repository or in the "Checks" tab of your pull request.
 
-7. You should see that the build step fails due to an error in the code.
-   However, you might also notice that you are still able to merge the pull
-   request despite the failed build. That can't be good? 😅 We'll fix that in
-   the next task! Let's move on to
-   [Lesson 4: Branch Rulesets](./004-branch-rulesets.md) to set up branch
-   protection rules that will prevent merging if the build fails.
+7. You should see that the build step fails due to an error in the code. However, you might also notice that you are
+   still able to merge the pull request despite the failed build. That can't be good? 😅 We'll fix that in the next
+   task! Let's move on to [Lesson 4: Branch Rulesets](./004-branch-rulesets.md) to set up branch protection rules that
+   will prevent merging if the build fails.
