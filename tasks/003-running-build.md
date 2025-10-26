@@ -27,8 +27,7 @@ Let's make a simple workflow that runs `npm run build` to build our project.
 It's worth noting that you can find all sorts of pre-made actions in the
 [GitHub Marketplace](https://github.com/marketplace?type=actions).
 
-
-> [!INFO]
+> [!NOTE]
 > In these lessons, we will be running Node commands like `npm install`
 > and `npm run build`. If you're not familiar with Node.js and npm, don't worry!
 > The focus here is on learning GitHub Actions. You can think of these commands
