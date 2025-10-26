@@ -20,8 +20,8 @@ Let's make a simple workflow that runs `npm run build` to build our project.
 > In this task, as well as in some of the following tasks, you will see a
 > `uses: actions/checkout@v5` action. What this does is simply to checkout a
 > repository (by default it will checkout the repo we are working in). The
-> runners (we will get back to the various types of runners later!) will have
-> various tools pre-installed, like `Git`, `Bash`, `Python` etc., but it will
+> runners will have various tools pre-installed, 
+> like `Git`, `Bash`, `Python` etc., but it will
 > not know the context of the repo we are working in 🤖
 
 It's worth noting that you can find all sorts of pre-made actions in the
