@@ -40,4 +40,4 @@ VSCode on your computer.
 
 ## 3. Let's Start the Workshop!
 
-Open [the first lesson](./001-getting-started.md) and begin your journey!
+Open [the first lesson](./001-your-first-workflow.md) and begin your journey!

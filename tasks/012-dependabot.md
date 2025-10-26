@@ -248,6 +248,8 @@ In this lesson, you learned how to set up Dependabot to automatically manage you
 
 Dependabot takes the burden of manual dependency management off your shoulders, letting you focus on building features while staying secure and up-to-date.
 
+Next, let's take a look at a more advanced scenario for Dependabot: [Lesson 13: Advanced Dependabot Automation Challenge](./013-dependabot-automation.md)
+
 > [!NOTE]
 > **Free Account Users**: Remember that full Dependabot version updates work best with public repositories. If you followed the workshop setup guide and made your repository public, you'll have access to all Dependabot features!
 

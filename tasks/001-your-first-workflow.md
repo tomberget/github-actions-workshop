@@ -119,5 +119,5 @@ This is just the beginning! In the next lessons, you'll explore more complex
 workflows that can automate testing, building, and deploying your code. Keep
 experimenting and happy coding!
 
-Now proceed to [the next lesson](./002-running-build.md) to continue your
+Now proceed to [the next lesson](./002-other-events.md) to continue your
 journey!

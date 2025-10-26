@@ -589,6 +589,8 @@ Fast workflows mean:
 
 Target: Keep workflows under 3 minutes for the best developer experience!
 
+Now, let's move on to the next lesson, where we'll explore how to keep our dependencies up to date: [Lesson 12: Dependabot)(./012-dependabot.md)
+
 ## Additional Resources
 
 - [GitHub Actions Caching](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)
