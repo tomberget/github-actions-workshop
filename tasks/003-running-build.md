@@ -75,14 +75,23 @@ It's worth noting that you can find all sorts of pre-made actions in the
      run: npm run build
    ```
 
-4. Commit and push your changes to a new branch, then open a pull request to
-   `main` to trigger the workflow. You can do this by navigating to the "Pull
-   requests" tab in your repository and clicking the "New pull request" button.
+4. Commit and push your changes to a new branch:
 
-5. Observe the workflow run in the "Actions" tab of your repository or in the
+   ```bash
+   git add .github/workflows/build.yml
+   git commit -m "Add build workflow"
+   git push -u origin feature/build-workflow
+   ```
+
+5. Open a pull request from your new branch to `main` on GitHub.
+
+As we did in the previous lesson, you can open a pull request by navigating to the
+"Pull Requests" tab in your repository and clicking the "New pull request" button.
+
+6. Observe the workflow run in the "Actions" tab of your repository or in the
    "Checks" tab of your pull request.
 
-6. You should see that the build step fails due to an error in the code.
+7. You should see that the build step fails due to an error in the code.
    However, you might also notice that you are still able to merge the pull
    request despite the failed build. That can't be good? 😅 We'll fix that in
    the next task! Let's move on to
