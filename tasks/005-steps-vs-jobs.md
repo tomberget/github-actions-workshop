@@ -82,7 +82,6 @@ Hint: `npm run build` builds the project, and `npm test` runs the tests.
 > Hint: if you used the workflow from task 3 as a starting point, 
 > take a look at the `on:` section of the workflow to see how it's triggered 😄
 
-In case you get stuck, here's a pointer:
 <details>
   <summary>In case you get stuck, here's a pointer:</summary>
 
