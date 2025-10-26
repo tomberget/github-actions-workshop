@@ -215,5 +215,3 @@ Good luck! This challenge will test everything you've learned about GitHub Actio
 ## Next Steps
 
 Once you complete this challenge, you'll have built a production-ready automation that you can use in your own projects. Consider sharing your solution with the team or open-source community!
-
-**🎯 Ready to automate your dependency management like a pro?**
