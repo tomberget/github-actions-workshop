@@ -4,7 +4,7 @@
 
 It's Friday afternoon, and Hannah, a senior developer, gets a Slack notification that makes her heart skip a beat: "CRITICAL SECURITY VULNERABILITY found in your project dependencies." The company security scanner has detected that the `marked` package they're using has a known vulnerability that could expose their application to XSS attacks.
 
-Hannah quickly checks their `package.json` and realizes they're using `marked` version `14.2.1`, but the latest secure version is `16.4.1`. That's not just a patch update—it's a major version jump that could introduce breaking changes.
+Hannah quickly checks their `package.json` and realizes they're using `marked` version `14.1.4`, but the latest secure version is `16.4.1`. That's not just a patch update—it's a major version jump that could introduce breaking changes.
 
 "How long have we been running with this vulnerability?" she wonders, scrolling through Git history. Turns out, they've been using the outdated version for 8 months! The team has been so focused on delivering new features that nobody remembered to regularly check for dependency updates.
 
@@ -48,7 +48,26 @@ Let's set up Dependabot to keep our workshop project's dependencies current and 
 > - **Dependabot version updates** are free for public repositories
 > - If your repository is private and you're on a free account, you'll only get security updates, not regular version updates
 
-### Step 1: Check Current Dependencies
+
+### Step 1: Introduce the Vulnerable Dependency
+
+For the sake of this task, we will use a known vulnerable version of the `marked` package.
+Let's check out a new branch and install the vulnerable version:
+
+```bash
+# Create and switch to a new branch
+git checkout -b dependabot-demo
+# Install the vulnerable version of marked
+npm install marked@14.1.4
+# Commit the change
+git add package.json package-lock.json
+git commit -m "Install vulnerable version of marked (14.1.4) for Dependabot demo"
+# Push the branch to GitHub
+git push -u origin dependabot-demo
+```
+
+
+### Step 2: Check Current Dependencies
 
 First, let's see what dependencies our project currently has:
 
@@ -56,12 +75,10 @@ First, let's see what dependencies our project currently has:
 npm list --depth=0
 ```
 
-You should see output showing packages like `marked@14.2.1`, `puppeteer`, `github-markdown-css`, etc.
+You should see output showing packages like `marked@14.1.4`, `puppeteer`, `github-markdown-css`, etc.
 
-> [!NOTE]
-> **Notice the `marked` version**: Our project currently uses `marked@14.2.1`, which has known security vulnerabilities (CVE-2024-51498 and others) that allow XSS attacks. This is perfect for demonstrating how Dependabot detects and fixes security issues!
 
-### Step 2: Create Dependabot Configuration
+### Step 3: Create Dependabot Configuration
 
 Dependabot uses a special configuration file to know how to manage your dependencies.
 
@@ -85,12 +102,13 @@ updates:
     # Add reviewers and assignees
     reviewers:
       - "your-github-username"  # Replace with your actual GitHub username
-    # Group minor and patch updates together
+    # Group all dependency updates together
     groups:
-      minor-and-patch:
+      all-updates:
         patterns:
           - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
 ```
@@ -98,14 +116,9 @@ updates:
 > [!IMPORTANT]
 > Replace `"your-github-username"` with your actual GitHub username so you'll be assigned to review the dependency update PRs.
 
-### Step 3: Commit and Push the Configuration
-
-First, let's create a new branch for this change and commit our Dependabot configuration:
+### Step 4: Commit and Push the Configuration
 
 ```bash
-# Create and switch to a new branch
-git checkout -b add-dependabot-config
-
 # Add the configuration file
 git add .github/dependabot.yml
 
@@ -113,7 +126,7 @@ git add .github/dependabot.yml
 git commit -m "Add Dependabot configuration for npm dependencies"
 
 # Push the branch to GitHub
-git push -u origin add-dependabot-config
+git push -u origin dependabot-demo
 ```
 
 After pushing, create a pull request:
@@ -124,7 +137,7 @@ After pushing, create a pull request:
 4. Add a title like "Add Dependabot configuration" 
 5. Click "Create pull request"
 
-### Step 4: Merge the Configuration PR
+### Step 5: Merge the Configuration PR
 
 Once you've created the pull request:
 
@@ -137,7 +150,7 @@ Once you've created the pull request:
    git pull
    ```
 
-### Step 5: Enable Dependabot Security Updates
+### Step 6: Enable Dependabot Security Updates
 
 1. Go to your repository on GitHub
 2. Click on the "Settings" tab
@@ -146,9 +159,9 @@ Once you've created the pull request:
    - **Dependabot alerts**: Get notified about vulnerabilities (Free for all repos)
    - **Dependabot security updates**: Automatic PRs for security issues (Free for all repos)
 
-### Step 6: Wait for Dependabot to Detect Issues
+### Step 7: Wait for Dependabot to Detect Issues
 
-After pushing the Dependabot configuration, GitHub will automatically scan your dependencies. Since our project uses `marked@14.2.1` (which has known vulnerabilities), you should see:
+After pushing the Dependabot configuration, GitHub will automatically scan your dependencies. Since our project uses `marked@14.1.4` (which has known vulnerabilities), you should see:
 
 1. **Security Alert**: Within a few minutes, a security alert will appear in your repository's "Security" tab
 2. **Automatic PR**: Dependabot will create a security update PR automatically within a few minutes
@@ -161,12 +174,12 @@ After pushing the Dependabot configuration, GitHub will automatically scan your 
 > 3. Look for the `marked` vulnerability alert
 > 4. Click "Create Dependabot security update" if available
 
-### Step 7: Monitor the Security Tab
+### Step 8: Monitor the Security Tab
 
 Navigate to your repository's "Security" tab to see:
 - **Dependabot alerts**: Shows the `marked` vulnerability details
 - **Dependency graph**: Visual representation of your project's dependencies
-- **Security advisories**: Information about the specific CVEs affecting `marked@14.2.1`
+- **Security advisories**: Information about the specific CVEs affecting `marked@14.1.4`
 
 When Dependabot creates a pull request, it will:
 
@@ -175,15 +188,15 @@ When Dependabot creates a pull request, it will:
 - **Display compatibility score**: Based on how many other projects successfully use this version
 - **Security information**: If the update fixes security vulnerabilities
 
-### Step 8: Review the Dependabot Pull Request
+### Step 9: Review the Dependabot Pull Request
 
 When Dependabot creates the security update PR (usually within 30 minutes), you'll see:
 
-1. **PR Title**: "Bump marked from 14.2.1 to 16.4.1" (or the latest secure version)
+1. **PR Title**: "Bump marked from 14.1.4 to 16.4.1" (or the latest secure version)
 2. **Security Label**: A "security" badge indicating this fixes vulnerabilities
 3. **Detailed Information**:
    - **Security vulnerabilities fixed**: CVE details and severity scores
-   - **Release notes**: What changed between 14.2.1 and the new version
+   - **Release notes**: What changed between 14.1.4 and the new version
    - **Compatibility score**: How many other projects successfully use this version
    - **Commits included**: All the changes in this major version jump
 
@@ -195,12 +208,12 @@ When Dependabot creates the security update PR (usually within 30 minutes), you'
 > - Test results from your CI workflows
 > - Any deprecation warnings in the update
 
-### Step 9: Merge the Security Update
+### Step 10: Merge the Security Update
 
 When the Dependabot PR is ready:
 
 1. **Review the security fix**:
-   - Confirm it updates `marked` from `14.2.1` to `16.4.1` (or latest)
+   - Confirm it updates `marked` from `14.1.4` to `16.4.1` (or latest)
    - Read the CVE details to understand what vulnerabilities are being fixed
    - Check the release notes for any breaking changes between major versions
 
@@ -223,7 +236,7 @@ When the Dependabot PR is ready:
    npm list marked
    ```
 
-   You should now see `marked@16.4.1` (or newer) instead of the vulnerable `14.2.1`.
+   You should now see `marked@16.4.1` (or newer) instead of the vulnerable `14.1.4`.
 
 > [!SUCCESS]
 > **Congratulations!** You've just used Dependabot to automatically detect and fix a real security vulnerability. This same process will continue to protect your project from future vulnerabilities.
