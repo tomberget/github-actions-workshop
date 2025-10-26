@@ -67,7 +67,7 @@ steps to define individual tasks within those jobs.
 
 ## Task: Create a Workflow that builds and tests in parallel
 
-> ![NOTE]
+> [!NOTE]
 > As with the previous task, we recommend checking out `main` and creating a new
 > branch for this task to keep your work organized!
 
