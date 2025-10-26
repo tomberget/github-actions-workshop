@@ -361,7 +361,7 @@ jobs:
           path: dist/
 
       - name: Run tests
-        run: npm test
+        run: npm run test:full-report
 
       - name: Upload coverage report
         if: always()
