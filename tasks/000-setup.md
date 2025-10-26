@@ -40,4 +40,9 @@ VSCode on your computer.
 
 ## 3. Let's Start the Workshop!
 
+> [!NOTE]
+> Before we begin, we just want to say: don't feel discouraged if
+> you don't finish all of the lessons during the workshop! Some of the tasks are quite
+> lengthy and challenging. The goal is to learn and have fun along the way.
+
 Open [the first lesson](./001-your-first-workflow.md) and begin your journey!
