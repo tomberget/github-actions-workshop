@@ -77,4 +77,9 @@ project and another for running tests.
 
 Hint: `npm run build` builds the project, and `npm test` runs the tests.
 
+> [!TIP]
+> Did you push your new workflow, but don't see it running?
+> Hint: if you used the workflow from task 3 as a starting point, 
+> take a look at the `on:` section of the workflow to see how it's triggered 😄
+
 [Next Lesson: Lesson 6 - Job Outputs](006-outputs.md)
