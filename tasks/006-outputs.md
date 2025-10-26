@@ -229,6 +229,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Generate version
         id: version
         run: |
