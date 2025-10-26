@@ -84,9 +84,8 @@ It's worth noting that you can find all sorts of pre-made actions in the
    ```
 
 5. Open a pull request from your new branch to `main` on GitHub.
-
-As we did in the previous lesson, you can open a pull request by navigating to the
-"Pull Requests" tab in your repository and clicking the "New pull request" button.
+   As we did in the previous lesson, you can open a pull request by navigating to the
+   "Pull Requests" tab in your repository and clicking the "New pull request" button.
 
 6. Observe the workflow run in the "Actions" tab of your repository or in the
    "Checks" tab of your pull request.
