@@ -2,7 +2,7 @@
 
 ## 1. Create a new repository from this template
 
-Click the "Use this template" button at the top of this repository to create a
+Click the ["Use this template"](https://github.com/new?template_name=github-actions-workshop&template_owner=boyum) button at the top of this repository to create a
 new repository from this template. If you need to decide, we suggest using your
 personal GitHub account.
 
