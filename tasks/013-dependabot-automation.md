@@ -6,7 +6,7 @@ Alex is the lead maintainer of a popular open-source library with over 50 depend
 
 Each PR requires manual review, waiting for CI to pass, and clicking merge. What should be a 2-minute task often stretches to 10-15 minutes when Alex gets distracted or forgets to check back after CI completes.
 
-"I love that Dependabot keeps us updated," Alex thinks, "but I'm spending more time managing dependency PRs than writing code. There has to be a way to safely auto-merge the low-risk updates."
+"I love that Dependabot keeps us updated," Alex thinks, "but I'm spending too much time managing dependency PRs. There has to be a way to safely auto-merge the low-risk updates."
 
 Alex wants to automatically merge Dependabot PRs that meet these criteria:
 - Only patch and minor version updates (no major versions)
