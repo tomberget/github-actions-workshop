@@ -52,6 +52,9 @@ The job should have succeeded, and won't block merge.
 
 Congratulations! You've created a workflow that runs on pull requests 🎉
 
+Go ahead and **merge** the pull request into `main` once you're ready. This can be done by navigating to the "Pull Requests" tab, selecting your pull request, and clicking the
+"Merge pull request" button on GitHub.
+
 Let's move on to the next lesson where we'll create a workflow that builds our
 project and prevents merging if the build fails.
 
