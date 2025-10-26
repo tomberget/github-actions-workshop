@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         run: npm test
