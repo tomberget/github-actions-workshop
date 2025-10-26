@@ -69,7 +69,7 @@ steps to define individual tasks within those jobs.
 
 > [!NOTE]
 > As with the previous tasks, we recommend checking out `main` and creating a new
-> branch for this task to keep your work organized!
+> feature branch for this task to keep your work organized!
 
 Using the workflow from [Task 3: Running a Build](./003-running-build.md) as a
 starting point, create a new workflow that has two jobs: one for building the
@@ -81,5 +81,14 @@ Hint: `npm run build` builds the project, and `npm test` runs the tests.
 > Did you push your new workflow, but don't see it running?
 > Hint: if you used the workflow from task 3 as a starting point, 
 > take a look at the `on:` section of the workflow to see how it's triggered 😄
+
+In case you get stuck, here's a pointer:
+<details>
+  <summary>In case you get stuck, here's a pointer:</summary>
+
+  ```
+  If the `on` is set to `pull_request`, make sure you open a pull request to trigger the workflow!
+  ```
+</details>
 
 [Next Lesson: Lesson 6 - Job Outputs](006-outputs.md)
