@@ -1,0 +1,32 @@
+---
+# Human-readable name for the workflow. These are optional, but recommended.
+# Names make it much easier to identify workflows by name in the GitHub Actions UI.
+name: Hello World Workflow 🌏
+
+# Trigger the workflow "on" every push to any branch
+# (keep in mind, the branch must be pushed to GitHub)
+# Each workflow can have as many triggers as you like.
+# Another common trigger is `pull_request`.
+on:
+  push:
+
+jobs:
+  say-hello:
+    name: Say Hello
+
+    # Which type of machine to run the job on (other options include `windows-latest` and `macos-latest`)
+    runs-on: ubuntu-latest
+
+    steps:
+      # As with workflow and job names, step names are optional but recommended.
+      # In case you need to debug your workflow later, having descriptive names is very helpful.
+      - name: Print greeting
+        run: echo "Hello, GitHub Actions! Welcome to the workshop!"
+
+      - name: Print date and time
+        run: date
+
+      - name: Print system information
+        run: |
+          echo "Running on:"
+          uname -a
