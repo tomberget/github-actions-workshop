@@ -1,0 +1,23 @@
+---
+name: Build on PR
+on:
+  # This workflow will only run for pull requests targeting the main branch
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      # Remember we have to check out the repository first!
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # This step installs the dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
